@@ -1,0 +1,10 @@
+params0 = [100 20 0.4 5];
+options = optimoptions('fmincon', 'Algorithm', 'sqp', 'Display', 'iter');
+opt_params = fmincon(@err_function, params0, [],[],[],[], [0.001 0.001 0.001 0], [10000 10000 1000 10000], [], options);
+disp("T1 = "+opt_params(1));
+disp("T2 = "+opt_params(2));
+disp("K = "+opt_params(3));
+disp("Td = "+opt_params(4));
+[err, s, y] = err_function(opt_params);
+disp("Err = "+err);
+plot(s); hold on; plot(y);
