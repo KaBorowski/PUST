@@ -4,14 +4,14 @@
 clear;
 
 %Nastawy z eksperymentu Z-N  Kk=2.01 Tk=25.5
+% Kr = 1.206;
+% Ti = 12.75;
+% Td = 3.06;
+
+%Nastawy w³asne
 Kr = 1.206;
 Ti = 12.75;
 Td = 3.06;
-
-%Nastawy w³asne
-% Kr = 2.01;
-% Ti = 99999;
-% Td = 0;
 
 Tp = 0.5;
 
