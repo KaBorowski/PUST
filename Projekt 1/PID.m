@@ -9,9 +9,9 @@ clear;
 % Td = 3.06;
 
 %Nastawy w³asne
-Kr = 1.7;
-Ti = 9.5;
-Td = 3.7;
+Kr = 1.6;
+Ti = 10.5;
+Td = 3.06;
 
 Tp = 0.5;
 

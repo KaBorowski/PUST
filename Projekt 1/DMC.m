@@ -1,13 +1,13 @@
-clear;
+% clear;
 odp=load('odpowiedz_skokowa_dmc.mat');
 s=odp.skok;
 
 D = length(s);
 Tp = 0.5;
 %parametry DMC
-N = D;
-Nu = N;
-lambda = 1; 
+N = 45;
+Nu = 5;
+lambda = 42; 
 
 %Wyznaczanie macierzy predykcji
 Mp = zeros(N,D-1);
