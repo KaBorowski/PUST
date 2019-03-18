@@ -9,9 +9,9 @@ clear;
 % Td = 3.06;
 
 %Nastawy w³asne
-Kr = 1.206;
-Ti = 12.75;
-Td = 3.06;
+Kr = 1.7;
+Ti = 9.5;
+Td = 3.7;
 
 Tp = 0.5;
 
@@ -29,20 +29,21 @@ E=0; %wskaznik jakosci regulacji
 for k=12:kk
      y(k)=symulacja_obiektu10Y(u(k-10),u(k-11),y(k-1),y(k-2));
      e(k)=yzad(k)-y(k);
-     E=E+e(k).^2;
+     E=E+e(k)^2;
      u(k)=r2*e(k-2)+r1*e(k-1)+r0*e(k)+u(k-1);
-     if u(k) < 2.7
-         u(k) = 2.7;
-     end
-     if u(k) > 3.3
-         u(k) = 3.3;
-     end
      if (u(k) - u(k-1)) > 0.075
          u(k) = u(k-1)+0.075;
      end
      if (u(k) - u(k-1)) < -0.075
          u(k) = u(k-1)-0.075;
      end
+     if u(k) < 2.7
+         u(k) = 2.7;
+     end
+     if u(k) > 3.3
+         u(k) = 3.3;
+     end
+    
 end
 
 figure;

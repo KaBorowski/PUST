@@ -38,18 +38,19 @@ K = (M'*M+lambda*eye(Nu))^-1*M';
 K1 = K(1,1:N);
 ke = sum(K1);
 
-kk=200; %ilo¶æ próbek
-
+kk=600; 
 u(1:kk)=3; y(1:kk)=0.9;
-yzad(1:10)=0.9; yzad(11:kk)=1.2;
+yzad(1:9)=0.9; yzad(10:149)=1.2; yzad(150:299)=0.5; yzad(300:449)=0.9; yzad(450:kk)=0.8;
 du(1:D-1)=0;
 
+E=0;
 
 ku = K1*Mp;
 for k=12:kk
      
     y(k)=symulacja_obiektu10Y(u(k-10),u(k-11),y(k-1),y(k-2)); %symulowany sygna³ wyjœciowy obiektu
     e = yzad(k) - y(k);
+    E=E+e^2;
     deltau = ke*e-ku*du';
     for n=D-1:-1:2
         du(n)=du(n-1);
@@ -58,18 +59,19 @@ for k=12:kk
     du(1)=deltau;
     u(k) = u(k-1) + du(1);
     
-    if u(k) < 2.7
-         u(k) = 2.7;
-     end
-     if u(k) > 3.3
-         u(k) = 3.3;
-     end
      if (u(k) - u(k-1)) > 0.075
          u(k) = u(k-1)+0.075;
      end
      if (u(k) - u(k-1)) < -0.075
          u(k) = u(k-1)-0.075;
      end
+    if u(k) < 2.7
+         u(k) = 2.7;
+     end
+     if u(k) > 3.3
+         u(k) = 3.3;
+     end
+    
     
 end
 
@@ -83,5 +85,5 @@ plot(yzad);
 legend('u(k)', 'y(k)', 'yzad(k)', 'Location', 'northeast');
 xlabel('k');
 ylabel('Warto¶æ sygna³u');
-title(['Regulator DMC N=' num2str(N) ', Nu=' num2str(Nu) ', lambda=' num2str(lambda)]);
+title(['Regulator DMC N=' num2str(N) ', Nu=' num2str(Nu) ', lambda=' num2str(lambda) '   Wska¼nik jako¶ci regulacji=' num2str(E)]);
 hold off;
