@@ -1,0 +1,3 @@
+
+options = optimoptions('fmincon', 'Algorithm', 'sqp', 'Display', 'iter');
+opt_params = fmincon(@err_function, params0, [],[],[],[], [0.001 0.001 0.001 0], [10000 10000 1000 10000], [], options);

@@ -63,7 +63,7 @@ hold off;
 save = true;
 
 if(save)
-%     yzad_data = [(1:kk)'-1 yzad'];
+    yzad_data = [(1:kk)'-1 yzad'];
 %     dlmwrite('y_zadane.csv', yzad_data, '\t');
     dlmwrite(strcat('Zad5_PID_K=',Kr,'Ti=',Ti,'Td=',Td,'E=',E,'.csv'), yzad_data, '\t');
 end
