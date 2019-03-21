@@ -8,10 +8,15 @@ clear;
 % Ti = 12.75;
 % Td = 3.06;
 
+%Nastawy po optymalizacji
+Kr = 3.8948;
+Ti = 9.0552;
+Td = 5.0646;
+
 %Nastawy w³asne
-Kr = 1.8;
-Ti = 7;
-Td = 4.5;
+% Kr = 1.8;
+% Ti = 7;
+% Td = 4.5;
 
 Tp = 0.5;
 
@@ -60,9 +65,10 @@ title(['Regulator PID K=' num2str(Kr) ', Ti=' num2str(Ti) ', Td=' num2str(Td) ' 
 xlabel('k');
 hold off;
 
-save = false;
+zad5_save = false;
+zad6_save = true;
 
-if(save)
+if(zad5_save)
 %     yzad_data = [(1:kk)'-1 yzad'];
 %     dlmwrite('y_zadane.csv', yzad_data, '\t');
     u_data = [(1:kk)'-1 u'];
@@ -71,7 +77,12 @@ if(save)
     dlmwrite(strcat('data/Zad5/PID/Zad5_PID_output_K=',num2str(Kr),'Ti=',num2str(Ti),'Td=',num2str(Td),'E=',num2str(E), '.csv'), y_data, '\t');
 
 end
-
+if(zad6_save)
+    u_data = [(1:kk)'-1 u'];
+    y_data = [(1:kk)'-1 y'];
+    dlmwrite(strcat('data/Zad6/PID/Zad6_PID_input_simulation=600_K=',num2str(Kr),'Ti=',num2str(Ti),'Td=',num2str(Td),'E=',num2str(E),'.csv'), u_data, '\t');
+    dlmwrite(strcat('data/Zad6/PID/Zad6_PID_output_simulation=600_K=',num2str(Kr),'Ti=',num2str(Ti),'Td=',num2str(Td),'E=',num2str(E), '.csv'), y_data, '\t');
+end
 
 
 

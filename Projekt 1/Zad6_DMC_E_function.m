@@ -1,4 +1,5 @@
-clear;
+function E = Zad6_DMC_E_function(params)
+
 odp=load('data/odpowiedz_skokowa_dmc.mat');
 s=odp.skok;
 
@@ -74,29 +75,5 @@ for k=12:kk
     
     
 end
-
-figure;
-hold on
-grid on; 
-grid minor;
-plot(u); 
-plot(y);
-plot(yzad); 
-legend('u(k)', 'y(k)', 'yzad(k)', 'Location', 'northeast');
-xlabel('k');
-ylabel('Warto¶æ sygna³u');
-title(['Regulator DMC N=' num2str(N) ', Nu=' num2str(Nu) ', lambda=' num2str(lambda) '   Wska¼nik jako¶ci regulacji=' num2str(E)]);
-hold off;
-
-save = false;
-
-if(save)
-%     yzad_data = [(1:kk)'-1 yzad'];
-%     dlmwrite('y_zadane.csv', yzad_data, '\t');
-    u_data = [(1:kk)'-1 u'];
-    y_data = [(1:kk)'-1 y'];
-    dlmwrite(strcat('data/Zad5/DMC/Zad5_DMC_input_N=',num2str(N),'Nu=',num2str(Nu),'lambda=',num2str(lambda),'E=',num2str(E),'.csv'), u_data, '\t');
-    dlmwrite(strcat('data/Zad5/DMC/Zad5_DMC_output_N=',num2str(N),'Nu=',num2str(Nu),'lambda=',num2str(lambda),'E=',num2str(E), '.csv'), y_data, '\t');
-
 end
 
