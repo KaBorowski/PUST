@@ -4,18 +4,19 @@ function MinimalWorkingExample_DMC()
     
     figure;
     y=[];
+    yplot=[];
     uplot=[];
+    yzadplot=[];
  
-    yzad = 45;
     
     load('temp35_39.mat');
     s = (temp35_39-34.68)/4;
     
-    D = length(s);
+    D = 440;
     %parametry DMC
-    N = 45;
-    Nu = 5;
-    lambda = 1; 
+    N = 80;
+    Nu = 25;
+    lambda = 0.01; 
     
     Mp = zeros(N,D-1);
     for i = 1:N
@@ -44,25 +45,29 @@ function MinimalWorkingExample_DMC()
     ke = sum(K1);
     ku = K1*Mp;
     
-    du(1:D-1)=0; u(1) = 0;
-    yzad(1:50)=35; yzad(51:150)=37; yzad(151:1000)=40;
+    du(1:D-1)=0; u(1:2) = 35; y(1) = 35;
+    yzad(1:40)=35; yzad(41:150)=37; yzad(151:10000)=40;
     
-    E = 0;
-    k = 1;
+    E(1:1000) = 0;
+    k = 2;
     
     while(1)
         %% obtaining measurements
         measurements = readMeasurements(1:7); % read measurements from 1 to 7
-        
+        y(k) = measurements(1);
         %% processing of the measurements and new control values calculation
-        y =[y measurements(1)];
-        uplot = [uplot u(k)];
+        yplot =[yplot measurements(1)];
+        uplot = [uplot u(k-1)];
+        yzadplot = [yzadplot yzad(k)];
         disp(measurements(1)); % process measurements
-        plot(y); hold on; plot(uplot);
+        hold on; grid on; plot(yplot, 'g'); plot(uplot, 'r'); stairs(yzadplot, 'b');
+        legend('y(k)','u(k)','yzad(k)', 'Location', 'southwest');
+        title(['Regulator DMC, E = ' num2str(E(k-1))]);
         drawnow
         
+             
     e = yzad(k) - y(k);
-    E = E+e^2
+    E(k) = E(k-1)+e^2;
     deltau = ke*e-ku*du';
     
     for n=D-1:-1:2
@@ -89,5 +94,6 @@ function MinimalWorkingExample_DMC()
         
         waitForNewIteration(); % wait for new batch of measurements to be ready
         k = k +1;
+        
     end
 end
