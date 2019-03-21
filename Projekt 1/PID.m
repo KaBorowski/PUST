@@ -11,7 +11,7 @@ clear;
 %Nastawy w³asne
 Kr = 1.8;
 Ti = 7;
-Td = 3.06;
+Td = 4.5;
 
 Tp = 0.5;
 
@@ -65,7 +65,11 @@ save = true;
 if(save)
 %     yzad_data = [(1:kk)'-1 yzad'];
 %     dlmwrite('y_zadane.csv', yzad_data, '\t');
-    dlmwrite(strcat('Zad5_PID_K=',Kr,'Ti=',Ti,'Td=',Td,'E=',E,'.csv'), yzad_data, '\t');
+    u_data = [(1:kk)'-1 u'];
+    y_data = [(1:kk)'-1 y'];
+    dlmwrite(strcat('data/Zad5/PID/Zad5_PID_input_K=',num2str(Kr),'Ti=',num2str(Ti),'Td=',num2str(Td),'E=',num2str(E),'.csv'), u_data, '\t');
+    dlmwrite(strcat('data/Zad5/PID/Zad5_PID_output_K=',num2str(Kr),'Ti=',num2str(Ti),'Td=',num2str(Td),'E=',num2str(E), '.csv'), y_data, '\t');
+
 end
 
 
