@@ -1,13 +1,19 @@
-% clear;
+clear;
 odp=load('data/odpowiedz_skokowa_dmc.mat');
 s=odp.skok;
 
 D = length(s);
 Tp = 0.5;
-%parametry DMC
-N = 27;
+%parametry DMC wlasne
+% N = 45;
+% Nu = 5;
+% lambda = 42; 
+
+%parametry DMC po optymalizacji
+N = 45;
 Nu = 5;
-lambda = 42; 
+lambda = 41.6529;
+
 
 %Wyznaczanie macierzy predykcji
 Mp = zeros(N,D-1);
@@ -88,9 +94,10 @@ ylabel('Warto¶æ sygna³u');
 title(['Regulator DMC N=' num2str(N) ', Nu=' num2str(Nu) ', lambda=' num2str(lambda) '   Wska¼nik jako¶ci regulacji=' num2str(E)]);
 hold off;
 
-save = true;
+zad5_save = false;
+zad6_save = false;
 
-if(save)
+if(zad5_save)
 %     yzad_data = [(1:kk)'-1 yzad'];
 %     dlmwrite('y_zadane.csv', yzad_data, '\t');
     u_data = [(1:kk)'-1 u'];
@@ -99,4 +106,9 @@ if(save)
     dlmwrite(strcat('data/Zad5/DMC/Zad5_DMC_output_N=',num2str(N),'Nu=',num2str(Nu),'lambda=',num2str(lambda),'E=',num2str(E), '.csv'), y_data, '\t');
 
 end
-
+if(zad6_save)
+    u_data = [(1:kk)'-1 u'];
+    y_data = [(1:kk)'-1 y'];
+    dlmwrite(strcat('data/Zad6/DMC/Zad6_DMC_input_simulation=600_N=',num2str(N),'Nu=',num2str(Nu),'lambda=',num2str(lambda),'E=',num2str(E),'.csv'), u_data, '\t');
+    dlmwrite(strcat('data/Zad6/DMC/Zad6_DMC_output_simulation=600_N=',num2str(N),'Nu=',num2str(Nu),'lambda=',num2str(lambda),'E=',num2str(E), '.csv'), y_data, '\t');
+end

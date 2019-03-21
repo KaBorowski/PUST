@@ -6,9 +6,9 @@ s=odp.skok;
 D = length(s);
 Tp = 0.5;
 %parametry DMC
-N = 45;
-Nu = 5;
-lambda = 42; 
+N = floor(params(1));
+Nu = floor(params(2));
+lambda = params(3); 
 
 %Wyznaczanie macierzy predykcji
 Mp = zeros(N,D-1);
