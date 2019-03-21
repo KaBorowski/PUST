@@ -1,5 +1,6 @@
+%Wyznaczenie optymalnych parametrów transmitancji aproksymuj¹cej obiekt
 clear;
-fun = @err_function;
+fun = @zad3_err_function;
 x0 = [100 20 0.4 3];
 lb = [0.001 0.001 -10 0];
 ub = [1000 1000 10 500];
@@ -8,6 +9,6 @@ disp("T1 = "+optim_params(1));
 disp("T2 = "+optim_params(2));
 disp("K = "+optim_params(3));
 disp("Td = "+floor(optim_params(4)));
-[~, s, y] = err_function(optim_params);
+[~, s, y] = zad3_err_function(optim_params);
 disp("E = "+E);
 plot(s); hold on; plot(y); title(['E = ' num2str(E)]);
