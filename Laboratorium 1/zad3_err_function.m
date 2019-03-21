@@ -1,10 +1,12 @@
-function [err, s, y] = err_function(params)
+%Funkcja celu dla optymalizacji w zadaniu 3. Laboratorium
+
+function [E, s, y] = zad3_err_function(params)
 
 load('temp35_37.mat');
 s = (temp35_37-34.5)/2;
 len = length(s);
 
-err = 0;
+E = 0;
 T1=params(1);
 T2=params(2);
 K=params(3);
@@ -22,7 +24,7 @@ y(1:len) = 0; u(1:len) = 1;
 for k=Td+3:len
    
     y(k) = b1*u(k-Td-1)+b2*u(k-Td-2)-a1*y(k-1)-a2*y(k-2);
-    err = err + (s(k)-y(k))^2;
+    E = E + (s(k)-y(k))^2;
  
 end
 end

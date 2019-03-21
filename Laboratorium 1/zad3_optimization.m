@@ -1,10 +1,14 @@
-params0 = [100 20 0.4 5];
-options = optimoptions('fmincon', 'Algorithm', 'sqp', 'Display', 'iter');
-opt_params = fmincon(@err_function, params0, [],[],[],[], [0.001 0.001 0.001 0], [10000 10000 1000 10000], [], options);
-disp("T1 = "+opt_params(1));
-disp("T2 = "+opt_params(2));
-disp("K = "+opt_params(3));
-disp("Td = "+opt_params(4));
-[err, s, y] = err_function(opt_params);
-disp("Err = "+err);
-plot(s); hold on; plot(y);
+%Wyznaczenie optymalnych parametrów transmitancji aproksymuj¹cej obiekt
+clear;
+fun = @zad3_err_function;
+x0 = [100 20 0.4 3];
+lb = [0.001 0.001 -10 0];
+ub = [1000 1000 10 500];
+[optim_params, E] = fmincon(fun, x0, [],[],[],[], lb, ub);
+disp("T1 = "+optim_params(1));
+disp("T2 = "+optim_params(2));
+disp("K = "+optim_params(3));
+disp("Td = "+floor(optim_params(4)));
+[~, s, y] = zad3_err_function(optim_params);
+disp("E = "+E);
+plot(s); hold on; plot(y); title(['E = ' num2str(E)]);

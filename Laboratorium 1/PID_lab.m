@@ -5,12 +5,12 @@ function MinimalWorkingExample_PID()
     figure;
     y=[];
     uplot=[];
+    yzadplot=[];
  
-    yzad = 45;
     
-    K = 3;
-    Ti = 5;
-    Td = 0.5;
+    K = 5;
+    Ti = 40;
+    Td = 5;
     T = 1;
     
     r0 = K*(1+T/(2*Ti)+Td/T);
@@ -24,6 +24,9 @@ function MinimalWorkingExample_PID()
     
     u = 0;
     
+    yzad(1:40)=35; yzad(41:150)=37; yzad(151:10000)=40;
+    E(1:500) = 0;
+    k=2;
     while(1)
         %% obtaining measurements
         measurements = readMeasurements(1:7); % read measurements from 1 to 7
@@ -31,16 +34,20 @@ function MinimalWorkingExample_PID()
         %% processing of the measurements and new control values calculation
         y=[y measurements(1)];
         uplot = [uplot u];
+        yzadplot = [yzadplot yzad(k)];
         disp(measurements(1)); % process measurements
-        plot(y); hold on;
-        plot(uplot);
+        hold on; grid on; plot(y, 'g'); plot(uplot, 'r'); stairs(yzadplot, 'b');
+        legend('y(k)','u(k)','yzad(k)', 'Location', 'southeast');
+        title(['Regulator PID, E = ' num2str(E(k-1))]);
         drawnow
         
         ek_2 = ek_1;
         ek_1 = ek;
-        ek = yzad - measurements(1);
-               
+        ek = yzad(k) - measurements(1);
         
+        E(k) = E(k-1)+ek^2;
+
+                      
         u = r2*ek_2 + r1*ek_1 + r0*ek + uk_1;
         
         if (u>100)
@@ -60,5 +67,6 @@ function MinimalWorkingExample_PID()
         
         
         waitForNewIteration(); % wait for new batch of measurements to be ready
+        k = k + 1;
     end
 end
