@@ -60,7 +60,7 @@ title(['Regulator PID K=' num2str(Kr) ', Ti=' num2str(Ti) ', Td=' num2str(Td) ' 
 xlabel('k');
 hold off;
 
-save = true;
+save = false;
 
 if(save)
 %     yzad_data = [(1:kk)'-1 yzad'];
