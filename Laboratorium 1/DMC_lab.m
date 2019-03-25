@@ -1,4 +1,4 @@
-function MinimalWorkingExample_DMC()
+function DMC_lab()
     addpath('F:\SerialCommunication'); % add a path to the functions
     initSerialControl COM21 % initialise com port
     
@@ -8,11 +8,13 @@ function MinimalWorkingExample_DMC()
     uplot=[];
     yzadplot=[];
  
+    zaklocenie = 0;
     
     load('temp35_39.mat');
     s = (temp35_39-34.68)/4;
-    
+       
     D = 440;
+    Dz = 100;
     %parametry DMC
     N = 80;
     Nu = 25;
@@ -26,6 +28,19 @@ function MinimalWorkingExample_DMC()
             else
                 Mp(i,j) = s(i+j) - s(j);
             end
+        end
+    end
+    
+    if zaklocenie==1
+        Mzp=zeros(N,Dz-1);
+        for i=1:N
+           for j=1:Dz-1
+              if i+j<=Dz
+                 Mzp(i,j)=sz(i+j)-sz(j);
+              else
+                 Mzp(i,j)=sz(Dz)-sz(j);
+              end      
+           end
         end
     end
 
@@ -44,11 +59,17 @@ function MinimalWorkingExample_DMC()
     K1 = K(1,1:N);
     ke = sum(K1);
     ku = K1*Mp;
+    if zaklocenie==1
+        kz = K1*Mzp;
+    end
     
-    du(1:D-1)=0; u(1:2) = 35; y(1) = 35;
+    du(1:D-1)=0; u(1:2)=35; y(1)=35;
+    if zaklocenie==1
+        dz(1:Dz-1)=0;
+    end
     yzad(1:40)=35; yzad(41:150)=37; yzad(151:10000)=40;
     
-    E(1:1000) = 0;
+    E(1:1000)=0;
     k = 2;
     
     while(1)
@@ -68,20 +89,31 @@ function MinimalWorkingExample_DMC()
              
     e = yzad(k) - y(k);
     E(k) = E(k-1)+e^2;
+    
+    if zaklocenie==1
+      for n=Dz-1:-1:2
+         dz(n)=dz(n-1);
+      end
+      dz(1)=z(k)-z(k-1);
+    end 
+   
     deltau = ke*e-ku*du';
+    if zaklocenie==1
+      deltau = deltau-kz*dz';
+    end
     
     for n=D-1:-1:2
         du(n)=du(n-1);
     end
     
-    du(1)=deltau;
+    du(1) = deltau;
     u(k) = u(k-1) + du(1);
         
-        if (u(k)>100)
+        if u(k)>100
             u(k) = 100;
         end
             
-        if (u(k)<0)
+        if u(k)<0
             u(k) = 0;
         end
             
