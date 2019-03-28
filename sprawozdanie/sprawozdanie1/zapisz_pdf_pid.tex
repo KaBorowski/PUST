@@ -1,0 +1,45 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{pgfplots}
+\usepackage{siunitx}
+\sisetup{detect-weight,exponent-product=\cdot,output-decimal-marker={,},
+	per-mode=symbol,binary-units=true,range-phrase={-},range-units=single}
+\SendSettingsToPgf
+\usetikzlibrary{pgfplots.groupplots}
+\pgfplotsset{compat=1.11}
+\usepgfplotslibrary{external}
+\tikzexternalize
+
+\textwidth 160mm \textheight 247mm
+
+\pgfplotsset{width=\figurewidth,compat=1.11}
+\pgfplotsset{
+tick label style={font=\tiny},
+label style={font=\footnotesize},
+legend style={font=\footnotesize},
+title style={font=\footnotesize}
+}
+
+\begin{document}
+
+\tikzsetnextfilename{}
+
+\begin{figure}[tb]
+\tikzsetnextfilename{pid5}
+\begin{tikzpicture}
+\begin{axis}[
+width=0.5\textwidth,
+xmin=0,xmax=600,ymin=0,ymax=3.5,
+xlabel={$k$},
+xtick={0,100,200,300,400,500,600},
+ytick={0,0.5,1,1.5,2,2.5,3,3.5},
+legend style={at={(1,0.4)},anchor=south east},
+]
+\addplot[red,semithick] file {data/Zad5/PID/y_zadane.csv};
+\addplot[blue,semithick] file {data/Zad5/PID/Zad5_PID_output_K=1.8Ti=7Td=4.5E=19.8477.csv};
+\addplot[green,semithick] file {data/Zad5/PID/Zad5_PID_input_K=1.8Ti=7Td=4.5E=19.8477.csv};
+\legend{$y^{zad}$,$y(k)$,$u(k)$}
+\end{axis}
+\end{tikzpicture}
+\end{figure}
+
+\end{document}
