@@ -1,0 +1,13 @@
+\section{Zadanie 1}
+Sprawdzaj¹c komunikacjê ze stanowiskiem skorzystaliœmy z dwóch funkcji zapewnionych przez prowadz¹cego \verb+MinimalWorkingExample.m+ raz \verb+sendControlsToG1AndDisturbance.m+. Pierwsza z nich pozwala w prosty sposób, konfiguruj¹c port, na którym odbywa siê komunikacja, zadawaæ wartoœci sterowania na poszczególne elementy wykonawcze stanowiska.
+\begin{lstlisting}
+        sendControls(1, 50);
+\end{lstlisting}
+Zadaj¹c wartoœæ 0 i 50 na wentylator widzimy i s³yszymy czy komunikacja zachodzi.
+
+Sterowanie grza³k¹ w tym zadaniu odbywa³o siê z u¿yciem drugiej z wymienionych funkcji, aby zrealizowaæ zadane w poleceniu zak³ócenia. Funkcja \verb+sendControlsToG1AndDisturbance.m+ przyjmuje dwa argumenty: wartoœæ sterowania grza³k¹ \verb+G1+ i zak³ócenia \verb+Z+.
+\begin{lstlisting}
+        sendControlsToG1AndDisturbance(35, Z);
+\end{lstlisting}
+
+Kolejnym krokiem by³o okreœlenie wartoœci temperatury w punkcie pracy: \verb+G1+ = 35, \verb+W1+ = 50, \verb+Z+ = 0. Dla takich nastaw temperatura wynosi³a ok. $32^{\mathrm{o}}{\mathrm{C}}$.
