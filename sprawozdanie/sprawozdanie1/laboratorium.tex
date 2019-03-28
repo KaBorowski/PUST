@@ -1,0 +1,140 @@
+\chapter{Laboratorium}
+\section{Zadanie 1}
+Sprawdzaj¹c komunikacjê ze stanowiskiem skorzystaliœmy z funkcji zapewnionej przez prowadz¹cego \verb+MinimalWorkingExample.m+. Pozwala ona w prosty sposób, konfiguruj¹c port, na którym odbywa siê komunikacja, zadawaæ wartoœci sterowania na poszczególne elementy wykonawcze stanowiska. Specyfikuj¹c dwa wektory - numerów elementów [1,...,7] oraz wartoœci sterowañ jakie chcemy na nie zadaæ, mo¿emy sterowaæ stanowiskiem zgodnie z w³asnymi ¿¹daniami.
+\begin{lstlisting}
+        sendControls([1, 5], % send for these elements
+                     [50, u]);  % new corresponding control values
+\end{lstlisting}
+Zadaj¹c wartoœæ 0 i 50 na wentylator widzimy i s³yszymy czy komunikacja zachodzi.
+\section{Zadanie 2}
+W celu dalszej pracy ze stanowiskiem grzej¹co-ch³odz¹cym ustawiliœmy je w punkcie pracy( $G_1 = 35$, $W_1 = 50$ ). Z uwagi na to ¿e pomiaru temperatury nie dokonujemy bezpoœrednio na grza³ce, temperatura jak¹ pozyskiwaliœmy z czujnika wynosi³a $T_1 = 34.5^oC$. Nastêpnie wykonaliœmy trzy skoki: o 1, 2 i 4 stopnie, po ka¿dym wracaj¹c do stanu ustalonego. Odpowiedzi pokazane s¹ na wykresie $Rys. 3.1$.
+\begin{figure}[tb]
+\centering
+\includegraphics[scale=1]{rysunki/odpTemp}
+\caption{OdpowiedŸ skokowa stanowiska na skoki o ró¿ne wartoœci temperatur.}
+\end{figure}
+
+\section{Zadanie 3}
+W celu uzyskania odpowiedzi skokowej modelu DMC (odpowiedŸ na skok jednostkowy w chwili $k = 0$) nale¿y dokonaæ poni¿szych operacji na wektorze pobranej odpowiedzi skokowej obiektu.
+\begin{equation}
+s_i = \frac{y_i- Y_{\mathrm{pp}}}{\Delta U}
+\end{equation}
+Wykorzystano odpowiedŸ skokow¹ przy zmianie wartoœci $G_1$ z 35 na 37 ($Rys. 3.2$).
+\begin{figure}[tb]
+\centering
+\includegraphics[scale=1]{rysunki/odpLab}
+\caption{Wybrana odpowiedŸ skokowa na skok z $35^oC$ na $37^oC$.}
+\end{figure}
+OdpowiedŸ skokow¹ zaproksymowano u¿ywaj¹c cz³onu inercyjnego drugiego rzêdu z opóŸnieniem. Zastosowano optymalizacjê – wyznaczenie takich wartoœci parametrów $T_1$, $T_2$, $K$, $T_{\mathrm{d}}$, aby wartoœæ funkcji celu (wartoœæ b³êdu dopasowania) by³a jak najmniejsza.
+\begin{equation}
+min\ E=\sum_{k=0}^{K_{\mathrm{konc}}}(y^{\mathrm{zad}}[k]-y[k])^{2}
+\end{equation}
+Przyjêto nastêpuj¹ce ograniczenia parametrów:
+\begin{equation}
+		0,001 \ll T_1 \ll 1000
+\end{equation}
+\begin{equation}
+		0,001 \ll T_2 \ll 1000
+\end{equation}
+\begin{equation}
+		-10 \ll K \ll 10
+\end{equation}
+\begin{equation}
+		0 \ll T_d \ll 500
+\end{equation}
+Optymalizacji dokonano wykorzystuj¹c funkcjê \verb+fmincon+, która znajduje minimum funkcji z uwzglêdnieniem ograniczeñ. Jedynymi ograniczeniami s¹ te, narzucone na argumenty wywo³ania funkcji, czyli na wy¿ej okreœlone parametry. Kryteria zatrzymania algorytmu pozostawiono domyœlne. Algorytm zaczyna pracê z punktu pocz¹tkowego, który ustalono na: $T_1=100, T_2=20, K=0,4, T_{\mathrm{d}}=3$. Podsumowuj¹c wynik algorytmu otrzymano przez zastosowanie polecenia: 
+\begin{lstlisting}
+[optim_params, E] = fmincon(fun, x0, [],[],[],[], lb, ub);
+\end{lstlisting}
+gdzie:
+\begin{lstlisting}
+optim_params – szukane parametry
+E – b³¹d dopasowania
+fun – funkcja zwracaj¹ca wartoœæ b³êdu dopasowania
+x0 – wektor parametrów pocz¹tkowych
+lb – wektor dolnych ograniczeñ
+ub – wektor górnych ograniczeñ
+\end{lstlisting}
+
+Uzyskane wyniki prezentuj¹ siê nastêpujaco:
+$T_1 = 251,2387, T_2 = 0,072366, K = 0,48671, T_{\mathrm{d}} = 6, E = 2,0984$.
+Porównanie odpowiedzi skokowej stanowiska z aproksymowan¹ znajduje siê na rysunku $Rys. 3.3$.
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=1]{rysunki/porownanie}
+\caption{Porównanie oryginalnej odpowiedzi skokowej z aproksymowan¹.}
+\end{figure}
+W³aœciwoœci statyczne obiektu nie s¹ liniowe, powiewa¿ zmiana wartoœci skoków sterowania nie jest proporcjonalna do zmiany wartoœci temepatur po danych skokach. Przyk³adowo zwiêkszyliœmy wysterowanie grza³ki o 2\% - temperatura podnios³a siê o 1 stopieñ, ale przy zmianie o 4\% temperatura zwiêkszy³a siê zaledwie o ok. 1,2 stopnia.
+
+\section{Zadanie 4}
+Zaimplementowane programy znajduj¹ siê w plikach \verb+PID_lab.m+ oraz \verb+DMC_lab.m+.
+\section{Zadanie 5}
+Dobór nastaw regulatora PID oraz parametrów algorytmu DMC metod¹ eksperymentaln¹.
+Jako wskaŸnik jakoœci przyjêto sumê kwadratów uchybu w kolejnych chwilach próbkowania.
+\subsection{Regulator PID}
+Eksperyment rozpoczêto od regulatora PI (ca³kowanie zosta³o zastosowane w celu eliminacji uchybu ustalonego). Wyznaczono nastawy, które nie powoduj¹ zbêdnych oscylacji, wystêpuje stosunkowo ma³e przeregulowanie, lecz - w zamian za to - uk³ad dzia³a szybciej. Wziêto pod uwagê równie¿ wskaŸnik jakoœci. Dobierano nastawy tak, aby zmniejszaæ jego wartoœæ($Rys. 3.4$).
+
+Po ustaleniu parametru cz³onu ró¿niczkuj¹cego $T_{\mathrm{d}}=0,5$ oraz zmniejszeniu wartoœci wzmocnienia do $K=6$ uk³ad pracowa³ lepiej w porównaniu do regulatora PI. Uda³o siê ograniczyæ przeregulowanie, wartoœæ wskaŸnika jakoœci minimalnie spad³a. Wartoœci sygna³u steruj¹cego dochodz¹ do wartoœci 70, jego zmiany nie wykazuj¹ szkodliwych w³aœciwoœci do uk³adu regulacji($Rys. 3.5$).
+\begin{equation}
+K=10, 	T_i=60,	 T_d = 0, 	E=342
+\end{equation}
+\begin{figure}[tb]
+\centering
+\includegraphics[scale=1]{rysunki/pid51}
+\caption{OdpowiedŸ uk³adu sterowanego regulatorem PID o nastawach $K = 10, T_{\mathrm{i}} = 60, T_{\mathrm{d}}=0, E = 342$}
+\end{figure}
+\begin{figure}[tb]
+\centering
+\includegraphics[scale=1]{rysunki/pid52}
+\caption{OdpowiedŸ uk³adu sterowanego regulatorem PID o nastawach $K = 10, T_{\mathrm{i}} = 60, T_{\mathrm{d}}=0, E = 339$}
+\end{figure}
+\subsection{Regulator DMC}
+Eksperyment rozpoczêto od nastêpuj¹cych parametrów: $N = N_u = D = 1395$, $\lambda=1$ ($Rys. 3.6$). ($D$ przyjêto jako d³ugoœæ wektora pobranej odpowiedzi skokowej). Wartoœæ wskaŸnika jakoœci w znacznym stopniu przekracza³a wartoœæ uzyskan¹ dla regulatora PID.
+Wartoœci horyzontów zmniejszono do 80 ($Rys. 3.7$).Wartoœæ wskaŸnika jakoœci uda³o siê minimalnie zmniejszyæ, jednak dalej jest ona zbyt du¿a. Uk³ad dzia³a wolno, wystêpuje niezerowe przeregulowanie. Nastêpnie eksperyment polega³ na stopniowym zmniejszaniu horyzontu sterowania ($Rys. 3.8$). Wartoœæ wskaŸnika jakoœci zmniejszy³ siê o ok. 10\%. Uk³ad jednak nadal dzia³a zbyt wolno.
+Przy dalszym zmniejszaniu wartoœci horyzontu sterowania suma kwadratów uchybów roœnie($Rys. 3.9$).
+
+Najwiêksz¹ zmianê przynios³a zmiana parametru lambda – parametru kar za przyrosty sterowania. Jego zwiêkszenie powoduje jeszcze wolniejsz¹ pracê uk³adu regulacji($Rys. 3.10$). Natomiast zmniejszenie parametru lambda znacznie przyspiesza reakcjê uk³adu na zmianê wartoœci zadanej($Rys. 3.11$). Po zmianie zauwa¿alne s¹ wiêksze zmiany sygna³u steruj¹cego. Wartoœæ wskaŸnika regulacji zbli¿y³a siê do tego, który okreœla³ jakoœæ regulatora PID. Dalsze zmniejszenie parametru lambda przynosi jeszcze bardziej gwa³towne zmiany sterowania. Jednak wartoœæ wskaŸnika jakoœci jest mniejsza ($Rys. 3.12$).Uk³ad szybko reaguje na zmianê wartoœci zadanej, jednak mo¿emy zaobserwowaæ ma³e oscylacje temperatury, gdy zmiana ta jest wiêksza.
+\begin{figure}[tb]
+\centering
+\includegraphics[scale=1]{rysunki/dmc51}
+\caption{OdpowiedŸ uk³adu przy sterowaniu z parametrami $N = N_{\mathrm{u}} = D = 1395, \lambda = 1, E = 454$}
+\end{figure}
+\begin{figure}[tb]
+\centering
+\includegraphics[scale=1]{rysunki/dmc52}
+\caption{OdpowiedŸ uk³adu przy sterowaniu z parametrami $N = N_{\mathrm{u}} = 80, D = 1395, \lambda = 1, E = 440$}
+\end{figure}
+\begin{figure}[tb]
+\centering
+\includegraphics[scale=1]{rysunki/dmc53}
+\caption{OdpowiedŸ uk³adu przy sterowaniu z parametrami $N = 80, N_{\mathrm{u}} = 25, D = 1395, \lambda = 1, E = 405$}
+\end{figure}
+\begin{figure}[tb]
+\centering
+\includegraphics[scale=1]{rysunki/dmc54}
+\caption{OdpowiedŸ uk³adu przy sterowaniu z parametrami $N = 80, N_{\mathrm{u}} = 10, D = 1395, \lambda = 1, E = 454$}
+\end{figure}
+\begin{figure}[tb]
+\centering
+\includegraphics[scale=1]{rysunki/dmc55}
+\caption{OdpowiedŸ uk³adu przy sterowaniu z parametrami $N = 80, N_{\mathrm{u}} = 25, D = 1395, \lambda = 10, E = 543$}
+\end{figure}
+\begin{figure}[tb]
+\centering
+\includegraphics[scale=1]{rysunki/dmc56}
+\caption{OdpowiedŸ uk³adu przy sterowaniu z parametrami $N = 80, N_{\mathrm{u}} = 25, D = 1395, \lambda = 0,1, E = 327$}
+\end{figure}
+\begin{figure}[tb]
+\centering
+\includegraphics[scale=1]{rysunki/dmc57}
+\caption{OdpowiedŸ uk³adu przy sterowaniu z parametrami $N = 80, N_{\mathrm{u}} = 25, D = 1395, \lambda = 0,01, E = 290$}
+\end{figure}
+Podsumowuj¹c, lepsz¹ jakoœæ regulacji uzyskano przy zastosowaniu algorytmu DMC, który szybciej reagowa³ na zmiany temperatury zadanej. W obu przypadkach uk³ady by³y stabilne.
+  
+
+
+
+
+
+
+

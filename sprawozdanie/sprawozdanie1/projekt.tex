@@ -1,0 +1,222 @@
+\chapter{Projekt}
+Realizuj¹c projekt, zasymulowaliœmy obiekt korzystaj¹c z podanej przez prowadz¹cego funkcji \verb+symulacja_obiektu10Y+. Zgodnie z wymaganiami, u¿yliœmy jej aby uzyskaæ obiekt o nastêpuj¹cym równaniu:
+
+
+\begin{center}
+\verb+Y(k)=symulacja_obiektu10Y(U(k-10),U(k-11),Y(k-1),Y(k-2))+
+\end{center}
+
+
+U¿yta funkcja umo¿liwia wyznaczenie sygna³u wyjœciowego procesu $(Y)$, w aktualnej chwili dyskretnej $k$, w zale¿noœci od wartoœci sygna³u wejœciowego $(U)$ i wyjœciowego w poprzednich chwilach próbkowania.
+
+\section{Zadanie 1}
+Celem pierwszego zadania by³o sprawdzenie poprawnoœci, podanego w projekcie, punktu pracy obiektu: $U_{\mathrm{pp}} = 3$, $Y_{\mathrm{pp}} = 0,9$. Aby to sprawdziæ, wykonaliœmy skok sterowania do wartoœæ 3 i zaobserwowaliœmy na jakim poziomie ustabilizuje wyjœcie $Y$. Wykres odpowiedzi skokowej przedstawionej na $Rys. 2.1$ potwierdza prawid³owoœæ podanego w zdaniu punktu pracy. Dla wartoœci sterowania równej $3$, wyjœcie stabilizuje siê w wartoœci $0,9$.
+
+\begin{figure}[tb]
+\centering
+\includegraphics[scale=1]{rysunki/punktpracy}
+\caption{OdpowiedŸ skokowa ustabilizowana w punkcie pracy.}
+\end{figure}
+Celem pierwszego zadania by³o sprawdzenie poprawnoœci, podanego w projekcie, punktu pracy obiektu: $U_{\mathrm{pp}} = 3$, $Y_{\mathrm{pp}} = 0,9$. Aby to sprawdziæ, wykonaliœmy skok sterowania do wartoœæ 3 i zaobserwowaliœmy na jakim poziomie ustabilizuje wyjœcie $Y$. Wykres odpowiedzi skokowej przedstawionej na wykresie ($Rys. 2.1$) potwierdza prawid³owoœæ podanego w zdaniu punktu pracy. Dla wartoœci sterowania równej $3$, wyjœcie stabilizuje siê w wartoœci $0,9$.
+
+\section{Zadanie 2}
+Wyznaczanie odpowiedzi skokowych odbywa³o siê przy nastêpujacych ograniczeniach sygna³u steruj¹cego: $U^{\mathrm{min}}=2,7, U^{\mathrm{max}}=3,3$. Wszystkie trzy skoki by³y wykonywane gdy proces znajdowa³ siê w punkcie pracy. Wykresy wszystkich trzech odpowiedzi przedstawione s¹ na $Rys. 2.2$. Wartoœci skoków to odpowiednio: 3,2 , 4, 2.
+\begin{figure}[tb]
+\centering
+\includegraphics[scale=1]{rysunki/odpskok}
+\caption{Odpowiedzi skokowe dla trzech ró¿nych skoków ze stanu ustalonego.}
+\end{figure}
+
+Po narysowaniu charakterystyki statycznej procesu $y(u)$ mo¿emy zauwa¿yæ, ¿e wraz ze wzrostem wartoœci skoku roœnie wartoœæ odpowiedzi. Co wskazywa³oby na liniowoœæ obiektu. Aby to sprawdziæ narysowaliœmy wykres ($Rys.2.3$), na którym dla ka¿dej wartoœci z zakresu ograniczeñ sygna³u steruj¹cego zaznaczamy wartoœæ wyjœcia, w której proces ten siê stabilizuje.
+
+Charakterystyka potwierdzi³a podejrzenia wiêc mo¿emy policzyæ wzmocnienie statyczne procesu $K_{\mathrm{stat}}$.
+\begin{equation}
+K_{\mathrm{stat}} = \lim_{t \to \infty} \frac{y(t)- Y_{\mathrm{pp}}}{u_0 - U_{\mathrm{pp}}}
+\end{equation}
+Jest ono równie¿ równe tangensowi k¹ta nachylenia prostej do osi $OX$. Dla procesu symulowanego w naszym projekcie wzmocnienie statyczne równe jest $K_{\mathrm{stat}}= 3$.
+
+\begin{figure}[tb]
+\centering
+\includegraphics[scale=1]{rysunki/charStat}
+\caption{Charakterystyka statyczna procesy y(u)}
+\end{figure}
+
+\section{Zadanie 3}
+W regulatorze predykcyjnym DMC wykorzystujemy znormalizowan¹ odpowiedŸ skokow¹ w postaci zestawu liczb $s_{1}, s_{2}, \ldots$, które opisuj¹ reakcje obiektu na skok jednostkowy sterowania.
+
+W celu normalizacji wykonaliœmy skok jednostkowy i zniwelowaliœmy wp³yw punktu pracy na wynik. Wspó³czynniki po ustabilizowaniu odpowiedzi nie wp³ywaj¹ na jakoœæ regulacji wiêc mo¿emy je odrzuciæ. Wspo³czynniki pozostawione s¹ u¿yteczne, stanowi¹ horyzont dynamiki $D$ procesu. OdpowiedŸ skokowa przedstawiona jest na rysunku $Rys. 2.4$.
+\begin{figure}[tb]
+\centering
+\includegraphics[scale=1]{rysunki/odpdmc}
+\caption{OdpowiedŸ skokowa dla algorytmu DMC.}
+\end{figure}
+
+\section{Zadanie 4}
+Nastêpnie zaimplementowaliœmy dwa regulatory dla podanego procesu. Zarówno regulator PID, jak i DMC pracowa³y przy ograniczeniach szybkoœci zmian sygna³u steruj¹cego równych
+\begin{equation}
+-\Delta U^{\mathrm{max}} \leq \Delta U(k) \leq \Delta U^{\mathrm{max}}
+\end{equation}
+
+\subsection{Regulator PID}
+Algorytm PID przedstawiony jest na listingu poni¿ej. Kolejne linie to symulacja procesu, liczenie uchybu ustalonego, liczenie wspó³czynnika jakoœci regulacji, potrzebnego w kolejnych zadaniach, i sterowanie generowane przez regulator.
+\begin{lstlisting}[style=customlatex,frame=single]
+     y(k)=symulacja_obiektu10Y(u(k-10),u(k-11),y(k-1),y(k-2));
+     e(k)=yzad(k)-y(k);
+     E=E+e(k)^2;
+     u(k)=r2*e(k-2)+r1*e(k-1)+r0*e(k)+u(k-1);
+\end{lstlisting}
+Wspó³czynniki stosowane w równaniu regulatora s¹ liczone przy wykorzystaniu okresu próbkowania $T_{\mathrm{p}}$, wzmocnienia $K_{\mathrm{r}}$ i sta³ych $T_{\mathrm{d}}$ oraz $T_{\mathrm{i}}$.
+\begin{lstlisting}[style=customlatex,frame=single]
+			r0 = Kr*(1+Tp/(2*Ti)+Td/Tp);
+			r1 = Kr*(Tp/(2*Ti)-2*Td/Tp-1);
+			r2 = Kr*Td/Tp;
+\end{lstlisting}
+Nastêpnie uwzglêdnione zosta³y ograniczenia wymagane w zadaniu
+\begin{lstlisting}[style=customlatex,frame=single]
+     if (u(k) - u(k-1)) > 0.075
+         u(k) = u(k-1)+0.075;
+     end
+     if (u(k) - u(k-1)) < -0.075
+         u(k) = u(k-1)-0.075;
+     end
+\end{lstlisting}
+dotycz¹ce szybkoœci zmian sygna³u steruj¹cego $U$ nie przekraczaj¹cej wartoœci 0,075.
+
+\subsection{Regulator DMC}
+Drugim implementowanym regulatorem by³ DMC w najprostszej wersji analitycznej. Tutaj wykorzystaliœmy uzyskany w zadaniu trzecim horyzont dynamiki $D = 150$. Jednorazowo wyznaczyliœmy macierz predykcji $M^P$, macierz dynamiki $M$ oraz wspó³czynik $K$.
+\begin{lstlisting}[style=customlatex,frame=single]
+%Wyznaczanie macierzy predykcji
+Mp = zeros(N,D-1);
+
+for i = 1:N
+    for j = 1:(D-1)
+        if (i+j > D)
+            Mp(i,j) = s(D) - s(j);
+        else
+            Mp(i,j) = s(i+j) - s(j);
+        end
+    end
+end
+       
+%Wyznaczanie macierzy dynamicznej
+M = zeros(N,Nu);
+
+for j = 1:Nu
+    for i = 1:N
+        if i >= j
+            M(i,j) = s(i-j+1);
+        end
+    end
+end
+
+%Wyznaczenie wspoczynnika K
+K = (M'*M+lambda*eye(Nu))^-1*M';
+\end{lstlisting}
+Pe³ne kody implementuj¹ce oba regulatory znajduj¹ siê w plikach, odpowiednio \verb+PID.m+ i \verb+DMC.m+.
+
+\section{Zadanie 5}
+W kolejnym zadaniu dostrajaliœmy eksperymentalnie parametry zrobionych wczeœniej regulatorów. Jakoœæ regulacji ocenialiœmy jakoœciowo (na podstawie rysunków przebiegów sygna³ów) oraz iloœciowo, wyznaczaj¹c wskaŸnik jakoœci regulacji
+\begin{equation}
+E=\sum_{k=0}^{K_{konc}}(y^{zad}[k]-y[k])^{2}
+\end{equation}
+gdzie $K_{\mathrm{konc}}$ oznacza koniec symulacji(zawsze taki sam).
+
+\subsection{Strojenie regulatora PID}
+
+Strojenie regulatora PID rozpoczêliœmy od eksperymentu Zieglera-Nicholsa, aby mieæ dobr¹ bazê do dalszego dostrajania (Rys. 2.5). 
+\begin{figure}[tb]
+\centering
+\includegraphics[scale=1]{rysunki/pidZN}
+\caption{Przebieg sygna³u steruj¹cego regulatora typu PID,  $K_{\mathrm{r}} = \num{1,206}, T_{\mathrm{i}} = 12,75, T_{\mathrm{d}} = 3,06$, $E = 23,6136$}
+\end{figure}
+\begin{figure}[tb]
+\centering
+\includegraphics[scale=1]{rysunki/pid1}
+\caption{Przebieg sygna³u steruj¹cego regulatora typu PID,  $K_{\mathrm{r}} = \num{1,6}, T_{\mathrm{i}} = 10,5, T_{\mathrm{d}} = 3,06$, $E = 20,9567$}
+\end{figure}
+\begin{figure}[tb]
+\centering
+\includegraphics[scale=1]{rysunki/pid2}
+\caption{Przebieg sygna³u steruj¹cego regulatora typu PID,  $K_{\mathrm{r}} = \num{1,6}, T_{\mathrm{i}} = 10, T_{\mathrm{d}} = 3,5$, $E = 20,7665$}
+\end{figure}
+\begin{figure}[tb]
+\centering
+\includegraphics[scale=1]{rysunki/pid3}
+\caption{Przebieg sygna³u steruj¹cego regulatora typu PID,  $K_{\mathrm{r}} = \num{1,7}, T_{\mathrm{i}} = 8, T_{\mathrm{d}} = 4,5$, $E = 20,0282$}
+\end{figure}
+\begin{figure}[tb]
+\centering
+\includegraphics[scale=1]{rysunki/pid4}
+\caption{Przebieg sygna³u steruj¹cego regulatora typu PID,  $K_{\mathrm{r}} = \num{1,7}, T_{\mathrm{i}} = 9,5, T_{\mathrm{d}} = 3,7$$E = 20,4175$}
+\end{figure}
+\begin{figure}[tb]
+\centering
+\includegraphics[scale=1]{rysunki/pid5}
+\caption{Przebieg sygna³u steruj¹cego regulatora typu PID, $K_{\mathrm{r}} = \num{1,8}, T_{\mathrm{i}} = 7, T_{\mathrm{d}} = 4,5$, $E = 19,8477$}
+\end{figure}
+Manipuluj¹c wartoœciami parametrów regulatora, uzyskanymi podczas eksperymentu Z-N, najlepszy wskaŸnik regulacji jaki dostaliœmy wynosi³ $E = 19,8477$. Przy nastawach $K_{\mathrm{r}} = \num{1,8}, T_{\mathrm{i}} = 7, T_{\mathrm{d}} = 4,5$ ($Rys. 2,10$). Sygna³ steruj¹cy w takiej konfiguracji jest mniej stabilny ale nie zmienia siê na tyle gwa³townie aby uznaæ to za niedopuszczalny czynnik. 
+
+Przy tak niewielkich zmianach oraz kilku skokach wartoœci zadanej ciê¿ko dokonaæ jakoœciowej oceny regulacji. Najwiêksze ró¿nice widaæ w stabilnoœci sygna³u sterowania. Zwiêkszaj¹c wzmocnienie rosn¹ oscylacje. Kolejne wykresy z procesu dostarajania znajduj¹ siê na rysunkach $Rys. 2.5$ - $Rys 2.10$.
+
+\subsection{Strojenie regulatora DMC}
+
+Podczas strojenia regulatora DMC przyjêliœmy klasyczn¹ strategiê. Zmniejszaliœmy horyzont $N$, dopóki regulator siê nie pogorszy. Nastêpnie z zakresu od 1 do $N$ dobraliœmy najlepsze $N_{\mathrm{u}}$ i na koniec eksperymentalnie dobraliœmy parametr $\lambda$. Uzyskaliœmy stosunkowo niski b³¹d przy zachowaniu bardzo ³adnej regulacji obiektu, ni¿szy b³¹d ni¿ przy PID, brak przeregulowania i oscylacji. Dzia³a lepiej ni¿ PID, którego dostroiliœmy. Rysunki $Rys. 2.11$ - $Rys. 2.15$.
+
+\begin{figure}[tb]
+\centering
+\includegraphics[scale=1]{rysunki/dmc5}
+\caption{Przebieg sygna³u steruj¹cego regulatora typu DMC, $N = \num{45}, N_{\mathrm{u}} = 5, \lambda = 42$, $E = 19,2272$}
+\end{figure}
+\begin{figure}[tb]
+\centering
+\includegraphics[scale=1]{rysunki/dmc4}
+\caption{Przebieg sygna³u steruj¹cego regulatora typu DMC, $N = \num{45}, N_{\mathrm{u}} = 5, \lambda = 34$, $E = 19,2475$}
+\end{figure}
+\begin{figure}[tb]
+\centering
+\includegraphics[scale=1]{rysunki/dmc3}
+\caption{Przebieg sygna³u steruj¹cego regulatora typu DMC, $N = \num{40}, N_{\mathrm{u}} = 5, \lambda = 34$, $E = 19,2666$}
+\end{figure}
+\begin{figure}[tb]
+\centering
+\includegraphics[scale=1]{rysunki/dmc2}
+\caption{Przebieg sygna³u steruj¹cego regulatora typu DMC, $N = \num{27}, N_{\mathrm{u}} = 5, \lambda = 435$, $E = 19,5618$}
+\end{figure}
+\begin{figure}[tb]
+\centering
+\includegraphics[scale=1]{rysunki/dmc1}
+\caption{Przebieg sygna³u steruj¹cego regulatora typu DMC, $N = \num{27}, N_{\mathrm{u}} = 5, \lambda = 34$, $E = 19,5569$}
+\end{figure}
+
+
+\section{Zadanie 6}
+W tym zadaniu dobieraliœmy nastawy regulatorów w wyniku optymalizacji wskaŸnika jakoœci $E$. W tym celu zaimplementowaliœmy skrypty \verb+Zad6_PID_optimiation.m+ i \verb+Zad6_DMC_optimization.m+.
+
+U¿yliœmy w nich funkcji \verb+fmincon+, która znajduje minimum funkcji z uwzglêdnieniem ograniczeñ. Jedynymi ograniczeniami s¹ te, narzucone na argumenty wywo³ania funkcji, czyli na wy¿ej okreœlone parametry.
+
+\subsection{Optymalny regulator PID}
+Przy d³u¿szej symulacji (3200 próbek, $T_{\mathrm{p}} = 0,5 {\mathrm{s}}$) uk³ad jest lepiej regulowany, poniewa¿ niwelujemy oscylacje sygna³u. $Rys. 2.16$ - $Rys. 2.18$
+\begin{figure}[tb]
+\centering
+\includegraphics[scale=1]{rysunki/pidopt1}
+\caption{Przebieg sygna³u steruj¹cego optymalnego regulatora typu PID, $K_{\mathrm{r}} = \num{3,8948}, T_{\mathrm{i}} = 9,0552, T_{\mathrm{d}} = 5,0646$, $E = 14,1719$, $sim = 600$}
+\end{figure}
+\begin{figure}[tb]
+\centering
+\includegraphics[scale=1]{rysunki/pidopt2}
+\caption{Przebieg sygna³u steruj¹cego optymalnego regulatora typu PID, $K_{\mathrm{r}} = \num{2,2062}, T_{\mathrm{i}} = 5,1382, T_{\mathrm{d}} = 4,5796$, $E = 19,0815$, $sim = 1600$}
+\end{figure}
+\begin{figure}[tb]
+\centering
+\includegraphics[scale=1]{rysunki/pidopt3}
+\caption{Przebieg sygna³u steruj¹cego optymalnego regulatora typu PID, $K_{\mathrm{r}} = \num{2,09}, T_{\mathrm{i}} = 5,3301, T_{\mathrm{d}} = 4,284$, $E = 19,2845$, $sim = 3200$}
+\end{figure}
+
+
+\subsection{Optymalny regulator DMC}
+Stosuj¹c optymalizacjê uda³o siê uzsykaæ lepszy wskaŸnik jakoœci optymalizacji. $Rys. 2.19$
+\begin{figure}[t]
+\centering
+\includegraphics[scale=1]{rysunki/dmcopt}
+\caption{Przebieg sygna³u steruj¹cego optymalnego regulatora typu DMC, $N = \num{45}, N_{\mathrm{u}} = 5, \lambda = 41,6529$, $E = 19,2266$}
+\end{figure}
