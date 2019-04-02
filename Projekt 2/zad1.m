@@ -20,6 +20,7 @@ hold off;
 u_data = [(1:kk)'-1 u'];
 y_data = [(1:kk)'-1 y'];
 z_data = [(1:kk)'-1 z'];
-dlmwrite(strcat('data/Zad1/zad1_u.csv'), u_data, '\t');
-dlmwrite(strcat('data/Zad1/zad1_y.csv'), y_data, '\t');
-dlmwrite(strcat('data/Zad1/zad1_z.csv'), z_data, '\t');
+
+% dlmwrite(strcat('data/Zad1/zad1_u.csv'), u_data, '\t');
+% dlmwrite(strcat('data/Zad1/zad1_y.csv'), y_data, '\t');
+% dlmwrite(strcat('data/Zad1/zad1_z.csv'), z_data, '\t');
