@@ -5,7 +5,7 @@ odp2=load('data/Zad3/odp_zak.mat');
 sz=odp2.z;
 
 D = length(s);
-Dz = length(sz);
+Dz = 30;
 Tp = 0.5;
 %parametry DMC wlasne
 N = 17;
@@ -17,9 +17,9 @@ lambda = 2;
 % Nu = 4;
 % lambda = 0.5;
 
-zad4_save = false;
+zad5_save = false;
 
-zaklocenie = 0;
+zaklocenie = 1;
 
 
 %Wyznaczanie macierzy predykcji
@@ -82,13 +82,27 @@ if zaklocenie==1
 end
 
 E=0;
-
+skokz = 0;
+count = 0;
 
 for k=9:kk
      
     y(k)=symulacja_obiektu10y(u(k-7),u(k-8),z(k-3),z(k-4),y(k-1),y(k-2)); %symulowany sygna³ wyjœciowy obiektu
     
     e = yzad(k) - y(k);
+    
+    if abs(e)<= 0.1 && k>=30
+        count = count + 1;
+    end
+    
+    if skokz == 1
+        z(k)=1;
+    end
+    
+    if count == 20
+        skokz = 1;
+    end
+    
     E=E+e^2;
     
     if zaklocenie==1
@@ -120,21 +134,22 @@ grid minor;
 plot(u); 
 plot(y);
 plot(yzad); 
+stairs(z);
 legend('u(k)', 'y(k)', 'yzad(k)', 'Location', 'northeast');
 xlabel('k');
 ylabel('Wartoœæ sygna³u');
 title(['Regulator DMC N=' num2str(N) ', Nu=' num2str(Nu) ', lambda=' num2str(lambda) '   WskaŸnik jakoœci regulacji=' num2str(E)]);
 hold off;
 
-if(zad4_save)
+if(zad5_save)
 %     yzad_data = [(1:kk)'-1 yzad'];
 %     dlmwrite('data/Zad4/y_zadane.csv', yzad_data, '\t');
-%     z_data = [(1:kk)'-1 z'];
-%     dlmwrite('data/Zad4/zaklocenia.csv', z_data, '\t');
     u_data = [(1:kk)'-1 u'];
     y_data = [(1:kk)'-1 y'];
-    dlmwrite(strcat('data/Zad4/DMC_input_N=',num2str(N),'Nu=',num2str(Nu),'lambda=',num2str(lambda),'E=',num2str(E),'.csv'), u_data, '\t');
-    dlmwrite(strcat('data/Zad4/DMC_output_N=',num2str(N),'Nu=',num2str(Nu),'lambda=',num2str(lambda),'E=',num2str(E), '.csv'), y_data, '\t');
-
+    z_data = [(1:kk)'-1 z'];
+    dlmwrite(strcat('data/Zad5/DMC_input_Dz=',num2str(Dz),'E=',num2str(E),'.csv'), u_data, '\t');
+    dlmwrite(strcat('data/Zad5/DMC_output_Dz=',num2str(Dz),'E=',num2str(E),'.csv'), y_data, '\t');
+    dlmwrite(strcat('data/Zad5/DMC_zaklocenie_Dz=',num2str(Dz),'E=',num2str(E),'.csv'), z_data, '\t');
+    
 end
 

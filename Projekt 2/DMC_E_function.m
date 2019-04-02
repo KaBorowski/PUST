@@ -1,4 +1,11 @@
-clear;
+function E = DMC_E_function(params)
+
+
+%parametry DMC
+N = floor(params(1));
+Nu = floor(params(2));
+lambda = params(3); 
+
 odp=load('data/Zad3/odp_ster.mat');
 s=odp.u;
 odp2=load('data/Zad3/odp_zak.mat');
@@ -7,17 +14,6 @@ sz=odp2.z;
 D = length(s);
 Dz = length(sz);
 Tp = 0.5;
-%parametry DMC wlasne
-N = 17;
-Nu = 1;
-lambda = 2;
-
-%parametry DMC po optymalizacji
-% N = 18;
-% Nu = 4;
-% lambda = 0.5;
-
-zad4_save = false;
 
 zaklocenie = 0;
 
@@ -113,28 +109,4 @@ for k=9:kk
     
 end
 
-figure;
-hold on
-grid on; 
-grid minor;
-plot(u); 
-plot(y);
-plot(yzad); 
-legend('u(k)', 'y(k)', 'yzad(k)', 'Location', 'northeast');
-xlabel('k');
-ylabel('Wartoœæ sygna³u');
-title(['Regulator DMC N=' num2str(N) ', Nu=' num2str(Nu) ', lambda=' num2str(lambda) '   WskaŸnik jakoœci regulacji=' num2str(E)]);
-hold off;
-
-if(zad4_save)
-%     yzad_data = [(1:kk)'-1 yzad'];
-%     dlmwrite('data/Zad4/y_zadane.csv', yzad_data, '\t');
-%     z_data = [(1:kk)'-1 z'];
-%     dlmwrite('data/Zad4/zaklocenia.csv', z_data, '\t');
-    u_data = [(1:kk)'-1 u'];
-    y_data = [(1:kk)'-1 y'];
-    dlmwrite(strcat('data/Zad4/DMC_input_N=',num2str(N),'Nu=',num2str(Nu),'lambda=',num2str(lambda),'E=',num2str(E),'.csv'), u_data, '\t');
-    dlmwrite(strcat('data/Zad4/DMC_output_N=',num2str(N),'Nu=',num2str(Nu),'lambda=',num2str(lambda),'E=',num2str(E), '.csv'), y_data, '\t');
-
-end
 

@@ -5,14 +5,16 @@ s=odp.skok;
 D = length(s);
 Tp = 0.5;
 %parametry DMC wlasne
-% N = 45;
-% Nu = 5;
-% lambda = 42; 
-
-%parametry DMC po optymalizacji
 N = 45;
 Nu = 5;
-lambda = 41.6529;
+lambda = 42; 
+
+%parametry DMC po optymalizacji
+% N = 45;
+% Nu = 5;
+% lambda = 41.6529;
+
+zaklocenie = 0;
 
 
 %Wyznaczanie macierzy predykcji
@@ -27,6 +29,22 @@ for i = 1:N
         end
     end
 end
+
+%liczenie macierzy zaklocenia
+
+if zaklocenie==1
+     Mzp=zeros(N,Dz-1);
+     for i=1:N
+        for j=1:Dz-1
+           if i+j<=Dz
+              Mzp(i,j)=sz(i+j)-sz(j);
+           else
+              Mzp(i,j)=sz(Dz)-sz(j);
+           end      
+        end
+     end
+end
+
        
 %Wyznaczanie macierzy dynamicznej
 M = zeros(N,Nu);
@@ -43,41 +61,49 @@ end
 K = (M'*M+lambda*eye(Nu))^-1*M';
 K1 = K(1,1:N);
 ke = sum(K1);
+ku = K1*Mp;
+
+if zaklocenie==1
+    kz = K1*Mzp;
+end
 
 kk=600; 
-u(1:kk)=3; y(1:kk)=0.9;
+u(1:kk)=3; y(1:kk)=0.9; z(1:kk)=0;
 yzad(1:9)=0.9; yzad(10:149)=1.2; yzad(150:299)=0.5; yzad(300:449)=0.9; yzad(450:kk)=0.8;
 du(1:D-1)=0;
 
+if zaklocenie==1
+    dz(1:Dz-1)=0;
+end
+
 E=0;
 
-ku = K1*Mp;
+
 for k=12:kk
      
     y(k)=symulacja_obiektu10Y(u(k-10),u(k-11),y(k-1),y(k-2)); %symulowany sygna³ wyjœciowy obiektu
     e = yzad(k) - y(k);
     E=E+e^2;
+    
+    if zaklocenie==1
+       for n=Dz-1:-1:2
+         dz(n)=dz(n-1);
+       end
+       dz(1)=z(k)-z(k-1);
+    end 
+    
     deltau = ke*e-ku*du';
+    
+    if zaklocenie==1
+      deltau = deltau-kz*dz';
+    end
+    
     for n=D-1:-1:2
         du(n)=du(n-1);
     end
     
     du(1)=deltau;
-    u(k) = u(k-1) + du(1);
-    
-     if (u(k) - u(k-1)) > 0.075
-         u(k) = u(k-1)+0.075;
-     end
-     if (u(k) - u(k-1)) < -0.075
-         u(k) = u(k-1)-0.075;
-     end
-    if u(k) < 2.7
-         u(k) = 2.7;
-     end
-     if u(k) > 3.3
-         u(k) = 3.3;
-     end
-    
+    u(k) = u(k-1) + du(1);   
     
 end
 
