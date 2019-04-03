@@ -73,7 +73,7 @@ if zaklocenie==1
 end
 
 kk=100; 
-u(1:kk)=0; y(1:kk)=0; z(1:kk)=0;
+u(1:kk)=0; y(1:kk)=0; z(1:kk)=sin(linspace(0,10,kk))/10;
 yzad(1:9)=0;  yzad(10:kk)=1;
 du(1:D-1)=0;
 
@@ -91,17 +91,17 @@ for k=9:kk
     
     e = yzad(k) - y(k);
     
-    if abs(e)<= 0.1 && k>=30
-        count = count + 1;
-    end
+%     if abs(e)<= 0.1 && k>=30
+%         count = count + 1;
+%     end
     
-    if skokz == 1
-        z(k)=1;
-    end
-    
-    if count == 20
-        skokz = 1;
-    end
+%     if skokz == 1
+%         z(k)=1;
+%     end
+%     
+%     if count == 20
+%         skokz = 1;
+%     end
     
     E=E+e^2;
     
