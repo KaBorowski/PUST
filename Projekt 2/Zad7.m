@@ -17,7 +17,7 @@ lambda = 2;
 % Nu = 4;
 % lambda = 0.5;
 
-zad5_save = false;
+zad7_save = false;
 
 zaklocenie = 1;
 
@@ -72,13 +72,12 @@ if zaklocenie==1
     kz = K1*Mzp;
 end
 
-okres = 10*pi;
-wzmocnienie = 0.1;
-
 kk=100; 
-u(1:kk)=0; y(1:kk)=0; z(1:kk)=sin(linspace(0,okres,kk))*wzmocnienie;
+u(1:kk)=0; y(1:kk)=0; z(1:kk)=0;  z_mierzone(1:kk)=0;
 yzad(1:9)=0;  yzad(10:kk)=1;
 du(1:D-1)=0;
+wartosc_szumu = -10;
+szum(1:kk)=wgn(1,kk,wartosc_szumu);
 
 if zaklocenie==1
     dz(1:Dz-1)=0;
@@ -94,17 +93,19 @@ for k=9:kk
     
     e = yzad(k) - y(k);
     
-%     if abs(e)<= 0.1 && k>=30
-%         count = count + 1;
-%     end
+    if abs(e)<= 0.1 && k>=30
+        count = count + 1;
+    end
     
-%     if skokz == 1
-%         z(k)=1;
-%     end
-%     
-%     if count == 20
-%         skokz = 1;
-%     end
+    if skokz == 1
+        z(k)=1;
+    end
+    
+    z_mierzone(k)=z(k)+szum(k);
+    
+    if count == 20
+        skokz = 1;
+    end
     
     E=E+e^2;
     
@@ -112,7 +113,7 @@ for k=9:kk
        for n=Dz-1:-1:2
          dz(n)=dz(n-1);
        end
-       dz(1)=z(k)-z(k-1);
+       dz(1)=z_mierzone(k)-z_mierzone(k-1);
     end 
     
     deltau = ke*e-ku*du';
@@ -138,21 +139,24 @@ plot(u);
 plot(y);
 plot(yzad); 
 stairs(z);
-legend('u(k)', 'y(k)', 'yzad(k)','z(k)', 'Location', 'northeast');
+plot(z_mierzone)
+legend('u(k)', 'y(k)', 'yzad(k)','z(k)','z_ zmierzone(k)', 'Location', 'northeast');
 xlabel('k');
 ylabel('Wartoœæ sygna³u');
 title(['Regulator DMC Dz=' num2str(Dz) '   Wska¼nik jako¶ci regulacji=' num2str(E)]);
 hold off;
 
-if(zad5_save)
+if(zad7_save)
 %     yzad_data = [(1:kk)'-1 yzad'];
 %     dlmwrite('data/Zad4/y_zadane.csv', yzad_data, '\t');
     u_data = [(1:kk)'-1 u'];
     y_data = [(1:kk)'-1 y'];
     z_data = [(1:kk)'-1 z'];
-    dlmwrite(strcat('data/Zad6/DMC_input_pomiar=',num2str(zaklocenie),'_okres_oscylacji=',num2str(okres),'wzmocnienie=',num2str(wzmocnienie),'E=',num2str(E),'.csv'), u_data, '\t');
-    dlmwrite(strcat('data/Zad6/DMC_output_pomiar=',num2str(zaklocenie),'_okres_oscylacji=',num2str(okres),'wzmocnienie=',num2str(wzmocnienie),'E=',num2str(E),'.csv'), y_data, '\t');
-    dlmwrite(strcat('data/Zad6/DMC_zaklocenie_pomiar=',num2str(zaklocenie),'_okres_oscylacji=',num2str(okres),'wzmocnienie=',num2str(wzmocnienie),'E=',num2str(E),'.csv'), z_data, '\t');
-    
+    z_mierzone_data = [(1:kk)'-1 z_mierzone'];
+    dlmwrite(strcat('data/Zad7/DMC_input_szum=',num2str(wartosc_szumu),'E=',num2str(E),'.csv'), u_data, '\t');
+    dlmwrite(strcat('data/Zad7/DMC_output_szum=',num2str(wartosc_szumu),'E=',num2str(E),'.csv'), y_data, '\t');
+    dlmwrite(strcat('data/Zad7/DMC_zaklocenie_szum=',num2str(wartosc_szumu),'E=',num2str(E),'.csv'), z_data, '\t');
+    dlmwrite(strcat('data/Zad7/DMC_zaklocenie_zmierzone_szum=',num2str(wartosc_szumu),'E=',num2str(E),'.csv'), z_mierzone_data, '\t');
+
 end
 
