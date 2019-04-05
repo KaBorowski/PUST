@@ -1,0 +1,43 @@
+\section{Zadanie 3}
+W regulatorze predykcyjnym DMC wykorzystujemy znormalizowan¹ odpowiedŸ skokow¹ w postaci zestawu liczb $s_{1}, s_{2}, \ldots$, które opisuj¹ reakcje obiektu na skok jednostkowy.
+
+W celu normalizacji wykonaliœmy skok jednostkowy sterowania oraz oddzielnie zak³ócenia i zniwelowaliœmy wp³yw punktu pracy na wynik. Wspó³czynniki po ustabilizowaniu odpowiedzi nie wp³ywaj¹ na jakoœæ regulacji wiêc mo¿emy je odrzuciæ. Wspo³czynniki pozostawione s¹ u¿yteczne, stanowi¹ horyzonty dynamiki $D$ i $D^{\mathrm{z}}$ procesu. Odpowiedzi skokowe przedstawione s¹ na rysunkach $Rys.2.7$ oraz $Rys. 2.8$.
+\begin{figure}[h!]
+    \centering
+    \begin{tikzpicture}
+    \begin{axis}[
+    width=0.7\textwidth,
+    xmin=0.0,xmax=175,ymin=0,ymax=3,
+    xlabel={$k$},
+    ylabel={$y[k], \ u[k], \ z[k]$},
+    legend pos=south east,
+    y tick label style={/pgf/number format/1000 sep=},
+    ] 
+    \addplot[red, semithick] file{rysunki/data/Zad3/zad3_skok_sterowania_obciete_u.csv};
+		\addplot[blue, semithick] file{rysunki/data/Zad3/zad3_skok_sterowania_obciete_y.csv}; 
+		\addplot[green, semithick] file{rysunki/data/Zad3/zad3_skok_sterowania_obciete_z.csv}; 
+		\legend{$u[k]$,$y[k]$,$z[k]$}
+    \end{axis}
+    \end{tikzpicture}
+    \caption{Znormalizowana odpowiedŸ skokowa toru wejœcie-wyjœcie}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \begin{tikzpicture}
+    \begin{axis}[
+    width=0.7\textwidth,
+    xmin=0.0,xmax=83,ymin=0,ymax=2,
+    xlabel={$k$},
+    ylabel={$y[k], \ u[k], \ z[k]$},
+    legend pos=south east,
+    y tick label style={/pgf/number format/1000 sep=},
+    ] 
+    \addplot[red, semithick] file{rysunki/data/Zad3/zad3_skok_zaklocenia_obciete_u.csv};
+		\addplot[blue, semithick] file{rysunki/data/Zad3/zad3_skok_zaklocenia_obciete_y.csv}; 
+		\addplot[green, semithick] file{rysunki/data/Zad3/zad3_skok_zaklocenia_obciete_z.csv};
+		\legend{$u[k]$,$y[k]$,$z[k]$}
+    \end{axis}
+    \end{tikzpicture}
+    \caption{Znormalizowana odpowiedŸ skokowa toru zak³ócenie-wyjœcie}
+\end{figure}
