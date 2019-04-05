@@ -1,5 +1,5 @@
 \section{Zadanie 6}
-W poprzednim zadaniu sprawdzaliœmy pracê regulatora przy jednorazowej zmianie zak³ócenia z 0 na 1. Tym razem przetestowaliœmy dzia³anie regulatora przy ci¹g³ej zmianie zak³ócenia. U¿yliœmy sygna³u sinusoidalnego o ró¿nych okresach oscylacji i ró¿nych wzmocnieniach. Jeœli chodzi o pierwszy regulator (uwzglêdniaj¹cy zak³ócenia) to nie otrzymaliœmy zadowalaj¹cych rezultatów($ys. 2.23 - Rys. 2.25$). Pomimo pomiaru zak³óceñ, uk³ad wpada w niekoñcz¹ce siê oscylacje, wiêc nie mo¿emy uznaæ takiej regulacji za poprawn¹. Z kolei drugi regulator (bez uwzglêdnienia zak³óceñ) okazuje siê nie dzia³aæ du¿o gorzej dla sygna³u sinusoidalnego o ma³ej amplitudzie (np. 0.1) ni¿ jego przeciwnik. Jednak dla sygna³u zak³ócenia z wiêksz¹ amplitud¹ (np. 1) jest on znacznie gorszy($Rys. 2.26 - Rys. 2.28$). 
+W poprzednim zadaniu sprawdzaliœmy pracê regulatora przy jednorazowej zmianie zak³ócenia z 0 na 1. Tym razem przetestowaliœmy dzia³anie regulatora przy ci¹g³ej zmianie zak³ócenia. U¿yliœmy sygna³u sinusoidalnego o ró¿nych okresach oscylacji i ró¿nych wzmocnieniach. Jeœli chodzi o pierwszy regulator (uwzglêdniaj¹cy zak³ócenia) to nie otrzymaliœmy zadowalaj¹cych rezultatów($Rys. 2.23 - Rys. 2.25$). Pomimo pomiaru zak³óceñ, uk³ad wpada w niekoñcz¹ce siê oscylacje, wiêc nie mo¿emy uznaæ takiej regulacji za poprawn¹. Z kolei drugi regulator (bez uwzglêdnienia zak³óceñ) okazuje siê nie dzia³aæ du¿o gorzej dla sygna³u sinusoidalnego o ma³ej amplitudzie (np. 0.1) ni¿ jego przeciwnik. Jednak dla sygna³u zak³ócenia z wiêksz¹ amplitud¹ (np. 1) jest on znacznie gorszy($Rys. 2.26 - Rys. 2.28$). 
 
 Podsumowuj¹c: nawet regulator uwzglêdniaj¹cy zak³ócenia nie jest w stanie zniwelowaæ sinusoidalnego sygna³u zak³óceñ, chyba ¿e by³by to sygna³ o bardzo ma³ym okresie.
 \begin{figure}[h!]
@@ -47,7 +47,7 @@ Podsumowuj¹c: nawet regulator uwzglêdniaj¹cy zak³ócenia nie jest w stanie zniwel
     \begin{tikzpicture}
     \begin{axis}[
     width=0.7\textwidth,
-    xmin=0.0,xmax=100,ymin=0,ymax=2.3,
+    xmin=0.0,xmax=100,ymin=0,ymax=2.6,
     xlabel={$k$},
     ylabel={$y[k], \ u[k], z[k]$},
     legend pos=south east,
