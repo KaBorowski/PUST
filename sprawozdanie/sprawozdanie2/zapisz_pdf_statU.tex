@@ -1,0 +1,42 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{pgfplots}
+\usepackage{siunitx}
+\sisetup{detect-weight,exponent-product=\cdot,output-decimal-marker={,},
+	per-mode=symbol,binary-units=true,range-phrase={-},range-units=single}
+\SendSettingsToPgf
+\usetikzlibrary{pgfplots.groupplots}
+\pgfplotsset{compat=1.11}
+\usepgfplotslibrary{external}
+\tikzexternalize
+
+\textwidth 160mm \textheight 247mm
+
+\pgfplotsset{width=\figurewidth,compat=1.11}
+\pgfplotsset{
+tick label style={font=\tiny},
+label style={font=\footnotesize},
+legend style={font=\footnotesize},
+title style={font=\footnotesize}
+}
+
+\begin{document}
+
+\tikzsetnextfilename{}
+
+\begin{figure}[tb]
+\tikzsetnextfilename{charStatZ}
+\begin{tikzpicture}
+\begin{axis}[
+width=0.5\textwidth,
+xmin=0,xmax=1,ymin=2.4,ymax=4.4,
+xlabel={$z$},
+ylabel={$y$},
+xtick={0,0.2,0.4,0.6,0.8,1},
+ytick={2.4,2.9,3.4,3.9,4.4},
+]
+\addplot[blue,semithick] file {data/Zad2/zad2_statZ.csv};
+\end{axis}
+\end{tikzpicture}
+\end{figure}
+
+\end{document}

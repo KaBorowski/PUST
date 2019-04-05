@@ -1,0 +1,35 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{pgfplots}
+\usepackage{siunitx}
+\sisetup{detect-weight,exponent-product=\cdot,output-decimal-marker={,},
+	per-mode=symbol,binary-units=true,range-phrase={-},range-units=single}
+\SendSettingsToPgf
+\usetikzlibrary{pgfplots.groupplots}
+\pgfplotsset{compat=1.11}
+\usepgfplotslibrary{external}
+\tikzexternalize
+
+\textwidth 160mm \textheight 247mm
+
+\pgfplotsset{width=\figurewidth,compat=1.11}
+\pgfplotsset{
+tick label style={font=\tiny},
+label style={font=\footnotesize},
+legend style={font=\footnotesize},
+title style={font=\footnotesize}
+}
+
+\begin{document}
+
+\tikzsetnextfilename{zad2_surf}
+
+\begin{figure}[tb]
+\tikzsetnextfilename{zad2_surf}
+    \begin{tikzpicture}
+        \begin{axis}[grid=both,view={225}{20},colormap/viridis,width=1.00\textwidth]
+            \addplot3+[surf,mesh/rows=100, mesh/ordering=colwise,no marks] file{data/Zad2/zad2_surff.csv};
+        \end{axis}
+    \end{tikzpicture}
+\end{figure}
+
+\end{document}

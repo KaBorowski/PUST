@@ -1,0 +1,61 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{pgfplots}
+\usepackage{siunitx}
+\sisetup{detect-weight,exponent-product=\cdot,output-decimal-marker={,},
+	per-mode=symbol,binary-units=true,range-phrase={-},range-units=single}
+\SendSettingsToPgf
+\usetikzlibrary{pgfplots.groupplots}
+\pgfplotsset{compat=1.11}
+\usepgfplotslibrary{external}
+\tikzexternalize
+
+\textwidth 160mm \textheight 247mm
+
+\pgfplotsset{width=\figurewidth,compat=1.11}
+\pgfplotsset{
+tick label style={font=\tiny},
+label style={font=\footnotesize},
+legend style={font=\footnotesize},
+title style={font=\footnotesize}
+}
+
+\newcommand{\szer}{8cm}
+\newcommand{\wys}{5.6cm}
+\newcommand{\odstepionowy}{1.2cm}
+\newcommand{\odstepoziomy}{1.9cm}
+
+\begin{document}
+
+\tikzsetnextfilename{}
+
+\begin{figure}[tb]
+\tikzsetnextfilename{zapisz_pdf_punktpracy}
+\begin{tikzpicture}
+\begin{groupplot}[group style={group size=3 by 1,horizontal sep=\odstepoziomy,
+	vertical sep=\odstepionowy},width=\szer,height=\wys]
+%%1
+\nextgroupplot
+[xmin=0,xmax=1,ymin=-0.1,ymax=3,
+xtick={0,100,200,300},ytick={-1,0,1},
+xlabel=$k$,ylabel=$u$,legend cell align=left,
+legend pos=north east]
+\addplot[color=blue,semithick] file {data/Zad1/zad1_u.csv};
+%%2
+\nextgroupplot
+[xmin=0,xmax=1,ymin=-0.25,ymax=1.5,
+xtick={0,100,200,300},ytick={-1,0,1},
+xlabel=$k$,ylabel={$z$},
+legend cell align=left,legend pos=south east]
+\addplot[color=blue,semithick] file {data/Zad1/zad1_z.csv};
+%%3
+\nextgroupplot
+[xmin=0,xmax=1,ymin=-0.5,ymax=1.5,
+xtick={0,100,200,300},ytick={-1,0,1},
+xlabel=$k$,ylabel=$y$,legend cell align=left,
+legend pos=north east]
+\addplot[color=blue,semithick] file {data/Zad1/zad1_y.csv};
+\end{groupplot}
+\end{tikzpicture}
+\end{figure}
+
+\end{document}
