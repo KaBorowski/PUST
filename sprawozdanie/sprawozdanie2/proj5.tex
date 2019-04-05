@@ -1,0 +1,63 @@
+\section{Zadanie 5}
+Najlepszy regulator z poprzedniego zadania ($N = 17, N_{\mathrm{u}} = 1, \lambda = 2$) przetestowaliœmy z w³¹czonym cz³onem uwzglêdniaj¹cym pomiar zak³ócenia mierzalnego. W momencie ustabilizowania siê wartoœci wyjœciowej (osi¹gniêcie wartoœci zadanej i ustabilizowanie siê obiektu w tym punkcie) dokonaliœmy skoku zak³ócenia z wartoœci 0 na 1. Dobraliœmy parametr $D^{\mathrm{z}}$ w taki sposób, ¿e zmniejszaliœmy jego wartoœæ zaczynaj¹c od 82 (d³ugoœæ odpowiedzi obiektu na skok jednostkowy zak³ócenia - $Rys. 2.20$). Wp³yw wprowadzonej zmiany okaza³ siê znikomy. Dla $D^{\mathrm{z}} = 49$ zauwa¿yliœmy minimalne pogorszenie siê jakoœci regulacji, wiêc zostawaliœmy regulator DMC z wartoœci¹ $D^{\mathrm{z}} = 50$($Rys. 2.21$). Porównaliœmy równie¿ dzia³anie regulatora uwzglêdniaj¹cego pomiar zak³ócenia z regulatorem z zadania 4 z wy³¹czonym cz³onem reaguj¹cym na zmianê zak³ócenia($Rys. 2.22$). Go³ym okiem widaæ, ¿e uwzglêdnienie pomiaru zak³óceñ daje lepsze wyniki ni¿ jego brak, aczkolwiek regulator i tak nie jest w stanie zareagowaæ na zmianê zak³ócenia w taki sposób, by nie odbi³o siê to sygnale wyjœciowym.
+
+\begin{figure}[h!]
+    \centering
+    \begin{tikzpicture}
+    \begin{axis}[
+    width=0.7\textwidth,
+    xmin=0.0,xmax=100,ymin=0,ymax=2,
+    xlabel={$k$},
+    ylabel={$y[k], \ u[k], z[k]$},
+    legend pos=south east,
+    y tick label style={/pgf/number format/1000 sep=},
+    ] 
+    \addplot[red, semithick] file{rysunki/data/Zad5/DMC_input_Dz=83E=11.9702.csv};
+		\addplot[blue, semithick] file{rysunki/data/Zad5/DMC_output_Dz=83E=11.9702.csv};
+		\addplot[orange, semithick] file{rysunki/data/Zad5/y_zadane.csv}; 
+		\addplot[green, semithick] file{rysunki/data/Zad5/DMC_zaklocenie_Dz=83E=11.9702.csv}; 
+		\legend{$u$,$y$,$y^{\mathrm{zad}}$,$z$}
+    \end{axis}
+    \end{tikzpicture}
+    \caption{Regulator DMC: $D = 175, D^{\mathrm{z}} = 83, N = 17, N_{\mathrm{u}} = 1, \lambda = 2, E = 11,9702$}
+\end{figure}
+\begin{figure}[h!]
+    \centering
+    \begin{tikzpicture}
+    \begin{axis}[
+    width=0.7\textwidth,
+    xmin=0.0,xmax=100,ymin=0,ymax=2,
+    xlabel={$k$},
+    ylabel={$y[k], \ u[k], z[k]$},
+    legend pos=south east,
+    y tick label style={/pgf/number format/1000 sep=},
+    ] 
+    \addplot[red, semithick] file{rysunki/data/Zad5/DMC_input_Dz=50E=11.9704.csv};
+		\addplot[blue, semithick] file{rysunki/data/Zad5/DMC_output_Dz=50E=11.9704.csv};
+		\addplot[orange, semithick] file{rysunki/data/Zad5/y_zadane.csv}; 
+		\addplot[green, semithick] file{rysunki/data/Zad5/DMC_zaklocenie_Dz=50E=11.9704.csv}; 
+		\legend{$u$,$y$,$y^{\mathrm{zad}}$,$z$}
+    \end{axis}
+    \end{tikzpicture}
+    \caption{Regulator DMC: $D = 175, D^{\mathrm{z}} = 50, N = 17, N_{\mathrm{u}} = 1, \lambda = 2, E = 11,9704$}
+\end{figure}
+\begin{figure}[h!]
+    \centering
+    \begin{tikzpicture}
+    \begin{axis}[
+    width=0.7\textwidth,
+    xmin=0.0,xmax=100,ymin=0,ymax=2.2,
+    xlabel={$k$},
+    ylabel={$y[k], \ u[k], z[k]$},
+    legend pos=south east,
+    y tick label style={/pgf/number format/1000 sep=},
+    ] 
+    \addplot[red, semithick] file{rysunki/data/Zad5/DMC_input_Dz=0E=25.8762.csv};
+		\addplot[blue, semithick] file{rysunki/data/Zad5/DMC_output_Dz=0E=25.8762.csv};
+		\addplot[orange, semithick] file{rysunki/data/Zad5/y_zadane.csv}; 
+		\addplot[green, semithick] file{rysunki/data/Zad5/DMC_zaklocenie_Dz=0E=25.8762.csv}; 
+		\legend{$u$,$y$,$y^{\mathrm{zad}}$,$z$}
+    \end{axis}
+    \end{tikzpicture}
+    \caption{Regulator DMC: $D = 175, D^{\mathrm{z}} = 0, N = 17, N_{\mathrm{u}} = 1, \lambda = 2, E = 25,8762$}
+\end{figure}
