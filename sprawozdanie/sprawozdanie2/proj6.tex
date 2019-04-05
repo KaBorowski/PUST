@@ -1,8 +1,8 @@
 \section{Zadanie 6}
-W poprzednim zadaniu sprawdzaliœmy pracê regulatora przy jednorazowej zmianie zak³ócenia z 0 na 1. Tym razem przetestowaliœmy dzia³anie regulatora przy ci¹g³ej zmianie zak³ócenia. U¿yliœmy sygna³u sinusoidalnego o ró¿nych okresach oscylacji i ró¿nych wzmocnieniach. Jeœli chodzi o pierwszy regulator (uwzglêdniaj¹cy zak³ócenia) to nie otrzymaliœmy zadowalaj¹cych rezultatów($Rys. 2.23 - Rys. 2.25$). Pomimo pomiaru zak³óceñ, uk³ad wpada w niekoñcz¹ce siê oscylacje, wiêc nie mo¿emy uznaæ takiej regulacji za poprawn¹. Z kolei drugi regulator (bez uwzglêdnienia zak³óceñ) okazuje siê nie dzia³aæ du¿o gorzej dla sygna³u sinusoidalnego o ma³ej amplitudzie (np. 0.1) ni¿ jego przeciwnik. Jednak dla sygna³u zak³ócenia z wiêksz¹ amplitud¹ (np. 1) jest on znacznie gorszy($Rys. 2.26 - Rys. 2.28$). 
+W poprzednim zadaniu sprawdzaliœmy pracê regulatora przy jednorazowej zmianie zak³ócenia z 0 na 1. Tym razem przetestowaliœmy dzia³anie regulatora przy ci¹g³ej zmianie zak³ócenia. U¿yliœmy sygna³u sinusoidalnego o ró¿nych okresach oscylacji i ró¿nych wzmocnieniach. Jeœli chodzi o pierwszy regulator (uwzglêdniaj¹cy zak³ócenia) to nie otrzymaliœmy zadowalaj¹cych rezultatów ($Rys.\ 3.23 - Rys.\ 3.25$). Pomimo pomiaru zak³óceñ, uk³ad wpada w niekoñcz¹ce siê oscylacje, wiêc nie mo¿emy uznaæ takiej regulacji za poprawn¹. Z kolei drugi regulator (bez uwzglêdnienia zak³óceñ) okazuje siê nie dzia³aæ du¿o gorzej dla sygna³u sinusoidalnego o ma³ej amplitudzie (np. \num{0,1}) ni¿ jego przeciwnik. Jednak dla sygna³u zak³ócenia z wiêksz¹ amplitud¹ (np. 1) jest on znacznie gorszy ($Rys.\ 3.26 - Rys.\ 3.28$). 
 
 Podsumowuj¹c: nawet regulator uwzglêdniaj¹cy zak³ócenia nie jest w stanie zniwelowaæ sinusoidalnego sygna³u zak³óceñ, chyba ¿e by³by to sygna³ o bardzo ma³ym okresie.
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}
     \begin{axis}[
@@ -20,9 +20,9 @@ Podsumowuj¹c: nawet regulator uwzglêdniaj¹cy zak³ócenia nie jest w stanie zniwel
 		\legend{$u$,$y$,$y^{\mathrm{zad}}$,$z$}
     \end{axis}
     \end{tikzpicture}
-    \caption{Regulator DMC z pomiarem zak³óceñ: $f = 6,2832, K = 1, E = 8,9114$}
+    \caption{Regulator DMC z pomiarem zak³óceñ: $f = \num{6,2832}, K = 1, E = \num{8,9114}$}
 \end{figure}
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}
     \begin{axis}[
@@ -40,9 +40,9 @@ Podsumowuj¹c: nawet regulator uwzglêdniaj¹cy zak³ócenia nie jest w stanie zniwel
 		\legend{$u$,$y$,$y^{\mathrm{zad}}$,$z$}
     \end{axis}
     \end{tikzpicture}
-    \caption{Regulator DMC z pomiarem zak³óceñ: $f = 31,4159, K = 0,1, E = 10,1471$}
+    \caption{Regulator DMC z pomiarem zak³óceñ: $f = \num{31,4159}, K = \num{0,1}, E = \num{10,1471}$}
 \end{figure}
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}
     \begin{axis}[
@@ -60,9 +60,9 @@ Podsumowuj¹c: nawet regulator uwzglêdniaj¹cy zak³ócenia nie jest w stanie zniwel
 		\legend{$u$,$y$,$y^{\mathrm{zad}}$,$z$}
     \end{axis}
     \end{tikzpicture}
-    \caption{Regulator DMC z pomiarem zak³óceñ: $f = 6,2832, K = 1, E = 8,9114$}
+    \caption{Regulator DMC z pomiarem zak³óceñ: $f = \num{6,2832}, K = 1, E = \num{8,9114}$}
 \end{figure}
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}
     \begin{axis}[
@@ -80,9 +80,9 @@ Podsumowuj¹c: nawet regulator uwzglêdniaj¹cy zak³ócenia nie jest w stanie zniwel
 		\legend{$u$,$y$,$y^{\mathrm{zad}}$,$z$}
     \end{axis}
     \end{tikzpicture}
-    \caption{Regulator DMC bez pomiaru zak³óceñ: $f = 6,2832, K = 1, E = 42,4819$}
+    \caption{Regulator DMC bez pomiaru zak³óceñ: $f = \num{6,2832}, K = 1, E = \num{42,4819}$}
 \end{figure}
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}
     \begin{axis}[
@@ -100,9 +100,9 @@ Podsumowuj¹c: nawet regulator uwzglêdniaj¹cy zak³ócenia nie jest w stanie zniwel
 		\legend{$u$,$y$,$y^{\mathrm{zad}}$,$z$}
     \end{axis}
     \end{tikzpicture}
-    \caption{Regulator DMC bez pomiaru zak³óceñ: $f = 31,4159, K = 0,1, E = 10.9901$}
+    \caption{Regulator DMC bez pomiaru zak³óceñ: $f = \num{31,4159}, K = \num{0,1}, E = \num{10.9901}$}
 \end{figure}
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}
     \begin{axis}[
@@ -120,5 +120,5 @@ Podsumowuj¹c: nawet regulator uwzglêdniaj¹cy zak³ócenia nie jest w stanie zniwel
 		\legend{$u$,$y$,$y^{\mathrm{zad}}$,$z$}
     \end{axis}
     \end{tikzpicture}
-    \caption{Regulator DMC bez pomiaru zak³óceñ: $f = 31,4159, K = 1, E = 69,1634$}
+    \caption{Regulator DMC bez pomiaru zak³óceñ: $f = \num{31,4159}, K = 1, E = \num{69,1634}$}
 \end{figure}

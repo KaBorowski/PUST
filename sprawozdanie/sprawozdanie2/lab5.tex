@@ -1,0 +1,290 @@
+\section{Zadanie 5}
+Parametr $D^{\mathrm{z}}$ jest wartoœci¹ okreœlaj¹c¹ liczbê kroków zak³óceñ, które uwzglêdniamy. Dobrano go jako liczbê próbek, po której odpowiedŸ skokowa toru zak³ócenie-wyjœcie wykorzystywana w algorytmie DMC stabilizuje siê. $D^{\mathrm{z}}=400$.
+
+Nastêpnie wykonano eksperymenty, w których po zmianie wartoœci zadanej i ustabilizowaniu siê temperatury obiektu nastêpuj¹ zmiany sygna³ów zak³óceñ.
+Zebrano wyniki dla trzech ró¿nych trajektorii zak³óceñ wykorzystuj¹c odpowiednio algorytm bez pomiaru zak³óceñ i z pomiarem zak³óceñ.
+
+%1
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}
+	\begin{axis}[
+	width=5.1in,
+	height=1.5in,
+	xmin=0,xmax=247,ymin=30,ymax=70,
+	xlabel={$k$},
+	ylabel={$U(k)$},
+	legend pos=south east,
+	y tick label style={/pgf/number format/1000 sep=},
+	]
+	\addplot[const plot,blue] file {rysunki/data/u(bez0_30).csv};
+	\end{axis}
+	\end{tikzpicture}
+	\begin{tikzpicture}
+	\begin{axis}[
+	width=5.1in,
+	height=1.1in,
+	xmin=0,xmax=247,ymin=0,ymax=30,
+	xlabel={$k$},
+	ylabel={$Z(k)$},
+	legend pos=south east,
+	y tick label style={/pgf/number format/1000 sep=},
+	]
+	\addplot[const plot,blue] file {rysunki/data/z0_30.csv};
+	\end{axis}
+	\end{tikzpicture}
+	\begin{tikzpicture}
+	\begin{axis}[
+	width=5.1in,
+	height=1.75in,
+	xmin=0,xmax=247,ymin=33,ymax=40,
+	xlabel={$k$},
+	ylabel={$Y(k)$, $Y^{\mathrm{zad}}(k)$},
+	legend pos=south east,
+	y tick label style={/pgf/number format/1000 sep=},
+	]
+	\addplot[const plot,blue] file {rysunki/data/y(bez0_30).csv};
+	\addplot[const plot,red] file {rysunki/data/yzad(0_30).csv};
+	\legend{$Y(k)$, $Y^{\mathrm{zad}}(k)$}
+	\end{axis}
+	\end{tikzpicture}
+	\caption{Regulacja obiektu algorytmem DMC bez uwzglêdnienia pomiaru zak³óceñ}
+\end{figure}
+
+%2
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}
+	\begin{axis}[
+	width=5.1in,
+	height=1.5in,
+	xmin=0,xmax=247,ymin=30,ymax=70,
+	xlabel={$k$},
+	ylabel={$U(k)$},
+	legend pos=south east,
+	y tick label style={/pgf/number format/1000 sep=},
+	]
+	\addplot[const plot,blue] file {rysunki/data/u(uwz0_30).csv};
+	\end{axis}
+	\end{tikzpicture}
+	\begin{tikzpicture}
+	\begin{axis}[
+	width=5.1in,
+	height=1.1in,
+	xmin=0,xmax=247,ymin=0,ymax=30,
+	xlabel={$k$},
+	ylabel={$Z(k)$},
+	legend pos=south east,
+	y tick label style={/pgf/number format/1000 sep=},
+	]
+	\addplot[const plot,blue] file {rysunki/data/z0_30.csv};
+	\end{axis}
+	\end{tikzpicture}
+	\begin{tikzpicture}
+	\begin{axis}[
+	width=5.1in,
+	height=1.75in,
+	xmin=0,xmax=247,ymin=33,ymax=40,
+	xlabel={$k$},
+	ylabel={$Y(k)$, $Y^{\mathrm{zad}}(k)$},
+	legend pos=south east,
+	y tick label style={/pgf/number format/1000 sep=},
+	]
+	\addplot[const plot,blue] file {rysunki/data/y(uwz0_30).csv};
+	\addplot[const plot,red] file {rysunki/data/yzad(0_30).csv};
+	\legend{$Y(k)$, $Y^{\mathrm{zad}}(k)$}
+	\end{axis}
+	\end{tikzpicture}
+	\caption{Regulacja obiektu algorytmem DMC z uwzglêdnieniem pomiaru zak³óceñ}
+\end{figure}
+
+%3
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}
+	\begin{axis}[
+	width=5.1in,
+	height=1.5in,
+	xmin=0,xmax=497,ymin=0,ymax=70,
+	xlabel={$k$},
+	ylabel={$U(k)$},
+	legend pos=south east,
+	y tick label style={/pgf/number format/1000 sep=},
+	]
+	\addplot[const plot,blue] file {rysunki/data/u(bez0_30_70).csv};
+	\end{axis}
+	\end{tikzpicture}
+	\begin{tikzpicture}
+	\begin{axis}[
+	width=5.1in,
+	height=1.1in,
+	xmin=0,xmax=497,ymin=0,ymax=70,
+	xlabel={$k$},
+	ylabel={$Z(k)$},
+	legend pos=south east,
+	y tick label style={/pgf/number format/1000 sep=},
+	]
+	\addplot[const plot,blue] file {rysunki/data/z(bez0_30_70).csv};
+	\end{axis}
+	\end{tikzpicture}
+	\begin{tikzpicture}
+	\begin{axis}[
+	width=5.1in,
+	height=1.75in,
+	xmin=0,xmax=497,ymin=33,ymax=42,
+	xlabel={$k$},
+	ylabel={$Y(k)$, $Y^{\mathrm{zad}}(k)$},
+	legend pos=south east,
+	y tick label style={/pgf/number format/1000 sep=},
+	]
+	\addplot[const plot,blue] file {rysunki/data/y(bez0_30_70).csv};
+	\addplot[const plot,red] file {rysunki/data/yzad(0_30_70).csv};
+	\legend{$Y(k)$, $Y^{\mathrm{zad}}(k)$}
+	\end{axis}
+	\end{tikzpicture}
+	\caption{Regulacja obiektu algorytmem DMC bez uwzglêdnienia pomiaru zak³óceñ}
+\end{figure}
+
+%4
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}
+	\begin{axis}[
+	width=5.1in,
+	height=1.5in,
+	xmin=0,xmax=495,ymin=0,ymax=70,
+	xlabel={$k$},
+	ylabel={$U(k)$},
+	legend pos=south east,
+	y tick label style={/pgf/number format/1000 sep=},
+	]
+	\addplot[const plot,blue] file {rysunki/data/u(uwz0_30_70).csv};
+	\end{axis}
+	\end{tikzpicture}
+	\begin{tikzpicture}
+	\begin{axis}[
+	width=5.1in,
+	height=1.1in,
+	xmin=0,xmax=495,ymin=0,ymax=70,
+	xlabel={$k$},
+	ylabel={$Z(k)$},
+	legend pos=south east,
+	y tick label style={/pgf/number format/1000 sep=},
+	]
+	\addplot[const plot,blue] file {rysunki/data/z(uwz0_30_70).csv};
+	\end{axis}
+	\end{tikzpicture}
+	\begin{tikzpicture}
+	\begin{axis}[
+	width=5.1in,
+	height=1.75in,
+	xmin=0,xmax=495,ymin=33,ymax=42,
+	xlabel={$k$},
+	ylabel={$Y(k)$, $Y^{\mathrm{zad}}(k)$},
+	legend pos=south east,
+	y tick label style={/pgf/number format/1000 sep=},
+	]
+	\addplot[const plot,blue] file {rysunki/data/y(uwz0_30_70).csv};
+	\addplot[const plot,red] file {rysunki/data/yzad(0_30_70).csv};
+	\legend{$Y(k)$, $Y^{\mathrm{zad}}(k)$}
+	\end{axis}
+	\end{tikzpicture}
+	\caption{Regulacja obiektu algorytmem DMC z uwzglêdnieniem pomiaru zak³óceñ}
+\end{figure}
+
+%5
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}
+	\begin{axis}[
+	width=5.1in,
+	height=1.5in,
+	xmin=0,xmax=594,ymin=0,ymax=70,
+	xlabel={$k$},
+	ylabel={$U(k)$},
+	legend pos=south east,
+	y tick label style={/pgf/number format/1000 sep=},
+	]
+	\addplot[const plot,blue] file {rysunki/data/u(bez0_60_20).csv};
+	\end{axis}
+	\end{tikzpicture}
+	\begin{tikzpicture}
+	\begin{axis}[
+	width=5.1in,
+	height=1.1in,
+	xmin=0,xmax=594,ymin=0,ymax=60,
+	xlabel={$k$},
+	ylabel={$Z(k)$},
+	legend pos=south east,
+	y tick label style={/pgf/number format/1000 sep=},
+	]
+	\addplot[const plot,blue] file {rysunki/data/z(bez0_60_20).csv};
+	\end{axis}
+	\end{tikzpicture}
+	\begin{tikzpicture}
+	\begin{axis}[
+	width=5.1in,
+	height=1.75in,
+	xmin=0,xmax=594,ymin=33,ymax=42,
+	xlabel={$k$},
+	ylabel={$Y(k)$, $Y^{\mathrm{zad}}(k)$},
+	legend pos=south east,
+	y tick label style={/pgf/number format/1000 sep=},
+	]
+	\addplot[const plot,blue] file {rysunki/data/y(bez0_60_20).csv};
+	\addplot[const plot,red] file {rysunki/data/yzad(0_60_20).csv};
+	\legend{$Y(k)$, $Y^{\mathrm{zad}}(k)$}
+	\end{axis}
+	\end{tikzpicture}
+	\caption{Regulacja obiektu algorytmem DMC bez uwzglêdnienia pomiaru zak³óceñ}
+\end{figure}
+
+%6
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}
+	\begin{axis}[
+	width=5.1in,
+	height=1.5in,
+	xmin=0,xmax=595,ymin=0,ymax=70,
+	xlabel={$k$},
+	ylabel={$U(k)$},
+	legend pos=south east,
+	y tick label style={/pgf/number format/1000 sep=},
+	]
+	\addplot[const plot,blue] file {rysunki/data/u(uwz0_60_20).csv};
+	\end{axis}
+	\end{tikzpicture}
+	\begin{tikzpicture}
+	\begin{axis}[
+	width=5.1in,
+	height=1.1in,
+	xmin=0,xmax=595,ymin=0,ymax=70,
+	xlabel={$k$},
+	ylabel={$Z(k)$},
+	legend pos=south east,
+	y tick label style={/pgf/number format/1000 sep=},
+	]
+	\addplot[const plot,blue] file {rysunki/data/z(uwz0_60_20).csv};
+	\end{axis}
+	\end{tikzpicture}
+	\begin{tikzpicture}
+	\begin{axis}[
+	width=5.1in,
+	height=1.75in,
+	xmin=0,xmax=595,ymin=33,ymax=42,
+	xlabel={$k$},
+	ylabel={$Y(k)$, $Y^{\mathrm{zad}}(k)$},
+	legend pos=south east,
+	y tick label style={/pgf/number format/1000 sep=},
+	]
+	\addplot[const plot,blue] file {rysunki/data/y(uwz0_60_20).csv};
+	\addplot[const plot,red] file {rysunki/data/yzad(0_60_20).csv};
+	\legend{$Y(k)$, $Y^{\mathrm{zad}}(k)$}
+	\end{axis}
+	\end{tikzpicture}
+	\caption{Regulacja obiektu algorytmem DMC z uwzglêdnieniem pomiaru zak³óceñ}
+\end{figure}
+
+Uwzglêdnienie zak³óceñ poprawi³o dzia³anie uk³adu regulacji. Widaæ to szczególnie przy jednokrotnym skoku zak³ócenia ($Rys.\ 2.15$). Uk³ad szybko reaguje na zmianê zak³ócenia, obni¿aj¹c wartoœæ sygna³u sterowania. Pozwala to na utrzymanie temperatury zadanej mimo sta³ych zak³óceñ. Natomiast przy braku uwzglêdnienia zak³óceñ ($Rys.\ 2.14$) pojawia siê uchyb - temperatura odbiega od wartoœci zadanej po wyst¹pieniu zak³óceñ.
+Dla kolejnych trajektorii zak³óceñ - dwukrotnego skoku, uk³ad dzia³a gorzej. Kiedy jeszcze pierwsz¹ zmianê zak³óceñ udaje siê w miarê skompensowaæ ($Rys.\ 2.17$, $Rys.\ 2.19$), tak rozpoczynaj¹c z innego punktu pracy, zmiana zak³óceñ prowadzi do destabilizacji uk³adu. Oczywiœcie, algorytm bez uwzglêdnienia pomiaru zak³óceñ tak¿e nie jest w stanie utrzymaæ wartoœci zadanej. Jednak jakoœæ regulacji jest jeszcze mniejsza.

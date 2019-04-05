@@ -31,11 +31,11 @@ K = (M'*M+lambda*eye(Nu))^-1*M';
 \subsection{Strojenie regulatora DMC}
 W celu dobrania odpowiednich nastaw regulatora DMC, wykonywaliœmy sta³y skok wartoœci zadanej z 0 na 1 w tej samej próbce czasu podczas ka¿dej symulacji. Przed skokiem uk³ad za ka¿dym razem by³ w stanie ustalonym. Na tym etapie wartoœæ zak³ócenia mierzalnego wynosi³a 0 przez ca³y czas trwania symulacji, wiêc cz³on regulatora uwzglêdniaj¹cy zak³ócenia mierzalne by³ wy³¹czony. Czas symulacji za ka¿dym razem ustawialiœmy na 100 próbek w celu ³atwego porównania dzia³ania regulatora DMC przy ró¿nych parametrach.
 
-Parametr $D$ ustawiliœmy na 175 (d³ugoœæ odpowiedzi obiektu na skok jednostkowy). Pierwszym krokiem strojenia by³o przypisanie $N_{\mathrm{u}} = N$, $\lambda = 1$ i stopniowe zmniejszanie parametru $N$ zaczynaj¹c od wielkoœci $D$($Rys. 2.9$). Regulator zacz¹³ dzia³aæ minimalnie gorzej dla $N = 13$($Rys. 2.12$). Od tego momentu ustawiliœmy parametr $N$ na powy¿sz¹ wartoœæ i dobraliœmy najlepsze $N_{\mathrm{u}}$ z zakresu od 1 do $N$. Optymalnie dobre wyniki dawa³ regulator z parametrem $N_{\mathrm{u}} = 2$($Rys. 2.13$). Kolejnym krokiem by³o eksperymentalne zmienianie parametru lambda $\lambda$. Zwiêkszaj¹c lambda powy¿ej 1 otrzymywaliœmy coraz lepsze przebiegi sygna³ów, lecz znacznie odbi³o siê to na szybkoœæ i jakoœæ regulacji. Z kolei w drug¹ stron¹ (zmniejszaj¹c parametr lambda) poprawia³a siê jakoœæ regulacji kosztem przebiegów sygna³ów, które stawa³y siê coraz bardziej chaotyczne i ulega³y gwa³townym, du¿ym zmianom($Rys. 2.14 - Rys. 2.17$). Przyjêliœmy zatem $\lambda = 1$ jako optymaln¹ wartoœæ parametru($Rys. 2.18$).
+Parametr $D$ ustawiliœmy na 175 (d³ugoœæ odpowiedzi obiektu na skok jednostkowy). Pierwszym krokiem strojenia by³o przypisanie $N_{\mathrm{u}} = N$, $\lambda = 1$ i stopniowe zmniejszanie parametru $N$ zaczynaj¹c od wielkoœci $D$ ($Rys.\ 3.9$). Regulator zacz¹³ dzia³aæ minimalnie gorzej dla $N = 13$ ($Rys.\ 3.12$). Od tego momentu ustawiliœmy parametr $N$ na powy¿sz¹ wartoœæ i dobraliœmy najlepsze $N_{\mathrm{u}}$ z zakresu od 1 do $N$. Optymalnie dobre wyniki dawa³ regulator z parametrem $N_{\mathrm{u}} = 2$ ($Rys.\ 3.13$). Kolejnym krokiem by³o eksperymentalne zmienianie parametru lambda $\lambda$. Zwiêkszaj¹c lambda powy¿ej 1 otrzymywaliœmy coraz lepsze przebiegi sygna³ów, lecz znacznie odbi³o siê to na szybkoœæ i jakoœæ regulacji. Z kolei w drug¹ stron¹ (zmniejszaj¹c parametr lambda) poprawia³a siê jakoœæ regulacji kosztem przebiegów sygna³ów, które stawa³y siê coraz bardziej chaotyczne i ulega³y gwa³townym, du¿ym zmianom ($Rys.\ 3.14 - Rys.\ 3.17$). Przyjêliœmy zatem $\lambda = 1$ jako optymaln¹ wartoœæ parametru ($Rys.\ 3.18$).
 
-Nie byliœmy zadowoleni z dzia³ania regulatora z nastawami $N = 13, N_{\mathrm{u}} = 2, \lambda = 1$, przez co zaczêliœmy eksperymentalnie zmieniaæ ponownie parametry w kolejnoœci takiej samej jak poprzednio ($N, N_{\mathrm{u}}, \lambda$) i otrzymaliœmy optymalnie dzia³aj¹cy regulator z nastawami $N = 17, N_{\mathrm{u}} = 1, \lambda = 2$($Rys. 2.19$). WskaŸnik jakoœci regulacji uleg³ lekkiemu pogorszeniu (spadek jakoœci z $E = 8,8069$ na $E = 9,4566$), jednak przebiegi sygna³ów znacznie siê poprawi³y. Proces regulacji przedstawiaj¹ wykresy $Rys. 2.9$ - $Rys. 2.15$.
+Nie byliœmy zadowoleni z dzia³ania regulatora z nastawami $N = 13, N_{\mathrm{u}} = 2, \lambda = 1$, przez co zaczêliœmy eksperymentalnie zmieniaæ ponownie parametry w kolejnoœci takiej samej jak poprzednio ($N, N_{\mathrm{u}}, \lambda$) i otrzymaliœmy optymalnie dzia³aj¹cy regulator z nastawami $N = 17, N_{\mathrm{u}} = 1, \lambda = 2$ ($Rys.\ 3.19$). WskaŸnik jakoœci regulacji uleg³ lekkiemu pogorszeniu (spadek jakoœci z $E = 8,8069$ na $E = 9,4566$), jednak przebiegi sygna³ów znacznie siê poprawi³y. Proces regulacji przedstawiaj¹ wykresy $Rys\ 3.9$ - $Rys.\ 3.15$.
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}
     \begin{axis}[
@@ -53,9 +53,9 @@ Nie byliœmy zadowoleni z dzia³ania regulatora z nastawami $N = 13, N_{\mathrm{u}
 		\legend{$u$,$y$,$y^{\mathrm{zad}}$,$z$}
     \end{axis}
     \end{tikzpicture}
-    \caption{Regulator DMC: $D = 175, N = 175, N_{\mathrm{u}} = 175, \lambda = 1, E = 8,8594$}
+    \caption{Regulator DMC: $D = 175, N = 175, N_{\mathrm{u}} = 175, \lambda = 1, E = \num{8,8594}$}
 \end{figure}
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}
     \begin{axis}[
@@ -73,9 +73,9 @@ Nie byliœmy zadowoleni z dzia³ania regulatora z nastawami $N = 13, N_{\mathrm{u}
 		\legend{$u$,$y$,$y^{\mathrm{zad}}$,$z$}
     \end{axis}
     \end{tikzpicture}
-    \caption{Regulator DMC: $D = 175, N = 25, N_{\mathrm{u}} = 25, \lambda = 1, E = 8,8594$}
+    \caption{Regulator DMC: $D = 175, N = 25, N_{\mathrm{u}} = 25, \lambda = 1, E = \num{8,8594}$}
 \end{figure}
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}
     \begin{axis}[
@@ -93,9 +93,9 @@ Nie byliœmy zadowoleni z dzia³ania regulatora z nastawami $N = 13, N_{\mathrm{u}
 		\legend{$u$,$y$,$y^{\mathrm{zad}}$,$z$}
     \end{axis}
     \end{tikzpicture}
-    \caption{Regulator DMC: $D = 175, N = 17, N_{\mathrm{u}} = 17, \lambda = 1, E = 8,8792$}
+    \caption{Regulator DMC: $D = 175, N = 17, N_{\mathrm{u}} = 17, \lambda = 1, E = \num{8,8792}$}
 \end{figure}
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}
     \begin{axis}[
@@ -113,9 +113,9 @@ Nie byliœmy zadowoleni z dzia³ania regulatora z nastawami $N = 13, N_{\mathrm{u}
 		\legend{$u$,$y$,$y^{\mathrm{zad}}$,$z$}
     \end{axis}
     \end{tikzpicture}
-    \caption{Regulator DMC: $D = 175, N = 13, N_{\mathrm{u}} = 13, \lambda = 1, E = 8,8229$}
+    \caption{Regulator DMC: $D = 175, N = 13, N_{\mathrm{u}} = 13, \lambda = 1, E = \num{8,8229}$}
 \end{figure}
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}
     \begin{axis}[
@@ -133,9 +133,9 @@ Nie byliœmy zadowoleni z dzia³ania regulatora z nastawami $N = 13, N_{\mathrm{u}
 		\legend{$u$,$y$,$y^{\mathrm{zad}}$,$z$}
     \end{axis}
     \end{tikzpicture}
-    \caption{Regulator DMC: $D = 175, N = 13, N_{\mathrm{u}} = 4, \lambda = 1, E = 8,8275$}
+    \caption{Regulator DMC: $D = 175, N = 13, N_{\mathrm{u}} = 4, \lambda = 1, E = \num{8,8275}$}
 \end{figure}
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}
     \begin{axis}[
@@ -153,9 +153,9 @@ Nie byliœmy zadowoleni z dzia³ania regulatora z nastawami $N = 13, N_{\mathrm{u}
 		\legend{$u$,$y$,$y^{\mathrm{zad}}$,$z$}
     \end{axis}
     \end{tikzpicture}
-    \caption{Regulator DMC: $D = 175, N = 13, N_{\mathrm{u}} = 2, \lambda = 2, E = 9,1525$}
+    \caption{Regulator DMC: $D = 175, N = 13, N_{\mathrm{u}} = 2, \lambda = 2, E = \num{9,1525}$}
 \end{figure}
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}
     \begin{axis}[
@@ -173,9 +173,9 @@ Nie byliœmy zadowoleni z dzia³ania regulatora z nastawami $N = 13, N_{\mathrm{u}
 		\legend{$u$,$y$,$y^{\mathrm{zad}}$,$z$}
     \end{axis}
     \end{tikzpicture}
-    \caption{Regulator DMC: $D = 175, N = 13, N_{\mathrm{u}} = 2, \lambda = 5, E = 9,962$}
+    \caption{Regulator DMC: $D = 175, N = 13, N_{\mathrm{u}} = 2, \lambda = 5, E = \num{9,962}$}
 \end{figure}
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}
     \begin{axis}[
@@ -193,9 +193,9 @@ Nie byliœmy zadowoleni z dzia³ania regulatora z nastawami $N = 13, N_{\mathrm{u}
 		\legend{$u$,$y$,$y^{\mathrm{zad}}$,$z$}
     \end{axis}
     \end{tikzpicture}
-    \caption{Regulator DMC: $D = 175, N = 13, N_{\mathrm{u}} = 2, \lambda = 0.8, E = 8,7189$}
+    \caption{Regulator DMC: $D = 175, N = 13, N_{\mathrm{u}} = 2, \lambda = \num{0,8}, E = \num{8,7189}$}
 \end{figure}
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}
     \begin{axis}[
@@ -213,9 +213,9 @@ Nie byliœmy zadowoleni z dzia³ania regulatora z nastawami $N = 13, N_{\mathrm{u}
 		\legend{$u$,$y$,$y^{\mathrm{zad}}$,$z$}
     \end{axis}
     \end{tikzpicture}
-    \caption{Regulator DMC: $D = 175, N = 13, N_{\mathrm{u}} = 2, \lambda = 0.1, E = 7,9691$}
+    \caption{Regulator DMC: $D = 175, N = 13, N_{\mathrm{u}} = 2, \lambda = \num{0,1}, E = \num{7,9691}$}
 \end{figure}
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}
     \begin{axis}[
@@ -233,9 +233,9 @@ Nie byliœmy zadowoleni z dzia³ania regulatora z nastawami $N = 13, N_{\mathrm{u}
 		\legend{$u$,$y$,$y^{\mathrm{zad}}$,$z$}
     \end{axis}
     \end{tikzpicture}
-    \caption{Regulator DMC: $D = 175, N = 13, N_{\mathrm{u}} = 2, \lambda = 1, E = 8,8069$}
+    \caption{Regulator DMC: $D = 175, N = 13, N_{\mathrm{u}} = 2, \lambda = 1, E = \num{8,8069}$}
 \end{figure}
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}
     \begin{axis}[
@@ -247,12 +247,12 @@ Nie byliœmy zadowoleni z dzia³ania regulatora z nastawami $N = 13, N_{\mathrm{u}
     y tick label style={/pgf/number format/1000 sep=},
     ] 
     \addplot[red, semithick] file{rysunki/data/Zad4/DMC_input_N=17Nu=1lambda=2E=9.4566.csv};
-		\addplot[blue, semithick] file{rysunki/data/Zad4/DMC_input_N=17Nu=1lambda=2E=9.4566.csv};
+		\addplot[blue, semithick] file{rysunki/data/Zad4/DMC_output_N=17Nu=1lambda=2E=9.4566.csv};
 		\addplot[orange, semithick] file{rysunki/data/Zad4/y_zadane.csv}; 
 		\addplot[green, semithick] file{rysunki/data/Zad4/zaklocenia.csv}; 
 		\legend{$u$,$y$,$y^{\mathrm{zad}}$,$z$}
     \end{axis}
     \end{tikzpicture}
-    \caption{Regulator DMC: $D = 175, N = 17, N_{\mathrm{u}} = 1, \lambda = 2, E = 9,4566$}
+    \caption{Regulator DMC: $D = 175, N = 17, N_{\mathrm{u}} = 1, \lambda = 2, E = \num{9,4566}$}
 \end{figure}
 

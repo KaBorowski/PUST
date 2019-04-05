@@ -1,12 +1,45 @@
 \section{Zadanie 2}
- Rozpoczynaj¹c z punktu pracy - przy zerowym zak³óceniu - wyznaczyliœmy trzy odpowiedzi skokowe toru zak³ócenie-wyjœcie, wykonuj¹c skoki sygna³u zak³ócaj¹cego w chwili $k=0$ odpowiednio do wartoœci 10, 20 i 30. Wszystkie odpowiedzi przedstawione s¹ na rysunku $Rys. 2.1$.
-\begin{figure}[tb]
-\centering
-\includegraphics[scale=1]{rysunki/zad2plot}
-\caption{Odpowiedzi skokowe toru zak³ócenie-wyjœcie dla ró¿nych zmian sygna³u zak³ócaj¹cego w chwili $k=0$}
+ Rozpoczynaj¹c z punktu pracy - przy zerowym zak³óceniu - wyznaczyliœmy trzy odpowiedzi skokowe toru zak³ócenie-wyjœcie, wykonuj¹c skoki sygna³u zak³ócaj¹cego w chwili $k=0$ odpowiednio do wartoœci 10, 20 i 30. Wszystkie odpowiedzi przedstawione s¹ na rysunku $Rys.\ 2.1$.
+
+%1
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}
+	\begin{axis}[
+	width=5.1in,
+	height=1.3in,
+	xmin=0,xmax=692,ymin=0,ymax=40,
+	xlabel={$k$},
+	ylabel={$Z(k)$},
+	legend pos=south east,
+	y tick label style={/pgf/number format/1000 sep=},
+	]
+	\addplot[const plot,blue] file {rysunki/data/z10.csv};
+	\addplot[const plot,red] file {rysunki/data/z20.csv};
+	\addplot[const plot,green] file {rysunki/data/z30.csv};
+	\end{axis}
+	\end{tikzpicture}
+	\begin{tikzpicture}
+	\begin{axis}[
+	width=5.1in,
+	height=1.6in,
+	xmin=0,xmax=692,ymin=32,ymax=38,
+	xlabel={$k$},
+	ylabel={$Y(k)$},
+	legend pos=south east,
+	y tick label style={/pgf/number format/1000 sep=},
+	]
+	\addplot[const plot,blue] file {rysunki/data/z0_10.csv};
+	\addplot[const plot,red] file {rysunki/data/z0_20.csv};
+	\addplot[const plot,green] file {rysunki/data/zad2_z0_30.csv};
+	\end{axis}
+	\end{tikzpicture}
+	\caption{Odpowiedzi skokowe toru zak³ócenie-wyjœcie dla ró¿nych zmian sygna³u zak³ócaj¹cego
+	\newline w chwili $k=0$ (w przesz³oœci zerowe)}
 \end{figure}
-Wyznaczono charakterystykê statyczn¹ ($Rys. 2.2.$). W³aœciwoœci statyczne obiektu mo¿emy okreœliæ jako (w przybli¿eniu) liniowe.  Wzmocnienie statyczne dla tego toru wynosi w przybli¿eniu $\num{0,15}$ - wartoœæ wspó³czynnika kierunkowego funkcji liniowej bêd¹cej charakterystyk¹ statyczn¹.
-\begin{figure}[tb]
+
+Wyznaczono charakterystykê statyczn¹ ($Rys.\ 2.2.$). W³aœciwoœci statyczne obiektu mo¿emy okreœliæ jako (w przybli¿eniu) liniowe.  Wzmocnienie statyczne dla tego toru wynosi w przybli¿eniu $\num{0,15}$ - wartoœæ wspó³czynnika kierunkowego funkcji liniowej bêd¹cej charakterystyk¹ statyczn¹.
+\begin{figure}[H]
 \centering
 \includegraphics[scale=1]{rysunki/zad2char_st}
 \caption{Charakterystyka statyczna - tor zak³ócenie-wyjœcie}

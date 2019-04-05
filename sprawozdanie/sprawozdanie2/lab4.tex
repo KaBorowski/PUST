@@ -1,2 +1,252 @@
 \section{Zadanie 4}
-Zaimplementowany program znajduje siê w pliku \verb+DMC_lab.m+.
+Implementacja i opis programu znajduje siê w pliku \verb+DMC_lab.m+.
+
+\subsection{Dobór parametrów algorytmu DMC przy zerowym zak³óceniu}
+Eksperyment rozpoczêto od nastêpuj¹cych parametrów: $N = N_{\mathrm{u}} = D = 1395$, $\lambda=1$ ($Rys.\ 2.7$). $D$ przyjêto jako d³ugoœæ wektora pobranej odpowiedzi skokowej. Wartoœci horyzontów zmniejszono do 80 ($Rys.\ 2.8$). Wartoœæ wskaŸnika jakoœci uda³o siê minimalnie zmniejszyæ, jednak dalej jest ona zbyt du¿a. Uk³ad dzia³a wolno, wystêpuje niezerowe przeregulowanie. Nastêpnie eksperyment polega³ na stopniowym zmniejszaniu horyzontu sterowania ($Rys.\ 2.9$). Wartoœæ wskaŸnika jakoœci zmniejszy³a siê o ok. 10\%. Przy dalszym zmniejszaniu wartoœci horyzontu sterowania suma kwadratów uchybów roœnie ($Rys.\ 2.10$).
+
+Najwiêksz¹ zmianê przynios³a zmiana parametru $\lambda$ – parametru kar za przyrosty sterowania. Jego zwiêkszenie powoduje jeszcze wolniejsz¹ pracê uk³adu regulacji ($Rys.\ 2.11$). Natomiast zmniejszenie znacznie przyspiesza reakcjê uk³adu na zmianê wartoœci zadanej ($Rys.\ 2.12$). Dalsze zmniejszenie parametru lambda przynosi jeszcze bardziej gwa³towne zmiany sterowania oraz zwiêkszenie oscylacji temperatury ($Rys.\ 2.13$). Wartoœæ wskaŸnika jakoœci jest mniejsza. Jednak przy wyborze parametru $\lambda$ istotne s¹ zmiany sygna³u sterowania, które mog¹ byæ niebezpieczne dla obiektu, gdy s¹ zbyt gwa³towne. Dlatego zdecydowaliœmy siê na wartoœæ parametru $\lambda=1$. Eksperyment zakoñczono wybieraj¹c nastêpuj¹ce parametry algorytmu: $N = 80, N_{\mathrm{u}} = 25, \lambda = 1$.
+
+%1
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}
+	\begin{axis}[
+	width=5.1in,
+	height=1.4in,
+	xmin=0,xmax=295,ymin=30,ymax=65,
+	xlabel={$k$},
+	ylabel={$U(k)$},
+	legend pos=south east,
+	y tick label style={/pgf/number format/1000 sep=},
+	]
+	\addplot[const plot,blue] file {rysunki/data/u(N=D,Nu=D,l=1).csv};
+	\end{axis}
+	\end{tikzpicture}
+	\begin{tikzpicture}
+	\begin{axis}[
+	width=5.1in,
+	height=1.4in,
+	xmin=0,xmax=295,ymin=34,ymax=42,
+	xlabel={$k$},
+	ylabel={$Y(k)$,$Y^{\mathrm{zad}}(k)$},
+	legend pos=south east,
+	y tick label style={/pgf/number format/1000 sep=},
+	]
+	\addplot[const plot,blue] file {rysunki/data/y(N=D,Nu=D,l=1).csv};
+	\addplot[const plot,red] file {rysunki/data/yzad.csv};
+	\legend{$Y(k)$,$Y^{\mathrm{zad}}(k)$}
+	\end{axis}
+	\end{tikzpicture}
+	\caption{OdpowiedŸ uk³adu przy sterowaniu algorytmem DMC z parametrami
+	\newline$N = N_{\mathrm{u}} = D = 1395, \lambda = 1, E = 454$}
+\end{figure}
+
+%2
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}
+	\begin{axis}[
+	width=5.1in,
+	height=1.4in,
+	xmin=0,xmax=295,ymin=30,ymax=65,
+	xlabel={$k$},
+	ylabel={$U(k)$},
+	legend pos=south east,
+	y tick label style={/pgf/number format/1000 sep=},
+	]
+	\addplot[const plot,blue] file {rysunki/data/u(N=Nu=80,l=1).csv};
+	\end{axis}
+	\end{tikzpicture}
+	\begin{tikzpicture}
+	\begin{axis}[
+	width=5.1in,
+	height=1.4in,
+	xmin=0,xmax=295,ymin=34,ymax=42,
+	xlabel={$k$},
+	ylabel={$Y(k)$,$Y^{\mathrm{zad}}(k)$},
+	legend pos=south east,
+	y tick label style={/pgf/number format/1000 sep=},
+	]
+	\addplot[const plot,blue] file {rysunki/data/y(N=Nu=80,l=1).csv};
+	\addplot[const plot,red] file {rysunki/data/yzad.csv};
+	\legend{$Y(k)$,$Y^{\mathrm{zad}}(k)$}
+	\end{axis}
+	\end{tikzpicture}
+	\caption{OdpowiedŸ uk³adu przy sterowaniu algorytmem DMC z parametrami
+	\newline$N = N_{\mathrm{u}} = 80, \lambda = 1, E = 440$}
+\end{figure}
+
+%3
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}
+	\begin{axis}[
+	width=5.1in,
+	height=1.4in,
+	xmin=0,xmax=295,ymin=30,ymax=65,
+	xlabel={$k$},
+	ylabel={$U(k)$},
+	legend pos=south east,
+	y tick label style={/pgf/number format/1000 sep=},
+	]
+	\addplot[const plot,blue] file {rysunki/data/u(N=80,Nu=25,l=1).csv};
+	\end{axis}
+	\end{tikzpicture}
+	\begin{tikzpicture}
+	\begin{axis}[
+	width=5.1in,
+	height=1.4in,
+	xmin=0,xmax=295,ymin=34,ymax=42,
+	xlabel={$k$},
+	ylabel={$Y(k)$,$Y^{\mathrm{zad}}(k)$},
+	legend pos=south east,
+	y tick label style={/pgf/number format/1000 sep=},
+	]
+	\addplot[const plot,blue] file {rysunki/data/y(N=80,Nu=25,l=1).csv};
+	\addplot[const plot,red] file {rysunki/data/yzad.csv};
+	\legend{$Y(k)$,$Y^{\mathrm{zad}}(k)$}
+	\end{axis}
+	\end{tikzpicture}
+	\caption{OdpowiedŸ uk³adu przy sterowaniu algorytmem DMC z parametrami
+	\newline$N = 80, N_{\mathrm{u}} = 25, \lambda = 1, E = 405$}
+\end{figure}
+
+%4
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}
+	\begin{axis}[
+	width=5.1in,
+	height=1.4in,
+	xmin=0,xmax=295,ymin=30,ymax=65,
+	xlabel={$k$},
+	ylabel={$U(k)$},
+	legend pos=south east,
+	y tick label style={/pgf/number format/1000 sep=},
+	]
+	\addplot[const plot,blue] file {rysunki/data/u(N=80,Nu=10,l=1).csv};
+	\end{axis}
+	\end{tikzpicture}
+	\begin{tikzpicture}
+	\begin{axis}[
+	width=5.1in,
+	height=1.4in,
+	xmin=0,xmax=295,ymin=34,ymax=42,
+	xlabel={$k$},
+	ylabel={$Y(k)$,$Y^{\mathrm{zad}}(k)$},
+	legend pos=south east,
+	y tick label style={/pgf/number format/1000 sep=},
+	]
+	\addplot[const plot,blue] file {rysunki/data/y(N=80,Nu=10,l=1).csv};
+	\addplot[const plot,red] file {rysunki/data/yzad.csv};
+	\legend{$Y(k)$,$Y^{\mathrm{zad}}(k)$}
+	\end{axis}
+	\end{tikzpicture}
+	\caption{OdpowiedŸ uk³adu przy sterowaniu algorytmem DMC z parametrami
+	\newline$N = 80, N_{\mathrm{u}} = 10, \lambda = 1, E = 454$}
+\end{figure}
+
+%5
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}
+	\begin{axis}[
+	width=5.1in,
+	height=1.4in,
+	xmin=0,xmax=295,ymin=30,ymax=60,
+	xlabel={$k$},
+	ylabel={$U(k)$},
+	legend pos=south east,
+	y tick label style={/pgf/number format/1000 sep=},
+	]
+	\addplot[const plot,blue] file {rysunki/data/u(N=80,Nu=25,l=10).csv};
+	\end{axis}
+	\end{tikzpicture}
+	\begin{tikzpicture}
+	\begin{axis}[
+	width=5.1in,
+	height=1.4in,
+	xmin=0,xmax=295,ymin=34,ymax=42,
+	xlabel={$k$},
+	ylabel={$Y(k)$,$Y^{\mathrm{zad}}(k)$},
+	legend pos=south east,
+	y tick label style={/pgf/number format/1000 sep=},
+	]
+	\addplot[const plot,blue] file {rysunki/data/y(N=80,Nu=25,l=10).csv};
+	\addplot[const plot,red] file {rysunki/data/yzad.csv};
+	\legend{$Y(k)$,$Y^{\mathrm{zad}}(k)$}
+	\end{axis}
+	\end{tikzpicture}
+	\caption{OdpowiedŸ uk³adu przy sterowaniu algorytmem DMC z parametrami
+	\newline$N = 80, N_{\mathrm{u}} = 25, \lambda = 10, E = 543$}
+\end{figure}
+
+%6
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}
+	\begin{axis}[
+	width=5.1in,
+	height=1.4in,
+	xmin=0,xmax=295,ymin=30,ymax=80,
+	xlabel={$k$},
+	ylabel={$U(k)$},
+	legend pos=south east,
+	y tick label style={/pgf/number format/1000 sep=},
+	]
+	\addplot[const plot,blue] file {rysunki/data/u(N=80,Nu=25,l=0.1).csv};
+	\end{axis}
+	\end{tikzpicture}
+	\begin{tikzpicture}
+	\begin{axis}[
+	width=5.1in,
+	height=1.4in,
+	xmin=0,xmax=295,ymin=34,ymax=42,
+	xlabel={$k$},
+	ylabel={$Y(k)$,$Y^{\mathrm{zad}}(k)$},
+	legend pos=south east,
+	y tick label style={/pgf/number format/1000 sep=},
+	]
+	\addplot[const plot,blue] file {rysunki/data/y(N=80,Nu=25,l=0.1).csv};
+	\addplot[const plot,red] file {rysunki/data/yzad.csv};
+	\legend{$Y(k)$,$Y^{\mathrm{zad}}(k)$}
+	\end{axis}
+	\end{tikzpicture}
+	\caption{OdpowiedŸ uk³adu przy sterowaniu algorytmem DMC z parametrami
+	\newline$N = 80, N_{\mathrm{u}} = 25, \lambda = \num{0.1}, E = 327$}
+\end{figure}
+
+%7
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}
+	\begin{axis}[
+	width=5.1in,
+	height=1.4in,
+	xmin=0,xmax=295,ymin=10,ymax=100,
+	xlabel={$k$},
+	ylabel={$U(k)$},
+	legend pos=south east,
+	y tick label style={/pgf/number format/1000 sep=},
+	]
+	\addplot[const plot,blue] file {rysunki/data/u(N=80,Nu=25,l=0.01).csv};
+	\end{axis}
+	\end{tikzpicture}
+	\begin{tikzpicture}
+	\begin{axis}[
+	width=5.1in,
+	height=1.4in,
+	xmin=0,xmax=295,ymin=34,ymax=42,
+	xlabel={$k$},
+	ylabel={$Y(k)$,$Y^{\mathrm{zad}}(k)$},
+	legend pos=south east,
+	y tick label style={/pgf/number format/1000 sep=},
+	]
+	\addplot[const plot,blue] file {rysunki/data/y(N=80,Nu=25,l=0.01).csv};
+	\addplot[const plot,red] file {rysunki/data/yzad.csv};
+	\legend{$Y(k)$,$Y^{\mathrm{zad}}(k)$}
+	\end{axis}
+	\end{tikzpicture}
+	\caption{OdpowiedŸ uk³adu przy sterowaniu algorytmem DMC z parametrami
+	\newline$N = 80, N_{\mathrm{u}} = 25, \lambda = \num{0.01}, E = 290$}
+\end{figure}

@@ -6,7 +6,7 @@ s_i = \frac{y_i- Y_{\mathrm{pp}}}{\Delta U}, dla\ i=1,...
 \begin{equation}
 s_i^z = \frac{y_i- Y_{\mathrm{pp}}}{\Delta Z}, dla\ i=1,...
 \end{equation}
-Wykorzystano odpowiedŸ skokow¹ przy zmianie wartoœci $G1$ z 35 na 37 oraz odpowiedŸ skokow¹ przy zmianie wartoœci $Z$ z 0 na 30. Odpowiedzi skokowe zaproksymowano u¿ywaj¹c cz³onu inercyjnego drugiego rzêdu z opóŸnieniem. Zastosowano optymalizacjê – wyznaczenie takich wartoœci parametrów $T_1$, $T_2$, $K$, $T_d$, aby wartoœæ funkcji celu (wartoœæ b³êdu dopasowania) by³a jak najmniejsza.
+Wykorzystano odpowiedŸ skokow¹ przy zmianie wartoœci $G1$ z 35 na 37 oraz odpowiedŸ skokow¹ przy zmianie wartoœci $Z$ z 0 na 30. Odpowiedzi skokowe zaproksymowano u¿ywaj¹c cz³onu inercyjnego drugiego rzêdu z opóŸnieniem. Zastosowano optymalizacjê – wyznaczenie takich wartoœci parametrów $T_1$, $T_2$, $K$, $T_{\mathrm{d}}$, aby wartoœæ funkcji celu (wartoœæ b³êdu dopasowania) by³a jak najmniejsza.
 \begin{equation}
 min\ E=\sum_{k=1}^{k_{\mathrm{max}}}(s(k)-y_{aproks}(k))^{2}
 \end{equation}
@@ -22,7 +22,7 @@ Przyjêto nastêpuj¹ce ograniczenia parametrów:
 		-10 \ll K \ll 10
 \end{equation}
 \begin{equation}
-		0 \ll T_d \ll 500
+		0 \ll T_{\mathrm{d}} \ll 500
 \end{equation}
 
 Optymalizacji dokonano wykorzystuj¹c funkcjê \verb+fmincon+, która znajduje minimum funkcji z uwzglêdnieniem ograniczeñ. Jedynymi ograniczeniami s¹ te, narzucone na argumenty wywo³ania funkcji celu, czyli na wy¿ej okreœlone parametry. Kryteria zatrzymania algorytmu pozostawiono domyœlne. Podsumowuj¹c, wynik algorytmu otrzymano przez zastosowanie polecenia: 
@@ -43,22 +43,22 @@ $T_1 = \num{251,2387}, T_2 = \num{0,072366}, K = \num{0,48671}, T_{\mathrm{d}} =
 Wyznaczone parametry - tor zak³ócenie-wyjœcie:
 $T_1 = \num{89,0529}, T_2 = \num{2,1074}, K = \num{0,15435}, T_{\mathrm{d}} = 9, E = \num{0,0030778}$.
 
-\begin{figure}[tb]
+\begin{figure}[H]
 \centering
 \includegraphics[scale=1]{rysunki/odp_sk_u}
 \caption{OdpowiedŸ skokowa toru wejœcie-wyjœcie wykorzystywana w algorytmie DMC}
 \end{figure}
-\begin{figure}[tb]
+\begin{figure}[H]
 \centering
 \includegraphics[scale=1]{rysunki/odp_sk_z}
 \caption{OdpowiedŸ skokowa toru zak³ócenie-wyjœcie wykorzystywana w algorytmie DMC}
 \end{figure}
-\begin{figure}[tb]
+\begin{figure}[H]
 \centering
 \includegraphics[scale=1]{rysunki/porownanie}
 \caption{Porównanie oryginalnej odpowiedzi skokowej  toru wejœcie-wyjœcie z aproksymowan¹}
 \end{figure}
-\begin{figure}[tb]
+\begin{figure}[H]
 \centering
 \includegraphics[scale=1]{rysunki/aprox_z}
 \caption{Porównanie oryginalnej odpowiedzi skokowej toru zak³ócenie-wyjœcie z aproksymowan¹}

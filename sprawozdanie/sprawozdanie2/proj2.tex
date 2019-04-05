@@ -1,24 +1,24 @@
 \section{Zadanie 2}
 \subsection{OdpowiedŸ skokowa toru wejœcie - wyjœcie}
-Wyznaczanie odpowiedzi rozpoczêliœmy z ustalonego w zadaniu punktu pracy przy zak³óceniu $Z_{\mathrm{pp}} = 0$. Widoczne na rysunku $Rys. 2.2$ odpowiedzi pokazuj¹, ¿e wartoœæ wyjœciowa roœnie wraz ze wzrostem wartoœci skoku.
-\begin{figure}[h!]
+Wyznaczanie odpowiedzi rozpoczêliœmy z ustalonego w zadaniu punktu pracy przy zak³óceniu $Z_{\mathrm{pp}} = 0$. Widoczne na rysunku $Rys.\ 3.2$ odpowiedzi pokazuj¹, ¿e wartoœæ wyjœciowa roœnie wraz ze wzrostem wartoœci skoku.
+\begin{figure}[H]
 \centering
 \includegraphics[scale=1]{rysunki/zad2_wejscie_wyjscie}
 \caption{OdpowiedŸ procesu na skokow¹ zmianê sygna³u sterowania.}
 \end{figure}
 
 \subsection{OdpowiedŸ skokowa toru zak³ócenie - wyjœcie}
-OdpowiedŸ skokow¹ otrzymaliœmy pobudzaj¹c obiekt skokiem zak³ócenia przy zerowych warunkach pocz¹tkowych($Rys. 2.3$). Podobnie jak przy pobudzeniu sterowaniem, wartoœæ sygna³u wyjœciowego roœnie wraz z wartoœci¹ skoku co potwierdza przypuszczenia o liniowoœci obiektu.
-\begin{figure}[h!]
+OdpowiedŸ skokow¹ otrzymaliœmy pobudzaj¹c obiekt skokiem zak³ócenia przy zerowych warunkach pocz¹tkowych ($Rys.\ 3.3$). Podobnie jak przy pobudzeniu sterowaniem, wartoœæ sygna³u wyjœciowego roœnie wraz z wartoœci¹ skoku co potwierdza przypuszczenia o liniowoœci obiektu.
+\begin{figure}[H]
 \centering
 \includegraphics[scale=1]{rysunki/zad2_zaklocenie_wyjscie}
 \caption{OdpowiedŸ procesu na skokow¹ zmianê sygna³u zak³ócenia.}
 \end{figure}
 
 \subsection{Charakerystyka statyczna}
-W celu otrzymania charakterystyki statycznej zale¿nej od dwóch argumentów nale¿y przeprowadziæ ekperyment dla ka¿dego argumentu oddzielnie i zapamiêtaæ wartoœæ, w której wyjœcie stabilizuje siê. Do wykonania tego zadania wykorzystaliœmy skrypt \verb+zad2_static.m+. Wykres ($Rys. 2.4$) przedstawia p³aszczyznê co œwiadczy o tym, ¿e obiekt jest liniowy.
+W celu otrzymania charakterystyki statycznej zale¿nej od dwóch argumentów nale¿y przeprowadziæ ekperyment dla ka¿dego argumentu oddzielnie i zapamiêtaæ wartoœæ, w której wyjœcie stabilizuje siê. Do wykonania tego zadania wykorzystaliœmy skrypt \verb+zad2_static.m+. Wykres ($Rys.\ 3.4$) przedstawia p³aszczyznê co œwiadczy o tym, ¿e obiekt jest liniowy.
 
-\begin{figure}[h!]
+\begin{figure}[H]
 \centering
 \includegraphics[scale=1]{rysunki/zad2_surf}
 \caption{Charakterystyka statyczna $y(u,z)$.}
@@ -29,13 +29,13 @@ Eksperymenty przeprowadzone w poprzednim podpunkcie pozwalaj¹ okreœliæ wzmocnien
 \begin{equation}
 K_{\mathrm{stat}} = \lim_{t \to \infty} \frac{y(t)- Y_{\mathrm{pp}}}{u_0 - U_{\mathrm{pp}}}
 \end{equation}
-Jest ono równie¿ równe tangensowi k¹ta nachylenia prostej do osi $OX$. Charakterystyki statyczne torów wejœcie-wyjœcie i zak³ócenie-wyjœcie widoczne s¹ na rysunkach $Rys. 2.5$ i $Rys. 2.6$ i wynosz¹ odpowiednio $K_{\mathrm{statU}} = 2,49$ oraz $K_{\mathrm{statZ}} = 1,79$.
-\begin{figure}[h!]
+Jest ono równie¿ równe tangensowi k¹ta nachylenia prostej do osi OX. Charakterystyki statyczne torów wejœcie-wyjœcie i zak³ócenie-wyjœcie widoczne s¹ na rysunkach $Rys.\ 3.5$ i $Rys.\ 3.6$ i wynosz¹ odpowiednio $K_{\mathrm{statU}} = \num{2,49}$ oraz $K_{\mathrm{statZ}} = \num{1,79}$.
+\begin{figure}[H]
 \centering
 \includegraphics[scale=1]{rysunki/charStatU}
 \caption{Charakterystyka statyczna toru wejœcie-wyjœcie.}
 \end{figure}
-\begin{figure}[h!]
+\begin{figure}[H]
 \centering
 \includegraphics[scale=1]{rysunki/charStatZ}
 \caption{Charakterystyka statyczna tory zak³ócenie-wyjœcie.}
