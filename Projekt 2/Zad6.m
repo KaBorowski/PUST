@@ -72,7 +72,7 @@ if zaklocenie==1
     kz = K1*Mzp;
 end
 
-okres = 10*pi;
+okres = 2*pi;
 wzmocnienie = 0.1;
 
 kk=100; 

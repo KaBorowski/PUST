@@ -72,11 +72,11 @@ if zaklocenie==1
     kz = K1*Mzp;
 end
 
-kk=100; 
+kk=200; 
 u(1:kk)=0; y(1:kk)=0; z(1:kk)=0;  z_mierzone(1:kk)=0;
 yzad(1:9)=0;  yzad(10:kk)=1;
 du(1:D-1)=0;
-wartosc_szumu = -10;
+wartosc_szumu = -20;
 szum(1:kk)=wgn(1,kk,wartosc_szumu);
 
 if zaklocenie==1

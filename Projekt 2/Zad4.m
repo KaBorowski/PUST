@@ -7,10 +7,15 @@ sz=odp2.z;
 D = length(s);
 Dz = length(sz);
 Tp = 0.5;
+%parametry DMC najlepsze
+% N = 17;
+% Nu = 1;
+% lambda = 2;
+
 %parametry DMC wlasne
-N = 17;
-Nu = 1;
-lambda = 2;
+N = 13;
+Nu = 2;
+lambda = 1;
 
 %parametry DMC po optymalizacji
 % N = 18;
