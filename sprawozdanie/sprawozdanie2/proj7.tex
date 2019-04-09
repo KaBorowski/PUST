@@ -1,0 +1,188 @@
+\section{Zadanie 7}
+Na koniec sprawdziliœmy jak regulator uwzglêdniaj¹cy pomiar zak³óceñ radzi sobie z b³êdnym pomiarem tego w³aœnie sygna³u, czyli zbadaliœmy wp³yw szumu pomiarowego na jakoœæ regulacji uk³adu. Szum wygenerowaliœmy za pomoc¹ funkcji \verb+wgn+ z pakietu Matlaba. Wygenerowan¹ wartoœæ szumu dodawaliœmy do mierzonego sygna³u zak³óceñ. Skok zak³ócenia podobnie jak w zadaniu 5 wystêpowa³ od $0$ do $1$. Symulowany obiekt otrzymywa³ wartoœæ zak³ócenia bez szumu, z kolei do regulatora wp³ywa³a wartoœæ z szumem pomiarowym. Dokonaliœmy regulacji dla trzech poziomu szumu: ma³y, œredni i du¿y. Z ma³ym szumem (amplituda maksymalna oko³o $\num{0,1}$) regulator radzi³ sobie ca³kiem nieŸle, zaobserwowaliœmy minimalne drgania wartoœci wyjœciowej ($Rys.\ 3.29$). Dla szumu œredniego (amplituda maksymalna oko³o $\num{0,23}$) rezultaty okaza³y siê ju¿ nieco gorsze ($Rys.\ 3.30$), a w przypadku najmocniejszego wzmocnienia szumu (amplituda maksymalna prawie $1$) regulator dzia³a³ ju¿ bardzo s³abo ($Rys.\ 3.31$). W stanie ustalonym wartoœæ wyjœciowa skaka³a chaotycznie wokó³ wartoœci zadanej, tak ¿e w najgorszym wypadku uchyb $e(k)$ wynosi³ prawie $\num{0,5}$.
+
+%1
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}
+	\begin{axis}[
+	width=5.1in,
+	height=1.6in,
+	xmin=0,xmax=200,ymin=-1,ymax=1.2,
+	xlabel={$k$},
+	ylabel={$U(k)$},
+	legend pos=south east,
+	y tick label style={/pgf/number format/1000 sep=},
+	]
+	\addplot[const plot,blue] file {rysunki/data/Zad7/DMC_input_szum=-30E=12.1858.csv};
+	\end{axis}
+	\end{tikzpicture}
+	\begin{tikzpicture}
+	\begin{axis}[
+	width=5.1in,
+	height=1.6in,
+	xmin=0,xmax=200,ymin=0,ymax=1,
+	xlabel={$k$},
+	ylabel={$Z(k)$},
+	legend pos=south east,
+	y tick label style={/pgf/number format/1000 sep=},
+	]
+	\addplot[const plot,blue] file {rysunki/data/Zad7/DMC_zaklocenie_szum=-30E=12.1858.csv};
+	\end{axis}
+	\end{tikzpicture}
+		\begin{tikzpicture}
+	\begin{axis}[
+	width=5.1in,
+	height=1.6in,
+	xmin=0,xmax=200,ymin=-0.1,ymax=1.2,
+	xlabel={$k$},
+	ylabel={$Z^{\mathrm{mierz}}(k)$},
+	legend pos=south east,
+	y tick label style={/pgf/number format/1000 sep=},
+	]
+	\addplot[const plot,blue] file {rysunki/data/Zad7/DMC_zaklocenie_zmierzone_szum=-30E=12.1858.csv};
+	\end{axis}
+	\end{tikzpicture}
+	\begin{tikzpicture}
+	\begin{axis}[
+	width=5.1in,
+	height=1.6in,
+	xmin=0,xmax=200,ymin=0,ymax=1.8,
+	xlabel={$k$},
+	ylabel={$Y(k)$, $Y^{\mathrm{zad}}(k)$},
+	legend pos=south east,
+	y tick label style={/pgf/number format/1000 sep=},
+	]
+	\addplot[const plot,blue] file {rysunki/data/Zad7/DMC_output_szum=-30E=12.1858.csv};
+	\addplot[const plot,red] file {rysunki/data/Zad7/y_zadane.csv};
+	\legend{$Y(k)$, $Y^{\mathrm{zad}}(k)$}
+	\end{axis}
+	\end{tikzpicture}
+	
+	\caption{Zachowanie uk³adu regulacji dla ma³ego poziomu szumu, $E=\num{12,1858}$}
+\end{figure}
+
+%2
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}
+	\begin{axis}[
+	width=5.1in,
+	height=1.6in,
+	xmin=0,xmax=200,ymin=-1,ymax=1.2,
+	xlabel={$k$},
+	ylabel={$U(k)$},
+	legend pos=south east,
+	y tick label style={/pgf/number format/1000 sep=},
+	]
+	\addplot[const plot,blue] file {rysunki/data/Zad7/DMC_input_szum=-20E=12.7668.csv};
+	\end{axis}
+	\end{tikzpicture}
+	\begin{tikzpicture}
+	\begin{axis}[
+	width=5.1in,
+	height=1.6in,
+	xmin=0,xmax=200,ymin=0,ymax=1,
+	xlabel={$k$},
+	ylabel={$Z(k)$},
+	legend pos=south east,
+	y tick label style={/pgf/number format/1000 sep=},
+	]
+	\addplot[const plot,blue] file {rysunki/data/Zad7/DMC_zaklocenie_szum=-20E=12.7668.csv};
+	\end{axis}
+	\end{tikzpicture}
+		\begin{tikzpicture}
+	\begin{axis}[
+	width=5.1in,
+	height=1.6in,
+	xmin=0,xmax=200,ymin=-0.3,ymax=1.4,
+	xlabel={$k$},
+	ylabel={$Z^{\mathrm{mierz}}(k)$},
+	legend pos=south east,
+	y tick label style={/pgf/number format/1000 sep=},
+	]
+	\addplot[const plot,blue] file {rysunki/data/Zad7/DMC_zaklocenie_zmierzone_szum=-20E=12.7668.csv};
+	\end{axis}
+	\end{tikzpicture}
+	\begin{tikzpicture}
+	\begin{axis}[
+	width=5.1in,
+	height=1.6in,
+	xmin=0,xmax=200,ymin=0,ymax=1.8,
+	xlabel={$k$},
+	ylabel={$Y(k)$, $Y^{\mathrm{zad}}(k)$},
+	legend pos=south east,
+	y tick label style={/pgf/number format/1000 sep=},
+	]
+	\addplot[const plot,blue] file {rysunki/data/Zad7/DMC_output_szum=-20E=12.7668.csv};
+	\addplot[const plot,red] file {rysunki/data/Zad7/y_zadane.csv};
+	\legend{$Y(k)$, $Y^{\mathrm{zad}}(k)$}
+	\end{axis}
+	\end{tikzpicture}
+	
+	\caption{Zachowanie uk³adu regulacji dla œredniego poziomu szumu, $E=\num{12,7668}$}
+\end{figure}
+
+%3
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}
+	\begin{axis}[
+	width=5.1in,
+	height=1.6in,
+	xmin=0,xmax=200,ymin=-2,ymax=2,
+	xlabel={$k$},
+	ylabel={$U(k)$},
+	legend pos=south east,
+	y tick label style={/pgf/number format/1000 sep=},
+	]
+	\addplot[const plot,blue] file {rysunki/data/Zad7/DMC_input_szum=-10E=13.283.csv};
+	\end{axis}
+	\end{tikzpicture}
+	\begin{tikzpicture}
+	\begin{axis}[
+	width=5.1in,
+	height=1.6in,
+	xmin=0,xmax=200,ymin=0,ymax=1,
+	xlabel={$k$},
+	ylabel={$Z(k)$},
+	legend pos=south east,
+	y tick label style={/pgf/number format/1000 sep=},
+	]
+	\addplot[const plot,blue] file {rysunki/data/Zad7/DMC_zaklocenie_szum=-10E=13.283.csv};
+	\end{axis}
+	\end{tikzpicture}
+		\begin{tikzpicture}
+	\begin{axis}[
+	width=5.1in,
+	height=1.6in,
+	xmin=0,xmax=200,ymin=-1,ymax=2,
+	xlabel={$k$},
+	ylabel={$Z^{\mathrm{mierz}}(k)$},
+	legend pos=south east,
+	y tick label style={/pgf/number format/1000 sep=},
+	]
+	\addplot[const plot,blue] file {rysunki/data/Zad7/DMC_zaklocenie_zmierzone_szum=-10E=13.283.csv};
+	\end{axis}
+	\end{tikzpicture}
+	\begin{tikzpicture}
+	\begin{axis}[
+	width=5.1in,
+	height=1.6in,
+	xmin=0,xmax=200,ymin=0,ymax=1.8,
+	xlabel={$k$},
+	ylabel={$Y(k)$, $Y^{\mathrm{zad}}(k)$},
+	legend pos=south east,
+	y tick label style={/pgf/number format/1000 sep=},
+	]
+	\addplot[const plot,blue] file {rysunki/data/Zad7/DMC_output_szum=-10E=13.283.csv};
+	\addplot[const plot,red] file {rysunki/data/Zad7/y_zadane.csv};
+	\legend{$Y(k)$, $Y^{\mathrm{zad}}(k)$}
+	\end{axis}
+	\end{tikzpicture}
+	
+	\caption{Zachowanie uk³adu regulacji dla du¿ego poziomu szumu, $E=\num{13,283}$}
+\end{figure}
+
+
+

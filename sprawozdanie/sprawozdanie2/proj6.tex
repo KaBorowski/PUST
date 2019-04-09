@@ -1,0 +1,124 @@
+\section{Zadanie 6}
+W poprzednim zadaniu sprawdzaliœmy pracê regulatora przy jednorazowej zmianie zak³ócenia z 0 na 1. Tym razem przetestowaliœmy dzia³anie regulatora przy ci¹g³ej zmianie zak³ócenia. U¿yliœmy sygna³u sinusoidalnego o ró¿nych okresach oscylacji i ró¿nych wzmocnieniach. Jeœli chodzi o pierwszy regulator (uwzglêdniaj¹cy zak³ócenia) to nie otrzymaliœmy zadowalaj¹cych rezultatów ($Rys.\ 3.23 - Rys.\ 3.25$). Pomimo pomiaru zak³óceñ, uk³ad wpada w niekoñcz¹ce siê oscylacje, wiêc nie mo¿emy uznaæ takiej regulacji za poprawn¹. Z kolei drugi regulator (bez uwzglêdnienia zak³óceñ) okazuje siê nie dzia³aæ du¿o gorzej dla sygna³u sinusoidalnego o ma³ej amplitudzie (np. \num{0,1}) ni¿ jego przeciwnik. Jednak dla sygna³u zak³ócenia z wiêksz¹ amplitud¹ (np. 1) jest on znacznie gorszy ($Rys.\ 3.26 - Rys.\ 3.28$). 
+
+Podsumowuj¹c: nawet regulator uwzglêdniaj¹cy zak³ócenia nie jest w stanie zniwelowaæ sinusoidalnego sygna³u zak³óceñ, chyba ¿e by³by to sygna³ o bardzo ma³ym okresie.
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+    \begin{axis}[
+    width=0.7\textwidth,
+    xmin=0.0,xmax=100,ymin=0,ymax=1.6,
+    xlabel={$k$},
+    ylabel={$y[k], \ u[k], z[k]$},
+    legend pos=south east,
+    y tick label style={/pgf/number format/1000 sep=},
+    ] 
+    \addplot[red, semithick] file{rysunki/data/Zad6/DMC_input_pomiar=1_okres_oscylacji=6.2832wzmocnienie=1E=8.9114.csv};
+		\addplot[blue, semithick] file{rysunki/data/Zad6/DMC_output_pomiar=1_okres_oscylacji=6.2832wzmocnienie=1E=8.9114.csv};
+		\addplot[orange, semithick] file{rysunki/data/Zad6/y_zadane.csv}; 
+		\addplot[green, semithick] file{rysunki/data/Zad6/DMC_zaklocenie_pomiar=1_okres_oscylacji=6.2832wzmocnienie=1E=8.9114.csv}; 
+		\legend{$u$,$y$,$y^{\mathrm{zad}}$,$z$}
+    \end{axis}
+    \end{tikzpicture}
+    \caption{Regulator DMC z pomiarem zak³óceñ: $f = \num{6,2832}, K = 1, E = \num{8,9114}$}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+    \begin{axis}[
+    width=0.7\textwidth,
+    xmin=0.0,xmax=100,ymin=0,ymax=1.6,
+    xlabel={$k$},
+    ylabel={$y[k], \ u[k], z[k]$},
+    legend pos=south east,
+    y tick label style={/pgf/number format/1000 sep=},
+    ] 
+    \addplot[red, semithick] file{rysunki/data/Zad6/DMC_input_pomiar=1_okres_oscylacji=31.4159wzmocnienie=0.1E=10.1471.csv};
+		\addplot[blue, semithick] file{rysunki/data/Zad6/DMC_output_pomiar=1_okres_oscylacji=31.4159wzmocnienie=0.1E=10.1471.csv};
+		\addplot[orange, semithick] file{rysunki/data/Zad6/y_zadane.csv}; 
+		\addplot[green, semithick] file{rysunki/data/Zad6/DMC_zaklocenie_pomiar=1_okres_oscylacji=31.4159wzmocnienie=0.1E=10.1471.csv}; 
+		\legend{$u$,$y$,$y^{\mathrm{zad}}$,$z$}
+    \end{axis}
+    \end{tikzpicture}
+    \caption{Regulator DMC z pomiarem zak³óceñ: $f = \num{31,4159}, K = \num{0,1}, E = \num{10,1471}$}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+    \begin{axis}[
+    width=0.7\textwidth,
+    xmin=0.0,xmax=100,ymin=0,ymax=3,
+    xlabel={$k$},
+    ylabel={$y[k], \ u[k], z[k]$},
+    legend pos=south east,
+    y tick label style={/pgf/number format/1000 sep=},
+    ] 
+    \addplot[red, semithick] file{rysunki/data/Zad6/DMC_input_pomiar=1_okres_oscylacji=31.4159wzmocnienie=1E=43.2362.csv};
+		\addplot[blue, semithick] file{rysunki/data/Zad6/DMC_output_pomiar=1_okres_oscylacji=31.4159wzmocnienie=1E=43.2362.csv};
+		\addplot[orange, semithick] file{rysunki/data/Zad6/y_zadane.csv}; 
+		\addplot[green, semithick] file{rysunki/data/Zad6/DMC_zaklocenie_pomiar=1_okres_oscylacji=31.4159wzmocnienie=1E=43.2362.csv}; 
+		\legend{$u$,$y$,$y^{\mathrm{zad}}$,$z$}
+    \end{axis}
+    \end{tikzpicture}
+    \caption{Regulator DMC z pomiarem zak³óceñ: $f = \num{6,2832}, K = 1, E = \num{8,9114}$}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+    \begin{axis}[
+    width=0.7\textwidth,
+    xmin=0.0,xmax=100,ymin=0,ymax=1.7,
+    xlabel={$k$},
+    ylabel={$y[k], \ u[k], z[k]$},
+    legend pos=south east,
+    y tick label style={/pgf/number format/1000 sep=},
+    ] 
+    \addplot[red, semithick] file{rysunki/data/Zad6/DMC_input_pomiar=0_okres_oscylacji=6.2832wzmocnienie=1E=42.4819.csv};
+		\addplot[blue, semithick] file{rysunki/data/Zad6/DMC_output_pomiar=0_okres_oscylacji=6.2832wzmocnienie=1E=42.4819.csv};
+		\addplot[orange, semithick] file{rysunki/data/Zad6/y_zadane.csv}; 
+		\addplot[green, semithick] file{rysunki/data/Zad6/DMC_zaklocenie_pomiar=0_okres_oscylacji=6.2832wzmocnienie=1E=42.4819.csv}; 
+		\legend{$u$,$y$,$y^{\mathrm{zad}}$,$z$}
+    \end{axis}
+    \end{tikzpicture}
+    \caption{Regulator DMC bez pomiaru zak³óceñ: $f = \num{6,2832}, K = 1, E = \num{42,4819}$}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+    \begin{axis}[
+    width=0.7\textwidth,
+    xmin=0.0,xmax=100,ymin=0,ymax=1.6,
+    xlabel={$k$},
+    ylabel={$y[k], \ u[k], z[k]$},
+    legend pos=south east,
+    y tick label style={/pgf/number format/1000 sep=},
+    ] 
+    \addplot[red, semithick] file{rysunki/data/Zad6/DMC_input_pomiar=0_okres_oscylacji=31.4159wzmocnienie=0.1E=10.9901.csv};
+		\addplot[blue, semithick] file{rysunki/data/Zad6/DMC_output_pomiar=0_okres_oscylacji=31.4159wzmocnienie=0.1E=10.9901.csv};
+		\addplot[orange, semithick] file{rysunki/data/Zad6/y_zadane.csv}; 
+		\addplot[green, semithick] file{rysunki/data/Zad6/DMC_zaklocenie_pomiar=0_okres_oscylacji=31.4159wzmocnienie=0.1E=10.9901.csv}; 
+		\legend{$u$,$y$,$y^{\mathrm{zad}}$,$z$}
+    \end{axis}
+    \end{tikzpicture}
+    \caption{Regulator DMC bez pomiaru zak³óceñ: $f = \num{31,4159}, K = \num{0,1}, E = \num{10.9901}$}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+    \begin{axis}[
+    width=0.7\textwidth,
+    xmin=0.0,xmax=100,ymin=0,ymax=2.2,
+    xlabel={$k$},
+    ylabel={$y[k], \ u[k], z[k]$},
+    legend pos=south east,
+    y tick label style={/pgf/number format/1000 sep=},
+    ] 
+    \addplot[red, semithick] file{rysunki/data/Zad6/DMC_input_pomiar=0_okres_oscylacji=31.4159wzmocnienie=1E=69.1634.csv};
+		\addplot[blue, semithick] file{rysunki/data/Zad6/DMC_output_pomiar=0_okres_oscylacji=31.4159wzmocnienie=1E=69.1634.csv};
+		\addplot[orange, semithick] file{rysunki/data/Zad6/y_zadane.csv}; 
+		\addplot[green, semithick] file{rysunki/data/Zad6/DMC_zaklocenie_pomiar=0_okres_oscylacji=31.4159wzmocnienie=1E=69.1634.csv}; 
+		\legend{$u$,$y$,$y^{\mathrm{zad}}$,$z$}
+    \end{axis}
+    \end{tikzpicture}
+    \caption{Regulator DMC bez pomiaru zak³óceñ: $f = \num{31,4159}, K = 1, E = \num{69,1634}$}
+\end{figure}

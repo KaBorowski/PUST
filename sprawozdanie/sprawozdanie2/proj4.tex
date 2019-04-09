@@ -1,0 +1,258 @@
+\section{Zadanie 4}
+W implementacji regulatora DMC wykorzystaliœmy kod z poprzedniego projektu, którego fragment widoczny jest poni¿ej. 
+\begin{lstlisting}[style=customlatex,frame=single]
+%Wyznaczanie macierzy predykcji
+Mp = zeros(N,D-1);
+
+for i = 1:N
+    for j = 1:(D-1)
+        if (i+j > D)
+            Mp(i,j) = s(D) - s(j);
+        else
+            Mp(i,j) = s(i+j) - s(j);
+        end
+    end
+end
+       
+%Wyznaczanie macierzy dynamicznej
+M = zeros(N,Nu);
+
+for j = 1:Nu
+    for i = 1:N
+        if i >= j
+            M(i,j) = s(i-j+1);
+        end
+    end
+end
+
+%Wyznaczenie wspoczynnika K
+K = (M'*M+lambda*eye(Nu))^-1*M';
+\end{lstlisting}
+\subsection{Strojenie regulatora DMC}
+W celu dobrania odpowiednich nastaw regulatora DMC, wykonywaliœmy sta³y skok wartoœci zadanej z 0 na 1 w tej samej próbce czasu podczas ka¿dej symulacji. Przed skokiem uk³ad za ka¿dym razem by³ w stanie ustalonym. Na tym etapie wartoœæ zak³ócenia mierzalnego wynosi³a 0 przez ca³y czas trwania symulacji, wiêc cz³on regulatora uwzglêdniaj¹cy zak³ócenia mierzalne by³ wy³¹czony. Czas symulacji za ka¿dym razem ustawialiœmy na 100 próbek w celu ³atwego porównania dzia³ania regulatora DMC przy ró¿nych parametrach.
+
+Parametr $D$ ustawiliœmy na 175 (d³ugoœæ odpowiedzi obiektu na skok jednostkowy). Pierwszym krokiem strojenia by³o przypisanie $N_{\mathrm{u}} = N$, $\lambda = 1$ i stopniowe zmniejszanie parametru $N$ zaczynaj¹c od wielkoœci $D$ ($Rys.\ 3.9$). Regulator zacz¹³ dzia³aæ minimalnie gorzej dla $N = 13$ ($Rys.\ 3.12$). Od tego momentu ustawiliœmy parametr $N$ na powy¿sz¹ wartoœæ i dobraliœmy najlepsze $N_{\mathrm{u}}$ z zakresu od 1 do $N$. Optymalnie dobre wyniki dawa³ regulator z parametrem $N_{\mathrm{u}} = 2$ ($Rys.\ 3.13$). Kolejnym krokiem by³o eksperymentalne zmienianie parametru lambda $\lambda$. Zwiêkszaj¹c lambda powy¿ej 1 otrzymywaliœmy coraz lepsze przebiegi sygna³ów, lecz znacznie odbi³o siê to na szybkoœæ i jakoœæ regulacji. Z kolei w drug¹ stron¹ (zmniejszaj¹c parametr lambda) poprawia³a siê jakoœæ regulacji kosztem przebiegów sygna³ów, które stawa³y siê coraz bardziej chaotyczne i ulega³y gwa³townym, du¿ym zmianom ($Rys.\ 3.14 - Rys.\ 3.17$). Przyjêliœmy zatem $\lambda = 1$ jako optymaln¹ wartoœæ parametru ($Rys.\ 3.18$).
+
+Nie byliœmy zadowoleni z dzia³ania regulatora z nastawami $N = 13, N_{\mathrm{u}} = 2, \lambda = 1$, przez co zaczêliœmy eksperymentalnie zmieniaæ ponownie parametry w kolejnoœci takiej samej jak poprzednio ($N, N_{\mathrm{u}}, \lambda$) i otrzymaliœmy optymalnie dzia³aj¹cy regulator z nastawami $N = 17, N_{\mathrm{u}} = 1, \lambda = 2$ ($Rys.\ 3.19$). WskaŸnik jakoœci regulacji uleg³ lekkiemu pogorszeniu (spadek jakoœci z $E = 8,8069$ na $E = 9,4566$), jednak przebiegi sygna³ów znacznie siê poprawi³y. Proces regulacji przedstawiaj¹ wykresy $Rys\ 3.9$ - $Rys.\ 3.15$.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+    \begin{axis}[
+    width=0.7\textwidth,
+    xmin=0.0,xmax=100,ymin=0,ymax=1.5,
+    xlabel={$k$},
+    ylabel={$y[k], \ u[k], z[k]$},
+    legend pos=south east,
+    y tick label style={/pgf/number format/1000 sep=},
+    ] 
+    \addplot[red, semithick] file{rysunki/data/Zad4/DMC_input_N=175Nu=175lambda=1E=8.8594.csv};
+		\addplot[blue, semithick] file{rysunki/data/Zad4/DMC_output_N=175Nu=175lambda=1E=8.8594.csv};
+		\addplot[orange, semithick] file{rysunki/data/Zad4/y_zadane.csv}; 
+		\addplot[green, semithick] file{rysunki/data/Zad4/zaklocenia.csv}; 
+		\legend{$u$,$y$,$y^{\mathrm{zad}}$,$z$}
+    \end{axis}
+    \end{tikzpicture}
+    \caption{Regulator DMC: $D = 175, N = 175, N_{\mathrm{u}} = 175, \lambda = 1, E = \num{8,8594}$}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+    \begin{axis}[
+    width=0.7\textwidth,
+    xmin=0.0,xmax=100,ymin=0,ymax=1.5,
+    xlabel={$k$},
+    ylabel={$y[k], \ u[k], z[k]$},
+    legend pos=south east,
+    y tick label style={/pgf/number format/1000 sep=},
+    ] 
+    \addplot[red, semithick] file{rysunki/data/Zad4/DMC_input_N=25Nu=25lambda=1E=8.8594.csv};
+		\addplot[blue, semithick] file{rysunki/data/Zad4/DMC_output_N=25Nu=25lambda=1E=8.8594.csv};
+		\addplot[orange, semithick] file{rysunki/data/Zad4/y_zadane.csv}; 
+		\addplot[green, semithick] file{rysunki/data/Zad4/zaklocenia.csv}; 
+		\legend{$u$,$y$,$y^{\mathrm{zad}}$,$z$}
+    \end{axis}
+    \end{tikzpicture}
+    \caption{Regulator DMC: $D = 175, N = 25, N_{\mathrm{u}} = 25, \lambda = 1, E = \num{8,8594}$}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+    \begin{axis}[
+    width=0.7\textwidth,
+    xmin=0.0,xmax=100,ymin=0,ymax=1.5,
+    xlabel={$k$},
+    ylabel={$y[k], \ u[k], z[k]$},
+    legend pos=south east,
+    y tick label style={/pgf/number format/1000 sep=},
+    ] 
+    \addplot[red, semithick] file{rysunki/data/Zad4/DMC_input_N=17Nu=17lambda=1E=8.8792.csv};
+		\addplot[blue, semithick] file{rysunki/data/Zad4/DMC_output_N=17Nu=17lambda=1E=8.8792.csv};
+		\addplot[orange, semithick] file{rysunki/data/Zad4/y_zadane.csv}; 
+		\addplot[green, semithick] file{rysunki/data/Zad4/zaklocenia.csv}; 
+		\legend{$u$,$y$,$y^{\mathrm{zad}}$,$z$}
+    \end{axis}
+    \end{tikzpicture}
+    \caption{Regulator DMC: $D = 175, N = 17, N_{\mathrm{u}} = 17, \lambda = 1, E = \num{8,8792}$}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+    \begin{axis}[
+    width=0.7\textwidth,
+    xmin=0.0,xmax=100,ymin=0,ymax=1.5,
+    xlabel={$k$},
+    ylabel={$y[k], \ u[k], z[k]$},
+    legend pos=south east,
+    y tick label style={/pgf/number format/1000 sep=},
+    ] 
+    \addplot[red, semithick] file{rysunki/data/Zad4/DMC_input_N=13Nu=13lambda=1E=8.8229.csv};
+		\addplot[blue, semithick] file{rysunki/data/Zad4/DMC_output_N=13Nu=13lambda=1E=8.8229.csv};
+		\addplot[orange, semithick] file{rysunki/data/Zad4/y_zadane.csv}; 
+		\addplot[green, semithick] file{rysunki/data/Zad4/zaklocenia.csv}; 
+		\legend{$u$,$y$,$y^{\mathrm{zad}}$,$z$}
+    \end{axis}
+    \end{tikzpicture}
+    \caption{Regulator DMC: $D = 175, N = 13, N_{\mathrm{u}} = 13, \lambda = 1, E = \num{8,8229}$}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+    \begin{axis}[
+    width=0.7\textwidth,
+    xmin=0.0,xmax=100,ymin=0,ymax=1.5,
+    xlabel={$k$},
+    ylabel={$y[k], \ u[k], z[k]$},
+    legend pos=south east,
+    y tick label style={/pgf/number format/1000 sep=},
+    ] 
+    \addplot[red, semithick] file{rysunki/data/Zad4/DMC_input_N=13Nu=4lambda=1E=8.8275.csv};
+		\addplot[blue, semithick] file{rysunki/data/Zad4/DMC_output_N=13Nu=4lambda=1E=8.8275.csv};
+		\addplot[orange, semithick] file{rysunki/data/Zad4/y_zadane.csv}; 
+		\addplot[green, semithick] file{rysunki/data/Zad4/zaklocenia.csv}; 
+		\legend{$u$,$y$,$y^{\mathrm{zad}}$,$z$}
+    \end{axis}
+    \end{tikzpicture}
+    \caption{Regulator DMC: $D = 175, N = 13, N_{\mathrm{u}} = 4, \lambda = 1, E = \num{8,8275}$}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+    \begin{axis}[
+    width=0.7\textwidth,
+    xmin=0.0,xmax=100,ymin=0,ymax=1.5,
+    xlabel={$k$},
+    ylabel={$y[k], \ u[k], z[k]$},
+    legend pos=south east,
+    y tick label style={/pgf/number format/1000 sep=},
+    ] 
+    \addplot[red, semithick] file{rysunki/data/Zad4/DMC_input_N=13Nu=2lambda=2E=9.1525.csv};
+		\addplot[blue, semithick] file{rysunki/data/Zad4/DMC_output_N=13Nu=2lambda=2E=9.1525.csv};
+		\addplot[orange, semithick] file{rysunki/data/Zad4/y_zadane.csv}; 
+		\addplot[green, semithick] file{rysunki/data/Zad4/zaklocenia.csv}; 
+		\legend{$u$,$y$,$y^{\mathrm{zad}}$,$z$}
+    \end{axis}
+    \end{tikzpicture}
+    \caption{Regulator DMC: $D = 175, N = 13, N_{\mathrm{u}} = 2, \lambda = 2, E = \num{9,1525}$}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+    \begin{axis}[
+    width=0.7\textwidth,
+    xmin=0.0,xmax=100,ymin=0,ymax=1.5,
+    xlabel={$k$},
+    ylabel={$y[k], \ u[k], z[k]$},
+    legend pos=south east,
+    y tick label style={/pgf/number format/1000 sep=},
+    ] 
+    \addplot[red, semithick] file{rysunki/data/Zad4/DMC_input_N=13Nu=2lambda=5E=9.962.csv};
+		\addplot[blue, semithick] file{rysunki/data/Zad4/DMC_output_N=13Nu=2lambda=5E=9.962.csv};
+		\addplot[orange, semithick] file{rysunki/data/Zad4/y_zadane.csv}; 
+		\addplot[green, semithick] file{rysunki/data/Zad4/zaklocenia.csv}; 
+		\legend{$u$,$y$,$y^{\mathrm{zad}}$,$z$}
+    \end{axis}
+    \end{tikzpicture}
+    \caption{Regulator DMC: $D = 175, N = 13, N_{\mathrm{u}} = 2, \lambda = 5, E = \num{9,962}$}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+    \begin{axis}[
+    width=0.7\textwidth,
+    xmin=0.0,xmax=100,ymin=0,ymax=1.5,
+    xlabel={$k$},
+    ylabel={$y[k], \ u[k], z[k]$},
+    legend pos=south east,
+    y tick label style={/pgf/number format/1000 sep=},
+    ] 
+    \addplot[red, semithick] file{rysunki/data/Zad4/DMC_input_N=13Nu=2lambda=0.8E=8.7189.csv};
+		\addplot[blue, semithick] file{rysunki/data/Zad4/DMC_output_N=13Nu=2lambda=0.8E=8.7189.csv};
+		\addplot[orange, semithick] file{rysunki/data/Zad4/y_zadane.csv}; 
+		\addplot[green, semithick] file{rysunki/data/Zad4/zaklocenia.csv}; 
+		\legend{$u$,$y$,$y^{\mathrm{zad}}$,$z$}
+    \end{axis}
+    \end{tikzpicture}
+    \caption{Regulator DMC: $D = 175, N = 13, N_{\mathrm{u}} = 2, \lambda = \num{0,8}, E = \num{8,7189}$}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+    \begin{axis}[
+    width=0.7\textwidth,
+    xmin=0.0,xmax=100,ymin=0,ymax=2,
+    xlabel={$k$},
+    ylabel={$y[k], \ u[k], z[k]$},
+    legend pos=south east,
+    y tick label style={/pgf/number format/1000 sep=},
+    ] 
+    \addplot[red, semithick] file{rysunki/data/Zad4/DMC_input_N=13Nu=2lambda=0.1E=7.9691.csv};
+		\addplot[blue, semithick] file{rysunki/data/Zad4/DMC_output_N=13Nu=2lambda=0.1E=7.9691.csv};
+		\addplot[orange, semithick] file{rysunki/data/Zad4/y_zadane.csv}; 
+		\addplot[green, semithick] file{rysunki/data/Zad4/zaklocenia.csv}; 
+		\legend{$u$,$y$,$y^{\mathrm{zad}}$,$z$}
+    \end{axis}
+    \end{tikzpicture}
+    \caption{Regulator DMC: $D = 175, N = 13, N_{\mathrm{u}} = 2, \lambda = \num{0,1}, E = \num{7,9691}$}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+    \begin{axis}[
+    width=0.7\textwidth,
+    xmin=0.0,xmax=100,ymin=0,ymax=1.5,
+    xlabel={$k$},
+    ylabel={$y[k], \ u[k], z[k]$},
+    legend pos=south east,
+    y tick label style={/pgf/number format/1000 sep=},
+    ] 
+    \addplot[red, semithick] file{rysunki/data/Zad4/DMC_input_N=13Nu=2lambda=1E=8.8069.csv};
+		\addplot[blue, semithick] file{rysunki/data/Zad4/DMC_output_N=13Nu=2lambda=1E=8.8069.csv};
+		\addplot[orange, semithick] file{rysunki/data/Zad4/y_zadane.csv}; 
+		\addplot[green, semithick] file{rysunki/data/Zad4/zaklocenia.csv}; 
+		\legend{$u$,$y$,$y^{\mathrm{zad}}$,$z$}
+    \end{axis}
+    \end{tikzpicture}
+    \caption{Regulator DMC: $D = 175, N = 13, N_{\mathrm{u}} = 2, \lambda = 1, E = \num{8,8069}$}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+    \begin{axis}[
+    width=0.7\textwidth,
+    xmin=0.0,xmax=100,ymin=0,ymax=1.5,
+    xlabel={$k$},
+    ylabel={$y[k], \ u[k], z[k]$},
+    legend pos=south east,
+    y tick label style={/pgf/number format/1000 sep=},
+    ] 
+    \addplot[red, semithick] file{rysunki/data/Zad4/DMC_input_N=17Nu=1lambda=2E=9.4566.csv};
+		\addplot[blue, semithick] file{rysunki/data/Zad4/DMC_output_N=17Nu=1lambda=2E=9.4566.csv};
+		\addplot[orange, semithick] file{rysunki/data/Zad4/y_zadane.csv}; 
+		\addplot[green, semithick] file{rysunki/data/Zad4/zaklocenia.csv}; 
+		\legend{$u$,$y$,$y^{\mathrm{zad}}$,$z$}
+    \end{axis}
+    \end{tikzpicture}
+    \caption{Regulator DMC: $D = 175, N = 17, N_{\mathrm{u}} = 1, \lambda = 2, E = \num{9,4566}$}
+\end{figure}
+
