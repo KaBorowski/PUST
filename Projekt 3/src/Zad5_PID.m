@@ -3,9 +3,6 @@
 
 clear;
 
-Y_MIN = -2.6416;
-Y_MAX = 0.0885;
-
 %Nastawy w³asne
 Kr = 2;
 Ti = 999999;

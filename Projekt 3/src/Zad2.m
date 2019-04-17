@@ -8,7 +8,7 @@ y2(1:kk) = 0;
 y3(1:kk) = 0;
 
 u1(tt:kk) = 0.5;
-u2(tt:kk) = -1;
+u2(tt:kk) = -0.5;
 u3(tt:kk) = 0.3;
     
 for k=7:kk
@@ -43,7 +43,7 @@ plot(y3);
 plot(u1);
 plot(u2);
 plot(u3);
-legend('Odp. na skok 0 -> 0.8', 'Odp. na skok 0 -> -0.2', 'Odp. na skok 0 -> 0.3', 'Location', 'southeast');
+legend('Odp. na skok 0 -> 0.5', 'Odp. na skok 0 -> -0.5', 'Odp. na skok 0 -> 0.3', 'Location', 'southeast');
 title('Punkt pracy', 'FontName', 'Helvetica');
 xlabel('k');
 grid on;

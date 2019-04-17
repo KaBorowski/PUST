@@ -1,20 +1,24 @@
+clear;
 kk=300;
-n=101;
+n=201;
 U(1:kk)=0;
 Y(1:kk)=0;
 Ustat(1:n)=0;
 Ystat(1:n)=0;
 
+dU=-1;
 %Wyznaczanie charakterystki statycznej sterowania
 for i=1:n
-    dU=(i-1)*0.01;
+%     dU=(i-1)*0.01;
     U(8:kk)=dU;
+    dU=dU+0.01;
     for k=7:kk
         Y(k)=symulacja_obiektu10y(U(k-5),U(k-6),Y(k-1),Y(k-2));
     end
     Ustat(i)=U(kk);
     Ystat(i)=Y(kk);
 end
+%Y_MIN = -2.6416   |   Y_MAX = 0.0885
 
 figure;
 plot(Ustat,Ystat);
