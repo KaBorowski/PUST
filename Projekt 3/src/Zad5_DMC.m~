@@ -14,8 +14,6 @@ D=30;
 N=D;
 Nu=N;
 lambda=1;
-ke=zeros(1, REG_COUNT);
-ku=zeros(REG_COUNT, D-1);
 
 for reg = 1:REG_COUNT
     if reg==1
@@ -68,11 +66,11 @@ kk=1500;
 u(1:kk)=0; y(1:kk)=0;
 yzad(1:9)=0; yzad(10:299)=0.08; yzad(300:599)=-1; yzad(600:899)=-0.25; yzad(900:1199)=-2; yzad(1200:kk) = 0;
 
-du(1:D-1)=0;
+% du(1:D-1)=0;
+du=zeros(REG_COUNT, D-1);
 membership(1:REG_COUNT) = 0;
 input(1:REG_COUNT) = 0;
 deltau_lok(1:REG_COUNT) = 0;
-deltau=0;
 
 E=0;
 
@@ -83,21 +81,22 @@ for k=7:kk
     E=E+e^2;
     
     for i=1:REG_COUNT
-        deltau_lok(i) = ke(i)*e-ku(i,:)*du';
+        deltau_lok(i) = ke(i)*e-ku(i,:)*du(i,:)';
+
+        for n=D-1:-1:2
+            du(n)=du(n-1);
+        end
+
+        du(1)=deltau;
+        input(i) = u(k-1) + du(i,1);  
         membership(i) = membership_function(y(k), y_beg(i), REG_COUNT);
     end
     
-    for i=1:REG_COUNT
-        deltau = deltau + membership(i)*deltau_lok(i); 
-    end
-    deltau = deltau/sum(membership);
-
-    for n=D-1:-1:2
-        du(n)=du(n-1);
-    end
-
-    du(1)=deltau;
-    u(k) = u(k-1) + du(1);
+     for i=1:REG_COUNT
+         u(k) = u(k) + membership(i)*input(i); 
+     end
+    
+     u(k) = u(k)/sum(membership);
 
      if u(k) < -1
          u(k) = -1;
