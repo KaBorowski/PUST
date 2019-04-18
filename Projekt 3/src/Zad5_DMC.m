@@ -1,6 +1,6 @@
 clear;
 
-REG_COUNT = 2;
+REG_COUNT = 10;
 
 Y_MIN = -2.6416;
 Y_MAX = 0.0885;
@@ -16,6 +16,7 @@ Nu=N;
 lambda=1;
 ke=zeros(1, REG_COUNT);
 ku=zeros(REG_COUNT, D-1);
+dUp = zeros(D-1, 1);
 
 for reg = 1:REG_COUNT
     if reg==1
@@ -59,7 +60,7 @@ for reg = 1:REG_COUNT
 
     %Wyznaczenie wspoczynnika K
     K = (M'*M+lambda*eye(Nu))^-1*M';
-    K1 = K(1,1:N);
+    K1 = K(1,:);
     ke(reg) = sum(K1);
     ku(reg,:) = K1*Mp;
 end
@@ -77,27 +78,40 @@ deltau=0;
 E=0;
 
 for k=7:kk
+    for i = 1:(D-1)
+        if (k-i) <= 0
+            du1 = 0;
+        else
+            du1 = u(k - i);
+        end
+        if (k-i-1) <= 0
+            du2 = 0;
+        else
+            du2 = u(k - i - 1);
+        end 
+        dUp(i) = du1 - du2;
+    end
    
     y(k)=symulacja_obiektu10y(u(k-5),u(k-6),y(k-1),y(k-2));
     e = yzad(k) - y(k);
     E=E+e^2;
     
     for i=1:REG_COUNT
+        input(i) = ke(i)*e-ku(i,:)*dUp; 
+        if input(i)>1
+            input(i)=1;
+        elseif input(i)<-1
+            input(i)=-1;
+        end
         deltau_lok(i) = ke(i)*e-ku(i,:)*du';
         membership(i) = membership_function(y(k), y_beg(i), REG_COUNT);
     end
-    
+    u(k)=0;
     for i=1:REG_COUNT
-        deltau = deltau + membership(i)*deltau_lok(i); 
+         u(k) = u(k) + membership(i)*input(i); 
     end
-    deltau = deltau/sum(membership);
-
-    for n=D-1:-1:2
-        du(n)=du(n-1);
-    end
-
-    du(1)=deltau;
-    u(k) = u(k-1) + du(1);
+    u(k) = u(k)/sum(membership);
+    u(k) = u(k) + u(k-1);
 
      if u(k) < -1
          u(k) = -1;
