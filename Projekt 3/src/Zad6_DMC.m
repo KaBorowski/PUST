@@ -1,6 +1,6 @@
 clear;
 
-REG_COUNT = 10;
+REG_COUNT = 20;
 save = 0;
 
 Y_MIN = -2.6416;
@@ -12,8 +12,8 @@ JUMP = 0.05;
 
 %nastawy regulatorów lokalnych DMC
 D=30;
-N=D;
-Nu=N;
+N=10;
+Nu=1;
 lambda=1;
 ke=zeros(1, REG_COUNT);
 ku=zeros(REG_COUNT, D-1);
@@ -142,8 +142,8 @@ if save == 1
 %     yzad_data = [(1:kk)'-1 yzad'];
 % 
 %     dlmwrite('../data/Zad4/trajektoria.csv', yzad_data, '\t')
-    dlmwrite(strcat('../data/Zad6/DMC/input_REG_COUNT=',num2str(REG_COUNT),'E=',num2str(E),'.csv'), u_data, '\t');
-    dlmwrite(strcat('../data/Zad6/DMC/output_REG_COUNT=',num2str(REG_COUNT),'E=',num2str(E),'.csv'), y_data, '\t');
+    dlmwrite(strcat('../data/Zad6/DMC/input_N=10_Nu=1_REG_COUNT=',num2str(REG_COUNT),'E=',num2str(E),'.csv'), u_data, '\t');
+    dlmwrite(strcat('../data/Zad6/DMC/output_N=10_Nu=1_REG_COUNT=',num2str(REG_COUNT),'E=',num2str(E),'.csv'), y_data, '\t');
 end
 
 

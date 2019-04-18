@@ -1,21 +1,23 @@
 clear;
 
 REG_COUNT = 5;
+save = 0;
 
 Y_MIN = -2.6416;
 Y_MAX = 0.0885;
 
 y_beg = zeros(1,REG_COUNT);
 delta_y_beg = (Y_MAX-Y_MIN)/(REG_COUNT-1);
-JUMP = 0.05;
+JUMP = 0.1;
 
 %nastawy regulatorów lokalnych DMC
 D=30;
-N=D;
-Nu=N;
-lambda=1;
+N=10;
+Nu=1;
+lambda(1:REG_COUNT)=1;
 ke=zeros(1, REG_COUNT);
 ku=zeros(REG_COUNT, D-1);
+dUp = zeros(D-1, 1);
 
 for reg = 1:REG_COUNT
     if reg==1
@@ -30,9 +32,10 @@ for reg = 1:REG_COUNT
     
     if reg==REG_COUNT
        y_beg(reg)=Y_MAX;
-       JUMP = -0.05;
+       JUMP = -0.08;
     end
     s = generate_step(getU(y_beg(reg)),y_beg(reg),JUMP);
+    lambda(reg) = Zad7_DMC_params(y_beg(reg), JUMP);
     %Wyznaczanie macierzy predykcji
     Mp = zeros(N,D-1);
 
@@ -58,8 +61,8 @@ for reg = 1:REG_COUNT
     end
 
     %Wyznaczenie wspoczynnika K
-    K = (M'*M+lambda*eye(Nu))^-1*M';
-    K1 = K(1,1:N);
+    K = (M'*M+lambda(reg)*eye(Nu))^-1*M';
+    K1 = K(1,:);
     ke(reg) = sum(K1);
     ku(reg,:) = K1*Mp;
 end
@@ -81,12 +84,12 @@ for k=7:kk
         if (k-i) <= 0
             du1 = 0;
         else
-            du1 = input(k - i);
+            du1 = u(k - i);
         end
         if (k-i-1) <= 0
             du2 = 0;
         else
-            du2 = input(k - i - 1);
+            du2 = u(k - i - 1);
         end 
         dUp(i) = du1 - du2;
     end
@@ -96,37 +99,21 @@ for k=7:kk
     E=E+e^2;
     
     for i=1:REG_COUNT
-        input(i,k) = e(i) * e - ku(i, :) * dUp; 
-        if input(i,k)>1
-            input(i,k)=1;
-        elseif input(i,k)<-1
-            input(i,k)=-1;
+        input(i) = ke(i)*e-ku(i,:)*dUp; 
+        if input(i)>1
+            input(i)=1;
+        elseif input(i)<-1
+            input(i)=-1;
         end
-%         deltau_lok(i) = ke(i)*e-ku(i,:)*du';
+        deltau_lok(i) = ke(i)*e-ku(i,:)*du';
         membership(i) = membership_function(y(k), y_beg(i), REG_COUNT);
     end
-    
+    u(k)=0;
     for i=1:REG_COUNT
          u(k) = u(k) + membership(i)*input(i); 
     end
     u(k) = u(k)/sum(membership);
-    
-%     for i=1:REG_COUNT
-%         deltau_lok(i) = ke(i)*e-ku(i,:)*du';
-%         membership(i) = membership_function(y(k), y_beg(i), REG_COUNT);
-%     end
-%     
-%     for i=1:REG_COUNT
-%         deltau = deltau + membership(i)*deltau_lok(i); 
-%     end
-%     deltau = deltau/sum(membership);
-% 
-%     for n=D-1:-1:2
-%         du(n)=du(n-1);
-%     end
-% 
-%     du(1)=deltau;
-%     u(k) = u(k-1) + du(1);
+    u(k) = u(k) + u(k-1);
 
      if u(k) < -1
          u(k) = -1;
@@ -149,4 +136,15 @@ xlabel('k');
 ylabel('Warto¶æ sygna³u');
 title(['Regulator DMC rozmyty -> regulatory lokalne = ',num2str(REG_COUNT),'   Wska¼nik jako¶ci regulacji=' num2str(E)]);
 hold off;
+
+if save == 1
+    u_data = [(1:kk)'-1 u'];
+    y_data = [(1:kk)'-1 y'];
+%     yzad_data = [(1:kk)'-1 yzad'];
+% 
+%     dlmwrite('../data/Zad4/trajektoria.csv', yzad_data, '\t')
+    dlmwrite(strcat('../data/Zad7/input_N=10_Nu=1_REG_COUNT=',num2str(REG_COUNT),'E=',num2str(E),'.csv'), u_data, '\t');
+    dlmwrite(strcat('../data/Zad7/output_N=10_Nu=1_REG_COUNT=',num2str(REG_COUNT),'E=',num2str(E),'.csv'), y_data, '\t');
+end
+
 
