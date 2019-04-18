@@ -1,5 +1,6 @@
 clear;
-REG_COUNT = 20;
+REG_COUNT = 2;
+save = 0;
 
 [Kr, Ti, Td, y_beg] = Zad5_local_PIDS_params(REG_COUNT);
 PIDs_params = [Kr; Ti; Td; y_beg];
@@ -64,6 +65,17 @@ ylabel('Warto¶æ sygna³u');
 title(['Regulator PID rozmyty -> Regulatory lokalne = ' num2str(REG_COUNT) '   Wska¼nik jako¶ci regulacji E=' num2str(E)]);
 xlabel('k');
 hold off;
+
+if save == 1
+    u_data = [(1:kk)'-1 u'];
+    y_data = [(1:kk)'-1 y'];
+%     yzad_data = [(1:kk)'-1 yzad'];
+% 
+%     dlmwrite('../data/Zad4/trajektoria.csv', yzad_data, '\t')
+    dlmwrite(strcat('../data/Zad6/PID/input_REG_COUNT=',num2str(REG_COUNT),'E=',num2str(E),'.csv'), u_data, '\t');
+    dlmwrite(strcat('../data/Zad6/PID/output_REG_COUNT=',num2str(REG_COUNT),'E=',num2str(E),'.csv'), y_data, '\t');
+end
+
 
 
 

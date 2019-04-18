@@ -1,10 +1,10 @@
-function E = Zad5_PID_function(params)
+function E = Zad5_PID_function(params, y_beg, dY)
 
 Kr = params(1);
 Ti = params(2);
 Td = params(3);
-U = params(4);
-dY = params(5);
+
+U = getU(y_beg);
 
 Tp = 0.5;
 
@@ -14,10 +14,10 @@ r2 = Kr*Td/Tp;
 
 kk=600; 
 % U = start_point;
-Y = get_beg_y(U);
+% Y = get_beg_y(U);
 % dY = jump_value;
-u(1:kk)=U; y(1:kk)=Y;
-yzad(1:9)=Y; yzad(10:kk)=Y+dY;
+u(1:kk)=U; y(1:kk)=y_beg;
+yzad(1:9)=y_beg; yzad(10:kk)=y_beg+dY;
 e(1:kk)=0; 
 
 E=0; %wskaznik jakosci regulacji
@@ -36,7 +36,7 @@ for k=7:kk
      end
     
 end
-% disp(Y);
+
 % figure;
 % hold on;
 % plot(y);
