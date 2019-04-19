@@ -1,5 +1,5 @@
 clear;
-odp=load('../data/Zad3/odp_skok_DMC.mat');
+odp=load('../data/Zad3/odp_DMC.mat');
 s=odp.y;
 
 D = length(s);

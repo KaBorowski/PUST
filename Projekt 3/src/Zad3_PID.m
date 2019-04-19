@@ -17,10 +17,10 @@ r0 = Kr*(1+Tp/(2*Ti)+Td/Tp);
 r1 = Kr*(Tp/(2*Ti)-2*Td/Tp-1);
 r2 = Kr*Td/Tp;
 
-kk=600; 
+kk=1500; 
 u(1:kk)=0; y(1:kk)=0;
 %Y = od -2.6 do 0.0885
-yzad(1:9)=0; yzad(10:149)=0.08; yzad(150:299)=0.02; yzad(300:449)=0.05; yzad(450:kk)=0;
+yzad(1:9)=0; yzad(10:299)=0.08; yzad(300:599)=-1; yzad(600:899)=-0.25; yzad(900:1199)=-2; yzad(1200:kk) = 0;
 e(1:kk)=0; 
 
 E=0; %wskaznik jakosci regulacji

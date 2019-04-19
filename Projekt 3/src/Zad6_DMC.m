@@ -17,7 +17,7 @@ Nu=1;
 lambda=1;
 ke=zeros(1, REG_COUNT);
 ku=zeros(REG_COUNT, D-1);
-dUp = zeros(D-1, 1);
+du = zeros(D-1, 1);
 
 for reg = 1:REG_COUNT
     if reg==1
@@ -73,7 +73,6 @@ yzad(1:9)=0; yzad(10:299)=0.08; yzad(300:599)=-1; yzad(600:899)=-0.25; yzad(900:
 du(1:D-1)=0;
 membership(1:REG_COUNT) = 0;
 input(1:REG_COUNT) = 0;
-deltau_lok(1:REG_COUNT) = 0;
 deltau=0;
 
 E=0;
@@ -81,16 +80,16 @@ E=0;
 for k=7:kk
     for i = 1:(D-1)
         if (k-i) <= 0
-            du1 = 0;
+            deltau1 = 0;
         else
-            du1 = u(k - i);
+            deltau1 = u(k - i);
         end
         if (k-i-1) <= 0
-            du2 = 0;
+            deltau2 = 0;
         else
-            du2 = u(k - i - 1);
+            deltau2 = u(k - i - 1);
         end 
-        dUp(i) = du1 - du2;
+        du(i) = deltau1 - deltau2;
     end
    
     y(k)=symulacja_obiektu10y(u(k-5),u(k-6),y(k-1),y(k-2));
@@ -98,13 +97,12 @@ for k=7:kk
     E=E+e^2;
     
     for i=1:REG_COUNT
-        input(i) = ke(i)*e-ku(i,:)*dUp; 
+        input(i) = ke(i)*e-ku(i,:)*du; 
         if input(i)>1
             input(i)=1;
         elseif input(i)<-1
             input(i)=-1;
         end
-        deltau_lok(i) = ke(i)*e-ku(i,:)*du';
         membership(i) = membership_function(y(k), y_beg(i), REG_COUNT);
     end
     u(k)=0;
