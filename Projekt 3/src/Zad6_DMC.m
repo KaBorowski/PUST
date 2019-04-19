@@ -1,6 +1,6 @@
 clear;
 
-REG_COUNT = 20;
+REG_COUNT = 10;
 save = 0;
 
 Y_MIN = -2.6416;
