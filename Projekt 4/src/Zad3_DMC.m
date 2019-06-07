@@ -12,8 +12,10 @@ Tp = 0.5;
 %parametry DMC optymalne
 N = D;
 Nu = N;
-mi = diag([5.3909, 0.049543, 0.17616]);
-lambda = diag([0.0011426, 0.0026188, 0.24485, 2.4863]); 
+% mi = diag([5.3909, 0.049543, 0.17616]);
+% lambda = diag([0.0011426, 0.0026188, 0.24485, 2.4863]); 
+mi = diag([3, 1, 1]);
+lambda = diag([0.01, 0.1, 0.5, 1]);
 
 S = cell(1,D);
 for p=1:D
@@ -144,7 +146,7 @@ end
 
 
 figure;
-sgtitle(['Algorytm DMC, wska¼nik jako¶ci regulacji E=', num2str(E)]);
+sgtitle(['Algorytm DMC, wska?nik jako¶ci regulacji E=', num2str(E)]);
 for i=1:ny
     subplot(ny,1,i);
     hold on;
@@ -155,27 +157,35 @@ for i=1:ny
 %     ylim([0,2]);
     legend(strcat('y_', num2str(i), '^{zad}(k)'), ...
         strcat('y_', num2str(i), '(k)'), 'Location', 'northeast');
-%     ylabel('Wartoï¿½ï¿½ sygnaï¿½u');
+    if i == 1
+        title(['Wartoœæ zadana i wartoœæ wyjœcia']);
+    end
+%     ylabel('Warto?????? sygna???u');
 %     title(['DMC',num2str(i),'   K=' num2str(Kr(i)) ', T_i=' num2str(Ti(i)) ', T_d=' num2str(Td(i))]);
-    xlabel('k');
-    hold off;
+end
+xlabel('k');
+hold off;
+
+if save_files == true
+    matlab2tikz(strcat('../data/Zad4/DMC/wyDMC_E=', num2str(E), '.tex'), 'showInfo', false);
 end
 
 figure;
-sgtitle('Algorytm DMC, sygna³y steruj±ce');
+sgtitle('Algorytm DMC, sygna?y steruj±ce');
 for i=1:nu
     subplot(nu,1,i);
     hold on;
     grid on;
     grid minor;
     plot(u(i,:));
-    title(['u_',num2str(i)]);
-    xlabel('k');
-    hold off;
+    legend(strcat('u_', num2str(i), '(k)'),'Location', 'northeast');
+    if i == 1
+        title(['Algorytm DMC, sygna³y steruj¹ce']);
+    end
 end
+xlabel('k');
+hold off;
 
-% if save_files == true
-%     matlab2tikz(strcat('../data/Zad4/DMC/DMC_U(', num2str(U_order(1)),',',...
-%         num2str(U_order(2)),',',num2str(U_order(3)),...
-%         ')_E=', num2str(E), '.tex'), 'showInfo', false);
-% end
+if save_files == true
+    matlab2tikz(strcat('../data/Zad4/DMC/weDMC_E=', num2str(E), '.tex'), 'showInfo', false);
+end
