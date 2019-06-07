@@ -1,10 +1,11 @@
+clear;
 save_files = false;
 
 %Nastawy PID
 % Kolejno¶æ podpiêcia regulatorów do wyj¶æ [y1 y2 y3]
-Kr = [1, 1, 1];
-Ti = [999999, 999999, 999999];
-Td = [0, 0, 0];
+Kr = [2.5714, 0.26869, 0.62088];
+Ti = [7.2359, 0.010604, 2.9326];
+Td = [0, 0, 0.144481];
 
 Tp = [0.5, 0.5, 0.5];
 
@@ -16,7 +17,7 @@ r0=r0';
 r1=r1';
 r2=r2';
 
-kk=100; 
+kk=50; 
 
 nu = 4;
 ny = 3;
@@ -40,9 +41,8 @@ for k=7:kk
     e(:,k)=yzad(:,k)-y(:,k);
     E=E+sum(e(:,k).^2);
     
-    Ey = [e(1,:); e(2,:); e(3,:)];
     U = [u(U_order(1),:); u(U_order(2),:); u(U_order(3),:)];
-    U(:,k)=r2.*Ey(:,k-2)+r1.*Ey(:,k-1)+r0.*Ey(:,k)+U(:,k-1);
+    U(:,k)=r2.*e(:,k-2)+r1.*e(:,k-1)+r0.*e(:,k)+U(:,k-1);
     u(U_order(1),:) = U(1,:);
     u(U_order(2),:) = U(2,:);
     u(U_order(3),:) = U(3,:);
@@ -73,7 +73,7 @@ for i=1:nu
     grid on; 
     grid minor;
     plot(u(i,:));
-    title(['PID',num2str(i),'   K=' num2str(Kr(i)) ', Ti=' num2str(Ti(i)) ', Td=' num2str(Td(i))]);
+%     title(['PID',num2str(i),'   K=' num2str(Kr(i)) ', Ti=' num2str(Ti(i)) ', Td=' num2str(Td(i))]);
     xlabel('k');
     hold off;
 end
