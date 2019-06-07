@@ -1,11 +1,10 @@
-clear;
-save_files = false;
+save_files = true;
 
 %Nastawy PID
 % Kolejnoï¿½ï¿½ podpiï¿½cia regulatorï¿½w do wyjï¿½ï¿½ [y1 y2 y3]
-Kr = [2.5714, 0.26869, 0.62088];
-Ti = [7.2359, 0.010604, 2.9326];
-Td = [0, 0, 0.144481];
+Kr = [1, 1, 1];
+Ti = [999999, 999999, 999999];
+Td = [0, 0, 0];
 
 Tp = [0.5, 0.5, 0.5];
 
@@ -34,8 +33,8 @@ yzad(:,201:kk)= 0.2;
 
 %Kolejnoï¿½ï¿½ podpiï¿½cia sygnaï¿½ï¿½w sterujï¿½cych do regulatorï¿½w
 U_order = [4, 1, 3];
-% U_order = [1, 4, 3];
-% U_order = [3, 1, 1];
+%U_order = [4, 1, 2];
+% U_order = [3, 1, 2];
 
 for k=7:kk
     [y(1,k),y(2,k),y(3,k)]=symulacja_obiektu10(u(1,k-1),u(1,k-2),u(1,k-3),u(1,k-4),...
@@ -45,15 +44,18 @@ for k=7:kk
     e(:,k)=yzad(:,k)-y(:,k);
     E=E+sum(e(:,k).^2);
 
+    Ey = [e(1,:); e(2,:); e(3,:)];
     U = [u(U_order(1),:); u(U_order(2),:); u(U_order(3),:)];
-    U(:,k)=r2.*e(:,k-2)+r1.*e(:,k-1)+r0.*e(:,k)+U(:,k-1);
+    U(:,k)=r2.*Ey(:,k-2)+r1.*Ey(:,k-1)+r0.*Ey(:,k)+U(:,k-1);
     u(U_order(1),:) = U(1,:);
     u(U_order(2),:) = U(2,:);
     u(U_order(3),:) = U(3,:);
 end
 
 figure;
-sgtitle(['Algorytm PID, wska¼nik jako¶ci regulacji E=', num2str(E)]);
+
+sgtitle(['Algorytm PID, wskaï¿½nik jakoï¿½ci regulacji E=', num2str(E)]);
+
 for i=1:ny
     subplot(ny,1,i);
     hold on;
@@ -66,25 +68,33 @@ for i=1:ny
         strcat('y_', num2str(i), '(k)'), 'Location', 'northeast');
 %     ylabel('Wartoï¿½ï¿½ sygnaï¿½u');
     title(['PID',num2str(i),'   K=' num2str(Kr(i)) ', T_i=' num2str(Ti(i)) ', T_d=' num2str(Td(i))]);
-    xlabel('k');
-    hold off;
+end
+xlabel('k');
+hold off;
+
+if save_files == true
+    matlab2tikz(strcat('../data/Zad4/PID/wyPID_U(', num2str(U_order(1)),',',...
+        num2str(U_order(2)),',',num2str(U_order(3)),...
+        ')_E=', num2str(E), '.tex'), 'showInfo', false);
 end
 
 figure;
-sgtitle(['Algorytm PID, sygna³y steruj±ce']);
 for i=1:nu
     subplot(nu,1,i);
     hold on;
     grid on;
     grid minor;
     plot(u(i,:));
-    title(['u_',num2str(i)]);
-    xlabel('k');
-    hold off;
+    legend(strcat('u_', num2str(i), '(k)'),'Location', 'northeast');
+    if i == 1
+        title(['Algorytm PID, sygnaï¿½y sterujï¿½ce']);
+    end
 end
+xlabel('k');
+hold off;
 
 if save_files == true
-    matlab2tikz(strcat('../data/Zad4/PID/PID_U(', num2str(U_order(1)),',',...
+    matlab2tikz(strcat('../data/Zad4/PID/wePID_U(', num2str(U_order(1)),',',...
         num2str(U_order(2)),',',num2str(U_order(3)),...
         ')_E=', num2str(E), '.tex'), 'showInfo', false);
 end
