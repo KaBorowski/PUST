@@ -1,5 +1,5 @@
 clear;
-save_files = false;
+save_files = true;
 odp=load('../data/Zad2/odp.mat');
 s=odp.s;
 s = permute(s, [1,3,2]);
@@ -12,10 +12,7 @@ Tp = 0.5;
 %parametry DMC optymalne
 N = D;
 Nu = N;
-% mi = diag([5.3909, 0.049543, 0.17616]);
-% lambda = diag([0.0011426, 0.0026188, 0.24485, 2.4863]); 
-mi = diag([9.4142, 0.00031173, 0.10114]);
-lambda = diag([0.039595, 0.038975, 1.7726, 0.64571]);
+
 mi = diag([3, 1, 1]);
 lambda = diag([0.01, 0.1, 0.5, 1]);
 
@@ -148,7 +145,51 @@ for k=7:kk
     
 end
 
-Y1 = y;
+figure;
+sgtitle(['Algorytm DMC klasyczny, wska¼nik jako¶ci regulacji E=', num2str(E)]);
+for i=1:ny
+    subplot(ny,1,i);
+    hold on;
+    grid on;
+    grid minor;
+    stairs(yzad(i,:));
+    plot(y(i,:));
+%     ylim([0,2]);
+    legend(strcat('y_', num2str(i), '^{zad}(k)'), ...
+        strcat('y_', num2str(i), '(k)'), 'Location', 'northeast');
+    if i == 1
+        title(['Warto¶æ zadana i warto¶æ wyj¶cia']);
+    end
+%     ylabel('Warto?????? sygna???u');
+%     title(['DMC',num2str(i),'   K=' num2str(Kr(i)) ', T_i=' num2str(Ti(i)) ', T_d=' num2str(Td(i))]);
+end
+xlabel('k');
+hold off;
+
+if save_files == true
+    matlab2tikz(strcat('../data/Zad6/DMC/wyDMC_E=', num2str(E), '.tex'), 'showInfo', false);
+end
+
+figure;
+sgtitle('Algorytm DMC klasyczny, sygna³y steruj±ce');
+for i=1:nu
+    subplot(nu,1,i);
+    hold on;
+    grid on;
+    grid minor;
+    plot(u(i,:));
+    legend(strcat('u_', num2str(i), '(k)'),'Location', 'northeast');
+    if i == 1
+        title(['Algorytm DMC klasyczny, sygna³y steruj±ce']);
+    end
+end
+xlabel('k');
+hold off;
+
+if save_files == true
+    matlab2tikz(strcat('../data/Zad6/DMC/weDMC_E=', num2str(E), '.tex'), 'showInfo', false);
+end
+
 
 D = length(s);
 Tp = 0.5;
@@ -287,7 +328,49 @@ for k=7:kk
     
 end
 
-Y2 = y;
-Ydiff = 
+figure;
+sgtitle(['Algorytm DMC uproszczony, wska¼nik jako¶ci regulacji E=', num2str(E)]);
+for i=1:ny
+    subplot(ny,1,i);
+    hold on;
+    grid on;
+    grid minor;
+    stairs(yzad(i,:));
+    plot(y(i,:));
+%     ylim([0,2]);
+    legend(strcat('y_', num2str(i), '^{zad}(k)'), ...
+        strcat('y_', num2str(i), '(k)'), 'Location', 'northeast');
+    if i == 1
+        title(['Warto¶æ zadana i warto¶æ wyj¶cia']);
+    end
+%     ylabel('Warto?????? sygna???u');
+%     title(['DMC',num2str(i),'   K=' num2str(Kr(i)) ', T_i=' num2str(Ti(i)) ', T_d=' num2str(Td(i))]);
+end
+xlabel('k');
+hold off;
 
-figure 
+if save_files == true
+    matlab2tikz(strcat('../data/Zad6/DMC/wyDMC_E=', num2str(E), '.tex'), 'showInfo', false);
+end
+
+figure;
+sgtitle('Algorytm DMC uproszczony, sygna³y steruj±ce');
+for i=1:nu
+    subplot(nu,1,i);
+    hold on;
+    grid on;
+    grid minor;
+    plot(u(i,:));
+    legend(strcat('u_', num2str(i), '(k)'),'Location', 'northeast');
+    if i == 1
+        title(['Algorytm DMC uproszczony, sygna³y steruj±ce']);
+    end
+end
+xlabel('k');
+hold off;
+
+if save_files == true
+    matlab2tikz(strcat('../data/Zad6/DMC/weDMC_E=', num2str(E), '.tex'), 'showInfo', false);
+end
+
+    

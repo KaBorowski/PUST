@@ -161,10 +161,17 @@ for i=1:ny
 %     ylim([0,2]);
     legend(strcat('y_', num2str(i), '^{zad}(k)'), ...
         strcat('y_', num2str(i), '(k)'), 'Location', 'northeast');
-%     ylabel('Wartoï¿½ï¿½ sygnaï¿½u');
+    if i == 1
+        title(['Warto¶æ zadana i warto¶æ wyj¶cia']);
+    end
+%     ylabel('Warto?????? sygna???u');
 %     title(['DMC',num2str(i),'   K=' num2str(Kr(i)) ', T_i=' num2str(Ti(i)) ', T_d=' num2str(Td(i))]);
-    xlabel('k');
-    hold off;
+end
+xlabel('k');
+hold off;
+
+if save_files == true
+    matlab2tikz(strcat('../data/Zad6/DMC/wyDMC_E=', num2str(E), '.tex'), 'showInfo', false);
 end
 
 figure;
@@ -175,13 +182,14 @@ for i=1:nu
     grid on;
     grid minor;
     plot(u(i,:));
-    title(['u_',num2str(i)]);
-    xlabel('k');
-    hold off;
+    legend(strcat('u_', num2str(i), '(k)'),'Location', 'northeast');
+    if i == 1
+        title(['Algorytm DMC, sygna³y steruj±ce']);
+    end
 end
+xlabel('k');
+hold off;
 
-% if save_files == true
-%     matlab2tikz(strcat('../data/Zad4/DMC/DMC_U(', num2str(U_order(1)),',',...
-%         num2str(U_order(2)),',',num2str(U_order(3)),...
-%         ')_E=', num2str(E), '.tex'), 'showInfo', false);
-% end
+if save_files == true
+    matlab2tikz(strcat('../data/Zad6/DMC/weDMC_E=', num2str(E), '.tex'), 'showInfo', false);
+end
