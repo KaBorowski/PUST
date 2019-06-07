@@ -2,7 +2,7 @@ clear;
 save_files = false;
 
 %Nastawy PID
-% Kolejno¶æ podpiêcia regulatorów do wyj¶æ [y1 y2 y3]
+% Kolejnoï¿½ï¿½ podpiï¿½cia regulatorï¿½w do wyjï¿½ï¿½ [y1 y2 y3]
 Kr = [2.5714, 0.26869, 0.62088];
 Ti = [7.2359, 0.010604, 2.9326];
 Td = [0, 0, 0.144481];
@@ -17,7 +17,7 @@ r0=r0';
 r1=r1';
 r2=r2';
 
-kk=50; 
+kk=50;
 
 nu = 4;
 ny = 3;
@@ -30,8 +30,10 @@ E=0; %wskaznik jakosci regulacji
 
 yzad(:,7:kk)=1;
 
-%Kolejno¶æ podpiêcia sygna³ów steruj±cych do regulatorów
+%Kolejnoï¿½ï¿½ podpiï¿½cia sygnaï¿½ï¿½w sterujï¿½cych do regulatorï¿½w
 U_order = [4, 1, 3];
+% U_order = [1, 4, 3];
+% U_order = [3, 1, 1];
 
 for k=7:kk
     [y(1,k),y(2,k),y(3,k)]=symulacja_obiektu10(u(1,k-1),u(1,k-2),u(1,k-3),u(1,k-4),...
@@ -40,7 +42,7 @@ for k=7:kk
         y(2,k-1),y(2,k-2),y(2,k-3),y(2,k-4), y(3,k-1),y(3,k-2),y(3,k-3),y(3,k-4));
     e(:,k)=yzad(:,k)-y(:,k);
     E=E+sum(e(:,k).^2);
-    
+
     U = [u(U_order(1),:); u(U_order(2),:); u(U_order(3),:)];
     U(:,k)=r2.*e(:,k-2)+r1.*e(:,k-1)+r0.*e(:,k)+U(:,k-1);
     u(U_order(1),:) = U(1,:);
@@ -49,31 +51,32 @@ for k=7:kk
 end
 
 figure;
-sgtitle(['Algorytm PID, wska¼nik jako¶ci regulacji E=', num2str(E)]);
+sgtitle(['Algorytm PID, wskaï¿½nik jakoï¿½ci regulacji E=', num2str(E)]);
 for i=1:ny
     subplot(ny,1,i);
     hold on;
-    grid on; 
+    grid on;
     grid minor;
-    stairs(yzad(i,:));    
+    stairs(yzad(i,:));
     plot(y(i,:));
 %     ylim([0,2]);
     legend(strcat('y_', num2str(i), '^{zad}(k)'), ...
         strcat('y_', num2str(i), '(k)'), 'Location', 'northeast');
-%     ylabel('Warto¶æ sygna³u');
-    title(['PID',num2str(i),'   K=' num2str(Kr(i)) ', Ti=' num2str(Ti(i)) ', Td=' num2str(Td(i))]);
+%     ylabel('Wartoï¿½ï¿½ sygnaï¿½u');
+    title(['PID',num2str(i),'   K=' num2str(Kr(i)) ', T_i=' num2str(Ti(i)) ', T_d=' num2str(Td(i))]);
     xlabel('k');
     hold off;
 end
 
 figure;
+sgtitle(['Algorytm PID, sygnaï¿½y sterujï¿½ce']);
 for i=1:nu
     subplot(nu,1,i);
     hold on;
-    grid on; 
+    grid on;
     grid minor;
     plot(u(i,:));
-%     title(['PID',num2str(i),'   K=' num2str(Kr(i)) ', Ti=' num2str(Ti(i)) ', Td=' num2str(Td(i))]);
+    title(['u_',num2str(i)]);
     xlabel('k');
     hold off;
 end
@@ -83,4 +86,3 @@ if save_files == true
         num2str(U_order(2)),',',num2str(U_order(3)),...
         ')_E=', num2str(E), '.tex'), 'showInfo', false);
 end
-    
