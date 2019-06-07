@@ -97,7 +97,7 @@ end
 
 
 %% Regulacja DMC
-kk=1000; 
+kk=300; 
 u = zeros(nu, kk);
 y = zeros(ny, kk);
 yzad = zeros(ny, kk);
@@ -155,11 +155,17 @@ if draw == true
     %     ylim([0,2]);
         legend(strcat('y_', num2str(i), '^{zad}(k)'), ...
             strcat('y_', num2str(i), '(k)'), 'Location', 'northeast');
-    %     ylabel('Wartoï¿½ï¿½ sygnaï¿½u');
+        if i == 1
+            title(['Warto¶æ zadana i warto¶æ wyj¶cia']);
+        end
+    %     ylabel('Warto?????? sygna???u');
     %     title(['DMC',num2str(i),'   K=' num2str(Kr(i)) ', T_i=' num2str(Ti(i)) ', T_d=' num2str(Td(i))]);
-        xlabel('k');
-        hold off;
     end
+    xlabel('k');
+    hold off;
+
+    matlab2tikz(strcat('../data/Zad5/DMC/wyDMC_E=', num2str(E), '.tex'), 'showInfo', false);
+
 
     figure;
     sgtitle('Algorytm DMC, sygna³y steruj±ce');
@@ -169,10 +175,16 @@ if draw == true
         grid on;
         grid minor;
         plot(u(i,:));
-        title(['u_',num2str(i)]);
-        xlabel('k');
-        hold off;
+        legend(strcat('u_', num2str(i), '(k)'),'Location', 'northeast');
+        if i == 1
+            title(['Algorytm DMC, sygna³y steruj±ce']);
+        end
     end
-end
+    xlabel('k');
+    hold off;
 
+    matlab2tikz(strcat('../data/Zad5/DMC/weDMC_E=', num2str(E), '.tex'), 'showInfo', false);
+
+
+end
 end

@@ -32,8 +32,8 @@ yzad(:,201:kk)= 0.2;
 
 %Kolejno¶æ podpiêcia sygna³ów steruj±cych do regulatorów
 % U_order = [4, 1, 3];
-U_order = [4, 1, 2];
-% U_order = [3, 1, 2];
+% U_order = [4, 1, 2];
+U_order = [3, 1, 2];
 
 
 for k=7:kk
@@ -66,9 +66,10 @@ if draw == true
             strcat('y_', num2str(i), '(k)'), 'Location', 'northeast');
     %     ylabel('Wartoï¿½ï¿½ sygnaï¿½u');
         title(['PID',num2str(i),'   K=' num2str(Kr(i)) ', T_i=' num2str(Ti(i)) ', T_d=' num2str(Td(i))]);
-        xlabel('k');
-        hold off;
+
     end
+    xlabel('k');
+    hold off;
     
     matlab2tikz(strcat('../data/Zad5/PID/output_konf_', ...
         num2str(U_order(1)), num2str(U_order(2)), ...
@@ -82,14 +83,16 @@ if draw == true
         grid on;
         grid minor;
         plot(u(i,:));
-        title(['u_',num2str(i)]);
-        xlabel('k');
-        hold off;
+        if i == 1
+            title(['Algorytm PID, sygna³y steruj¹ce']);
+        end
     end
+    xlabel('k');
+    hold off;
     
     matlab2tikz(strcat('../data/Zad5/PID/input_konf_', ...
         num2str(U_order(1)), num2str(U_order(2)), ...
         num2str(U_order(3)),'E_', num2str(E),'.tex'), 'showInfo', false);
 end
 
-    
+end
