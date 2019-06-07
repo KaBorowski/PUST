@@ -17,7 +17,7 @@ r0=r0';
 r1=r1';
 r2=r2';
 
-kk=50;
+kk=300;
 
 nu = 4;
 ny = 3;
@@ -28,7 +28,9 @@ yzad = zeros(ny, kk);
 e = zeros(ny,kk);
 E=0; %wskaznik jakosci regulacji
 
-yzad(:,7:kk)=1;
+yzad(:,7:100)=1;
+yzad(:,101:200)=-0.5;
+yzad(:,201:kk)= 0.2;
 
 %Kolejnoï¿½ï¿½ podpiï¿½cia sygnaï¿½ï¿½w sterujï¿½cych do regulatorï¿½w
 U_order = [4, 1, 3];
@@ -51,7 +53,7 @@ for k=7:kk
 end
 
 figure;
-sgtitle(['Algorytm PID, wskaï¿½nik jakoï¿½ci regulacji E=', num2str(E)]);
+sgtitle(['Algorytm PID, wska¼nik jako¶ci regulacji E=', num2str(E)]);
 for i=1:ny
     subplot(ny,1,i);
     hold on;
@@ -69,7 +71,7 @@ for i=1:ny
 end
 
 figure;
-sgtitle(['Algorytm PID, sygnaï¿½y sterujï¿½ce']);
+sgtitle(['Algorytm PID, sygna³y steruj±ce']);
 for i=1:nu
     subplot(nu,1,i);
     hold on;

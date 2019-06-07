@@ -1,5 +1,5 @@
 clear;
-save = false;
+save_files = false;
 odp=load('../data/Zad2/odp.mat');
 s=odp.s;
 s = permute(s, [1,3,2]);
@@ -97,7 +97,7 @@ end
 
 
 %% Regulacja DMC
-kk=1000; 
+kk=300; 
 u = zeros(nu, kk);
 y = zeros(ny, kk);
 yzad = zeros(3, kk);
@@ -108,9 +108,9 @@ for i=1:D-1
 end
 E=0; %wskaznik jakosci regulacji
 
-yzad(1,7:kk)=1;
-yzad(2,7:kk)=2;
-yzad(3,7:kk)=-1;
+yzad(:,7:100)=1;
+yzad(:,101:200)=-0.5;
+yzad(:,201:kk)= 0.2;
 
  
 for k=7:kk
@@ -145,39 +145,37 @@ end
 
 figure;
 sgtitle(['Algorytm DMC, wska¼nik jako¶ci regulacji E=', num2str(E)]);
-for i=1:3
-    subplot(3,1,i);
+for i=1:ny
+    subplot(ny,1,i);
     hold on;
-    grid on; 
+    grid on;
     grid minor;
     stairs(yzad(i,:));
-%     plot(u(U_order(i),:));
     plot(y(i,:));
 %     ylim([0,2]);
-%     legend(strcat('y_', num2str(i), '^{zad}(k)'), strcat('u_', num2str(U_order(i)), '(k)'), strcat('y_', num2str(i), '(k)'), 'Location', 'northeast');
-%     ylabel('Warto¶æ sygna³u');
-%     title(['PID',num2str(i),'   K=' num2str(Kr(i)) ', Ti=' num2str(Ti(i)) ', Td=' num2str(Td(i))]);
+    legend(strcat('y_', num2str(i), '^{zad}(k)'), ...
+        strcat('y_', num2str(i), '(k)'), 'Location', 'northeast');
+%     ylabel('Wartoï¿½ï¿½ sygnaï¿½u');
+%     title(['DMC',num2str(i),'   K=' num2str(Kr(i)) ', T_i=' num2str(Ti(i)) ', T_d=' num2str(Td(i))]);
     xlabel('k');
     hold off;
 end
 
-if save == true
-    matlab2tikz(strcat('../data/Zad3/PID/PID_U(', num2str(U_order(1)),',',...
-        num2str(U_order(2)),',',num2str(U_order(3)),...
-        ')_E=', num2str(E), '.tex'), 'showInfo', false);
+figure;
+sgtitle('Algorytm DMC, sygna³y steruj±ce');
+for i=1:nu
+    subplot(nu,1,i);
+    hold on;
+    grid on;
+    grid minor;
+    plot(u(i,:));
+    title(['u_',num2str(i)]);
+    xlabel('k');
+    hold off;
 end
 
-% figure;
-% hold on
-% grid on; 
-% grid minor;
-% plot(u); 
-% plot(y);
-% plot(yzad); 
-% legend('u(k)', 'y(k)', 'yzad(k)', 'Location', 'northeast');
-% xlabel('k');
-% ylabel('Warto¶æ sygna³u');
-% title(['Regulator DMC N=' num2str(N) ', Nu=' num2str(Nu) ', lambda=' num2str(lambda) '   Wska¼nik jako¶ci regulacji=' num2str(E)]);
-% hold off;
-% 
-
+% if save_files == true
+%     matlab2tikz(strcat('../data/Zad4/DMC/DMC_U(', num2str(U_order(1)),',',...
+%         num2str(U_order(2)),',',num2str(U_order(3)),...
+%         ')_E=', num2str(E), '.tex'), 'showInfo', false);
+% end

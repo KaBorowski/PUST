@@ -15,7 +15,7 @@ r0=r0';
 r1=r1';
 r2=r2';
 
-kk=1000; 
+kk=300; 
 
 nu = 4;
 ny = 3;
@@ -26,12 +26,14 @@ yzad = zeros(ny, kk);
 e = zeros(ny,kk);
 E=0; %wskaznik jakosci regulacji
 
-yzad(:,7:kk)=1;
+yzad(:,7:100)=1;
+yzad(:,101:200)=-0.5;
+yzad(:,201:kk)= 0.2;
 
 %Kolejno¶æ podpiêcia sygna³ów steruj±cych do regulatorów
-U_order = [4, 1, 3];
-% U_order = [1, 4, 3];
-% U_order = [3, 1, 1];
+% U_order = [4, 1, 3];
+U_order = [4, 1, 2];
+% U_order = [3, 1, 2];
 
 
 for k=7:kk
@@ -50,35 +52,44 @@ for k=7:kk
 end
 
 if draw == true
+    figure;
+    sgtitle(['Algorytm PID, wska¼nik jako¶ci regulacji E=', num2str(E)]);
     for i=1:ny
         subplot(ny,1,i);
         hold on;
-        grid on; 
+        grid on;
         grid minor;
-        stairs(yzad(i,:));    
+        stairs(yzad(i,:));
         plot(y(i,:));
     %     ylim([0,2]);
         legend(strcat('y_', num2str(i), '^{zad}(k)'), ...
             strcat('y_', num2str(i), '(k)'), 'Location', 'northeast');
-    %     ylabel('Warto¶æ sygna³u');
-        title(['PID',num2str(i),'   K=' num2str(Kr(i)) ', Ti=' num2str(Ti(i)) ', Td=' num2str(Td(i))]);
+    %     ylabel('Wartoï¿½ï¿½ sygnaï¿½u');
+        title(['PID',num2str(i),'   K=' num2str(Kr(i)) ', T_i=' num2str(Ti(i)) ', T_d=' num2str(Td(i))]);
         xlabel('k');
         hold off;
     end
     
-    
+    matlab2tikz(strcat('../data/Zad5/PID/output_konf_', ...
+        num2str(U_order(1)), num2str(U_order(2)), ...
+        num2str(U_order(3)),'E_', num2str(E),'.tex'), 'showInfo', false);
 
     figure;
+    sgtitle(['Algorytm PID, sygna³y steruj±ce']);
     for i=1:nu
         subplot(nu,1,i);
         hold on;
-        grid on; 
+        grid on;
         grid minor;
         plot(u(i,:));
-    %     title(['PID',num2str(i),'   K=' num2str(Kr(i)) ', Ti=' num2str(Ti(i)) ', Td=' num2str(Td(i))]);
+        title(['u_',num2str(i)]);
         xlabel('k');
         hold off;
     end
+    
+    matlab2tikz(strcat('../data/Zad5/PID/input_konf_', ...
+        num2str(U_order(1)), num2str(U_order(2)), ...
+        num2str(U_order(3)),'E_', num2str(E),'.tex'), 'showInfo', false);
 end
 
     

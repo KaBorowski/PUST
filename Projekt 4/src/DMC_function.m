@@ -1,4 +1,4 @@
-function E = DMC_function(params)
+function E = DMC_function(params, draw)
 % disp(lambda_params);
 odp=load('../data/Zad2/odp.mat');
 s=odp.s;
@@ -108,9 +108,9 @@ for i=1:D-1
 end
 E=0; %wskaznik jakosci regulacji
 
-yzad(1,7:kk)=1;
-yzad(2,7:kk)=2;
-yzad(3,7:kk)=-1;
+yzad(:,7:100)=1;
+yzad(:,101:200)=-0.5;
+yzad(:,201:kk)= 0.2;
 
  
 for k=7:kk
@@ -140,6 +140,39 @@ for k=7:kk
     du{1}=deltau;
     u(:,k) = u(:,k-1) + du{1};   
     
+end
+
+if draw == true
+    figure;
+    sgtitle(['Algorytm DMC, wska¼nik jako¶ci regulacji E=', num2str(E)]);
+    for i=1:ny
+        subplot(ny,1,i);
+        hold on;
+        grid on;
+        grid minor;
+        stairs(yzad(i,:));
+        plot(y(i,:));
+    %     ylim([0,2]);
+        legend(strcat('y_', num2str(i), '^{zad}(k)'), ...
+            strcat('y_', num2str(i), '(k)'), 'Location', 'northeast');
+    %     ylabel('Wartoï¿½ï¿½ sygnaï¿½u');
+    %     title(['DMC',num2str(i),'   K=' num2str(Kr(i)) ', T_i=' num2str(Ti(i)) ', T_d=' num2str(Td(i))]);
+        xlabel('k');
+        hold off;
+    end
+
+    figure;
+    sgtitle('Algorytm DMC, sygna³y steruj±ce');
+    for i=1:nu
+        subplot(nu,1,i);
+        hold on;
+        grid on;
+        grid minor;
+        plot(u(i,:));
+        title(['u_',num2str(i)]);
+        xlabel('k');
+        hold off;
+    end
 end
 
 end

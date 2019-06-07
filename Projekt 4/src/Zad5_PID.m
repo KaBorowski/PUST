@@ -1,8 +1,7 @@
 clear;
-save_files = false;
 
 K_init = [1 1 1];
-K_min = [0 0 0];
+K_min = [0.001 0.001 0.001];
 K_max = [10 10 10];
 
 Ti_init = [1 1 1];
@@ -22,7 +21,3 @@ disp("Ti = "+opt_params(4:6));
 disp("Ti = "+opt_params(7:9));
 err = PID_function(opt_params, true);
 disp("Err = "+err);
-
-if save_files == true
-    
-end
