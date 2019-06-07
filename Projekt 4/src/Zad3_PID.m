@@ -63,7 +63,7 @@ for i=1:ny
     legend(strcat('y_', num2str(i), '^{zad}(k)'), ...
         strcat('y_', num2str(i), '(k)'), 'Location', 'northeast');
 %     ylabel('Warto¶æ sygna³u');
-    title(['PID',num2str(i),'   K=' num2str(Kr(i)) ', Ti=' num2str(Ti(i)) ', Td=' num2str(Td(i))]);
+    title(['PID',num2str(i),'   K=' num2str(Kr(i)) ', T_i=' num2str(Ti(i)) ', T_d=' num2str(Td(i))]);
     xlabel('k');
     hold off;
 end
@@ -76,7 +76,7 @@ for i=1:nu
     grid on; 
     grid minor;
     plot(u(i,:));
-    title(['u',num2str(i)]);
+    title(['u_',num2str(i)]);
     xlabel('k');
     hold off;
 end
