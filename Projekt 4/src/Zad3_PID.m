@@ -2,7 +2,7 @@ save_files = false;
 
 %Nastawy PID
 % Kolejno¶æ podpiêcia regulatorów do wyj¶æ [y1 y2 y3]
-Kr = [1, 1, 1];
+Kr = [1, 5, 1];
 Ti = [999999, 999999, 999999];
 Td = [0, 0, 0];
 
@@ -31,6 +31,8 @@ yzad(:,7:kk)=1;
 
 %Kolejno¶æ podpiêcia sygna³ów steruj±cych do regulatorów
 U_order = [4, 1, 3];
+% U_order = [1, 4, 3];
+% U_order = [3, 1, 1];
 
 for k=7:kk
     [y(1,k),y(2,k),y(3,k)]=symulacja_obiektu10(u(1,k-1),u(1,k-2),u(1,k-3),u(1,k-4),...
@@ -49,7 +51,7 @@ for k=7:kk
 end
 
 figure;
-sgtitle(['Algorytm PID, wska¼nik jako¶ci regulacji E=', num2str(E)]);
+sgtitle(['Algorytm PID, wskaŸnik jakoœci regulacji E=', num2str(E)]);
 for i=1:ny
     subplot(ny,1,i);
     hold on;
@@ -67,13 +69,14 @@ for i=1:ny
 end
 
 figure;
+sgtitle(['Algorytm PID, sygna³y steruj¹ce']);
 for i=1:nu
     subplot(nu,1,i);
     hold on;
     grid on; 
     grid minor;
     plot(u(i,:));
-    title(['PID',num2str(i),'   K=' num2str(Kr(i)) ', Ti=' num2str(Ti(i)) ', Td=' num2str(Td(i))]);
+    title(['u',num2str(i)]);
     xlabel('k');
     hold off;
 end
