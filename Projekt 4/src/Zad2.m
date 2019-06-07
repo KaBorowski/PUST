@@ -1,6 +1,6 @@
 clear;
 
-save_files = 0;
+save_files = false;
 kk = 150;
 
 u1(1:kk) = 0;
@@ -42,7 +42,7 @@ for j=1:3
     end
 end
 hold off;
-if save_files == 1
+if save_files == true
     matlab2tikz('../data/Zad2/odp_skok.tex', 'showInfo', false);
     save('../data/Zad2/odp', 's');
 end

@@ -1,4 +1,4 @@
-save_files = false;
+save = false;
 
 %Nastawy PID
 % Kolejno¶æ podpiêcia regulatorów do wyj¶æ [y1 y2 y3]
@@ -59,6 +59,7 @@ for i=1:ny
     plot(y(i,:));
 %     ylim([0,2]);
     legend(strcat('y_', num2str(i), '^{zad}(k)'), ...
+        strcat('u_', num2str(U_order(i)), '(k)'), ...
         strcat('y_', num2str(i), '(k)'), 'Location', 'northeast');
 %     ylabel('Warto¶æ sygna³u');
     title(['PID',num2str(i),'   K=' num2str(Kr(i)) ', Ti=' num2str(Ti(i)) ', Td=' num2str(Td(i))]);
@@ -66,19 +67,7 @@ for i=1:ny
     hold off;
 end
 
-figure;
-for i=1:nu
-    subplot(nu,1,i);
-    hold on;
-    grid on; 
-    grid minor;
-    plot(u(i,:));
-    title(['PID',num2str(i),'   K=' num2str(Kr(i)) ', Ti=' num2str(Ti(i)) ', Td=' num2str(Td(i))]);
-    xlabel('k');
-    hold off;
-end
-
-if save_files == true
+if save == true
     matlab2tikz(strcat('../data/Zad4/PID/PID_U(', num2str(U_order(1)),',',...
         num2str(U_order(2)),',',num2str(U_order(3)),...
         ')_E=', num2str(E), '.tex'), 'showInfo', false);
