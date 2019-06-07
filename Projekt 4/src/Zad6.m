@@ -106,12 +106,12 @@ du = cell(1,D-1)';
 for i=1:D-1
     du{i}=zeros(1,nu)';
 end
+
 E=0; %wskaznik jakosci regulacji
 
 yzad(:,7:100)=1;
 yzad(:,101:200)=-0.5;
 yzad(:,201:kk)= 0.2;
-
  
 for k=7:kk
    
@@ -121,10 +121,6 @@ for k=7:kk
         y(2,k-1),y(2,k-2),y(2,k-3),y(2,k-4), y(3,k-1),y(3,k-2),y(3,k-3),y(3,k-4));
     e(:,k)=yzad(:,k)-y(:,k);
     E=E+sum(e(:,k).^2);
-    
-    for n=D-1:-1:2
-        du(n)=du(n-1);
-    end
   
     YZAD = zeros(ny*N, 1);
     for i=1:ny:N
@@ -137,6 +133,12 @@ for k=7:kk
     end
     
     dU = cell2mat(K)*(YZAD - Y - cell2mat(Mp)*cell2mat(du));
+    
+    for n=D-1:-1:2
+        du(n)=du(n-1);
+    end
+    
+    du{1} = dU(1:nu);
     
     u(:,k) = u(:,k-1) + dU(1:nu);
     

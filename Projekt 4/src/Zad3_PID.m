@@ -1,4 +1,4 @@
-save_files = true;
+save_files = false;
 
 %Nastawy PID
 % Kolejno�� podpi�cia regulator�w do wyj�� [y1 y2 y3]
